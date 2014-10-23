@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7
 
 from UploadServer import UploadServer
-import constants
+import ServerConstants
 
-server = UploadServer(constants.PORT)
+server = UploadServer(ServerConstants.UPLOAD_SERVER_ADDRESS[1])
 server.start()

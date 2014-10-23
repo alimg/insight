@@ -1,15 +1,15 @@
 #!/usr/bin/python2.7
 
 import SocketServer
+import ServerConstants
 
 class UploadServer:
 
 	def __init__(self, port):
-		self.port = port
-		self.host = "localhost"
+		host = 'localhost'
 		# Create the server, binding to localhost on port 9999
-		self.server = SocketServer.TCPServer((self.host, self.port), MyTCPHandler)
-		print "Server set to ", self.host, ":", self.port
+		self.server = SocketServer.TCPServer((host, port), MyTCPHandler)
+		print "Server set to ", host, ":", port
 	def start(self):
 		print "Server started"
 		self.server.serve_forever()

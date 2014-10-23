@@ -2,14 +2,14 @@
 
 import socket
 import sys
-import constants
+import ServerConstants
 import os
 
 if len(sys.argv) == 1:
 	print "Usage: ", sys.argv[0], " filename"
 	sys.exit(-1)
 
-HOST, PORT = "localhost", constants.PORT
+HOST, PORT = ServerConstants.UPLOAD_SERVER_ADDRESS
 data = " ".join(sys.argv[1:])
 filepath = sys.argv[1]
 
@@ -23,14 +23,14 @@ try:
 		print length
 		sock.connect((HOST, PORT))
 		length_c = bytearray(4)
-		length_c[0] = length&255
-		length /= 256
-		length_c[1] = length&255
+		length_c[3] = length&255
 		length /= 256
 		length_c[2] = length&255
 		length /= 256
-		length_c[3] = length&255
-		print length_c[3]
+		length_c[1] = length&255
+		length /= 256
+		length_c[0] = length&255
+		print length_c[3], length_c[2], length_c[1], length_c[0]
 		sock.send(length_c) # up to 1 GB
 		with open(filepath, "r") as f:
 			d = f.read(1024)
