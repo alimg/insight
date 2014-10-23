@@ -17,5 +17,6 @@ class Agent:
 
         self.netClient.start()
         self.hwController.start()
+        self.uploadService.start()
 
 
