@@ -1,20 +1,17 @@
 import socket
-import thread
+from threading import Thread
 from ServerConstants import *
 
 
-class NetClient:
+class NetClient(Thread):
     def __init__(self):
+        super(NetClient, self).__init__()
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.commandHandlers = []
         self.running = 1
 
-    def start(self):
-        thread.start_new(self.run)
-
     def run(self):
         self.socket.connect(NET_SERVER_ADDRESS)
-
         self.socket.send("hello")
         while self.running:
             data = self.socket.recvfrom(1024)
