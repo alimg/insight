@@ -1,8 +1,7 @@
-from TestServer import MyTCPHandler
+from UploadServer import UploadServer
 
-import SocketServer
 
 HOST, PORT = "localhost", 5014
 
-server = SocketServer.TCPServer((HOST, PORT), MyTCPHandler)
-server.serve_forever()
+server = UploadServer((HOST, PORT))
+server.start()
