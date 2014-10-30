@@ -3,9 +3,9 @@ from threading import Thread
 from ServerConstants import *
 
 
-class NetClient(Thread):
+class CommandClient(Thread):
     def __init__(self):
-        super(NetClient, self).__init__()
+        super(CommandClient, self).__init__()
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.commandHandlers = []
         self.running = 1
@@ -13,8 +13,9 @@ class NetClient(Thread):
     def run(self):
         self.socket.connect(NET_SERVER_ADDRESS)
         self.socket.send("hello")
+
         while self.running:
-            data = self.socket.recvfrom(1024)
+            data = self.socket.recv(1024)
             print data
             for handler in self.commandHandlers:
                 handler(data)
@@ -24,4 +25,8 @@ class NetClient(Thread):
 
     def stop(self):
         self.running = 0
-        self.socket.close()
+        try:
+            self.socket.shutdown(socket.SHUT_WR)
+            self.socket.close()
+        except:
+            print "err"

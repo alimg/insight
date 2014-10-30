@@ -1,7 +1,16 @@
-from UploadServer import UploadServer
+import signal
+import os
+from AppMain import AppMain
 
 
-HOST, PORT = "localhost", 5014
+def signal_handler(signum, frame):
+    print "stopping"
+    #os.kill(os.getpid(), signal.SIGHUP)
+    app.stop()
 
-server = UploadServer((HOST, PORT))
-server.start()
+app = AppMain()
+app.start()
+
+signal.signal(signal.SIGINT, signal_handler)
+
+app.wait()
