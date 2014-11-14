@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="btn_get_img">Get Image</string>
+	<string name="btn_show_img">Show Image</string>
+	<string name="btn_scan_qr">Scan QR</string>
+	<string name="btn_make_qr">Make QR</string>
+</resources>
