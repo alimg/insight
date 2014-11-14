@@ -11,9 +11,9 @@ class QRDecoder:
 
     def decode_image_file(self, img_file):
         pil = Image.open(img_file).convert('L')
+        pil.thumbnail((200,200), Image.ANTIALIAS)
         width, height = pil.size
         raw = pil.tostring()
-
         return self.decode_raw(raw, width, height)
 
     def decode_raw(self, raw, width, height):
@@ -24,6 +24,7 @@ class QRDecoder:
         for symbol in image:
             if symbol.type == zbar.Symbol.QRCODE:
                 return symbol.data
+            else: print symbol
         return None
 
 
