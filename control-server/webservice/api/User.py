@@ -26,7 +26,7 @@ class Login(restful.Resource):
         if not user:
             return {'status': ServerConstants.STATUS_ERROR}
         return {'status': ServerConstants.STATUS_SUCCESS,
-                'user': user,
+                'user': {'id': user[0], 'name': user[1], 'email': user[2]},
                 'session_token': SessionUtil.generate_token(name)}
 
 

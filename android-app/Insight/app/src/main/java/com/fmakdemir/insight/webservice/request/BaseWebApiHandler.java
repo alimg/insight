@@ -2,6 +2,7 @@ package com.fmakdemir.insight.webservice.request;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.google.gson.Gson;
@@ -26,6 +27,7 @@ public class BaseWebApiHandler {
                 try {
                     HttpResponse response = client.execute(request);
                     String responseStr = EntityUtils.toString(response.getEntity());
+                    Log.d("ad", responseStr);
                     Gson gson = new Gson();
                     final T obj = gson.fromJson(responseStr, returnType);
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
