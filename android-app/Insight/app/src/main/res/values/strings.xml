@@ -15,5 +15,6 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="email">Email</string>
     <string name="text_register_msg">Register new user</string>
+    <string name="logout">Logout</string>
 
 </resources>

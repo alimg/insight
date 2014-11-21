@@ -14,6 +14,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
+import com.fmakdemir.insight.webservice.LoginService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -88,6 +89,10 @@ public class MainActivity extends Activity {
 				intent.putExtra(ImageTestActivity.EXT_QR_STR, edtQRString.getText().toString());
 				startActivity(intent);
 				break;
+            case R.id.btn_logout:
+                LoginService.getInstance(this).logout();
+                finish();
+                break;
 		}
 	}
 

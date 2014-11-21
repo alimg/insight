@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.fmakdemir.insight.webservice.model.LoginResponse;
 import com.fmakdemir.insight.webservice.model.User;
-import com.fmakdemir.insight.webservice.request.BaseWebApiHandler;
 import com.fmakdemir.insight.webservice.request.UserWebApiHandler;
 import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
@@ -34,7 +33,8 @@ public class LoginService {
     }
 
     public boolean isLoggedin(){
-        return getSessionToken() != null;
+        String token = getSessionToken();
+        return token != null && !token.isEmpty();
     }
 
     public void login(String username, String password, final LoginListener listener) {
@@ -62,6 +62,13 @@ public class LoginService {
 
     public String getSessionToken() {
         return sessionToken;
+    }
+
+    public void logout() {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = prefs.edit();
+        e.remove(KEY_SESSION_TOKEN);
+        e.commit();
     }
 
     public interface LoginListener {

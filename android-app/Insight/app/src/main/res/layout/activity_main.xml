@@ -86,4 +86,12 @@
 		bootstrapbutton:be_state="primary"
 		bootstrapbutton:be_roundedCorners="true"
 	/>
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        android:id="@+id/btn_logout"
+        android:layout_gravity="right"
+        android:onClick="onBtnClick" />
 </LinearLayout>

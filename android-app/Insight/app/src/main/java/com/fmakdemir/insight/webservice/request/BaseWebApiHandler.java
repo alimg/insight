@@ -36,23 +36,18 @@ public class BaseWebApiHandler {
                             cb.onSuccess(obj);
                         }
                     });
-                } catch (final IOException e) {
+                    return;
+                } catch (IOException e) {
                     e.printStackTrace();
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            cb.onError(e.toString());
-                        }
-                    });
-                } catch (final IllegalStateException e) {
+                } catch (IllegalStateException e) {
                     e.printStackTrace();
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            cb.onError(e.toString());
-                        }
-                    });
                 }
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cb.onError("");
+                    }
+                });
             }
         }).start();
     }
