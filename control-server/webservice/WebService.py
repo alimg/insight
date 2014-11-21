@@ -12,12 +12,11 @@ class WebService:
     def __init__(self):
         self.app = Flask(__name__)
         self.app.debug = True
-        self.app.host = '0.0.0.0'
         api = restful.Api(self.app)
 
         api.add_resource(User.Login, '/login')
         api.add_resource(User.RegisterUser, '/register')
 
     def run(self):
-        self.app.run()
+        self.app.run(host='0.0.0.0', port=5000)
 
