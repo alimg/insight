@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class LoginActivity extends Activity {
+public class MainActivity extends Activity {
 	private BootstrapButton btnGetImg, btnShowImg;
 	private BootstrapEditText edtQRString;
 	private AsyncImageGetter asyncImageGetter;
@@ -30,7 +30,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
 
 		DataHolder.setContext(getApplicationContext());
 
@@ -170,7 +170,7 @@ public class LoginActivity extends Activity {
 			btnGetImg.setEnabled(true);
 
 			if (errMsg.equals("")) {
-				LoginActivity.this.startActivity(new Intent(LoginActivity.this, ImageTestActivity.class));
+				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
 				ToastIt("Got image!\n" + errMsg);
 			} else {
 				Log.e(this.getClass().getSimpleName(), errMsg);
