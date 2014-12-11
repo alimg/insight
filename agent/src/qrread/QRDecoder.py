@@ -14,7 +14,7 @@ class QRDecoder:
         return self.decode_image(pil)
 
     def decode_image(self, pil):
-        pil.thumbnail((400, 400), Image.ANTIALIAS)
+        pil.thumbnail((800, 800), Image.ANTIALIAS)
         width, height = pil.size
         print pil.size
         #pil.save("small.jpeg")
