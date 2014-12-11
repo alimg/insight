@@ -6,18 +6,20 @@ from PIL import Image
 
 class Camera():
     def __init__(self):
-        pass
+        self.camera = picamera.PiCamera()
+        self.camera.raw_format = 'yuv'
+        self.camera.resolution = (1440, 1080)
+        self.stream = io.BytesIO()
 
-    def take_picture(self, resolution=None):
+    def set_resolution(self, resolution):
+        self.camera.resolution = resolution
+
+    def take_picture(self):
         time_begin = time.time()
-        image = None
-        with picamera.PiCamera() as camera:
-            stream = io.BytesIO()
-            if resolution:
-                camera.resolution = resolution
-            camera.capture(stream, format='jpeg')
-            stream.seek(0)
-            image = Image.open(stream)
+        self.stream.seek(0)
+        self.camera.capture(self.stream, format='jpeg', use_video_port=True)
+        self.stream.seek(0)
+        image = Image.open(self.stream)
         print "take_picture: ", time.time()-time_begin
         return image
 

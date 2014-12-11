@@ -1,6 +1,6 @@
 import sys
 
-from agent.src.qrread import QRDecoder
+from qrread import QRDecoder
 
 
 decoder = QRDecoder.QRDecoder()
