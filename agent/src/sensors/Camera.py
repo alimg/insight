@@ -10,6 +10,7 @@ class Camera():
             stream = io.BytesIO()
             camera.start_preview()
             camera.capture(stream, format='jpeg')
+            stream.seek(0)
             image = Image.open(stream)
         return image
 
