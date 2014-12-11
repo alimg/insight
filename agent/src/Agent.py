@@ -1,16 +1,12 @@
-import time
-
-from CommandClient import CommandClient
-from HwController import HwController
-from UploadService import UploadService
+import UploadService, HwController, CommandClient
 
 
 class Agent:
     def __init__(self, args):
         self.args = args
-        self.hwController = HwController(lambda event: self.uploadService.upload_photo(event))
-        self.commandClient = CommandClient()
-        self.uploadService = UploadService()
+        self.hwController = HwController.HwController(lambda event: self.uploadService.upload_photo(event))
+        self.commandClient = CommandClient.CommandClient()
+        self.uploadService = UploadService.UploadService()
         self.running = True
 
     def run(self):

@@ -1,1 +1,0 @@
-DATA_STORAGE_DIR = "data/"

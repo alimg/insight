@@ -1,4 +1,4 @@
-from sensors.Sensor import Sensor
+from Sensor import Sensor
 
 
 class PIRSensor(Sensor):
