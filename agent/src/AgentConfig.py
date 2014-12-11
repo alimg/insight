@@ -11,7 +11,9 @@ class AgentConfig():
         self.config.read(CONF_FILE)
 
     def get_user_conf(self):
-        return self.config["User"]
+        if self.config.has_section("User"):
+            return self.config["User"]
+        return {}
 
     def save_user_conf(self, user_conf):
         self.config["User"] = user_conf

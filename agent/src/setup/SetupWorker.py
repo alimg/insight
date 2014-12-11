@@ -1,6 +1,6 @@
 import time
-from ..qrread.QRDecoder import QRDecoder
-from ..sensors import Camera
+from qrread.QRDecoder import QRDecoder
+from sensors import Camera
 
 class SetupWorker():
 
