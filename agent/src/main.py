@@ -1,7 +1,7 @@
 import signal
 import os
 
-from agent.src import Agent
+from Agent import Agent
 
 
 def signal_handler(signum, frame):
