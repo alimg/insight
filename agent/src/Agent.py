@@ -13,7 +13,7 @@ class Agent:
     def run(self):
         userConf = self.agentConfig.get_user_conf()
         if not userConf:
-            worker = SetupWorker.SetupWorker()
+            worker = SetupWorker.SetupWorker(self.agentConfig)
             worker.start_setup()
 
         self.commandClient.add_command_handler(lambda command: self.hwController.process_command(command))
