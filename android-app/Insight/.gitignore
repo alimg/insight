@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+*.iml
 #built application files
 *.apk
 *.ap_

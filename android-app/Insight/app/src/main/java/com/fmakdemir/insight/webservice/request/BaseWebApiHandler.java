@@ -25,6 +25,7 @@ public class BaseWebApiHandler {
 
                 HttpClient client = new DefaultHttpClient();
                 try {
+					Log.i("XXX", request.getURI()+"\n"+request.getParams());
                     HttpResponse response = client.execute(request);
                     String responseStr = EntityUtils.toString(response.getEntity());
                     Log.d("ad", responseStr);

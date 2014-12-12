@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  xmlns:tools="http://schemas.android.com/tools"
+			  xmlns:bb="http://schemas.android.com/apk/res-auto"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent"
+			  android:paddingLeft="@dimen/activity_horizontal_margin"
+			  android:paddingRight="@dimen/activity_horizontal_margin"
+			  android:paddingTop="@dimen/activity_vertical_margin"
+			  android:paddingBottom="@dimen/activity_vertical_margin"
+			  tools:context="com.fmakdemir.insight.WifiSetupActivity"
+			  android:orientation="vertical"
+			  android:gravity="center">
+
+	<com.beardedhen.androidbootstrap.BootstrapEditText
+		android:id="@+id/edit_wifi_name"
+		android:layout_width="@dimen/input_dim"
+		android:layout_height="wrap_content"
+		android:hint="Wifi name"/>
+
+	<com.beardedhen.androidbootstrap.BootstrapEditText
+		android:id="@+id/edit_wifi_pass"
+		android:layout_width="@dimen/input_dim"
+		android:layout_height="wrap_content"
+		android:hint="Wifi password"/>
+
+	<com.beardedhen.androidbootstrap.BootstrapButton
+		android:id="@+id/btn_wifi_gen_qr"
+		android:onClick="setupQR"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Generate QR"
+		bb:bb_icon_right="fa-qr-code"
+		bb:bb_type="success"
+		android:layout_margin="5dp"/>
+
+	<ImageView
+		android:id="@+id/wifi_qr_image"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"/>
+
+</LinearLayout>

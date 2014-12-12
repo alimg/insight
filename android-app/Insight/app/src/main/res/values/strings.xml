@@ -16,5 +16,7 @@
     <string name="email">Email</string>
     <string name="text_register_msg">Register new user</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_wifi_setup">WifiSetupActivity</string>
 
 </resources>

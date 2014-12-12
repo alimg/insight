@@ -89,6 +89,9 @@ public class MainActivity extends Activity {
 				intent.putExtra(ImageTestActivity.EXT_QR_STR, edtQRString.getText().toString());
 				startActivity(intent);
 				break;
+			case R.id.btn_wifi_setup:
+				startActivity(new Intent(this, WifiSetupActivity.class));
+				break;
             case R.id.btn_logout:
                 LoginService.getInstance(this).logout();
                 finish();

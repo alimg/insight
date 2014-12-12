@@ -23,7 +23,7 @@ public class SplashActivity extends Activity {
     private LoginService.LoginListener mLoginListener = new LoginService.LoginListener() {
         @Override
         public void loginSuccess(User user) {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             finish();
         }
 

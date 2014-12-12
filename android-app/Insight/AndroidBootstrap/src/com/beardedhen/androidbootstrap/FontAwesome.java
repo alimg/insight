@@ -517,6 +517,7 @@ public class FontAwesome {
 		faMap.put("fa-youtube", "\uf167");
 		faMap.put("fa-youtube-play", "\uf16a");
 		faMap.put("fa-youtube-square", "\uf166");
+		faMap.put("fa-wifi", "\uf1eb");
 
 	}
 		

@@ -64,34 +64,53 @@
 	/>
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
-		android:id="@+id/btn_make_qr"
+		android:id="@+id/btn_wifi_setup"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/btn_make_qr"
+		android:text="Wifi Setup"
 		android:onClick="onBtnClick"
 		android:layout_margin="5dp"
 
-		bootstrapbutton:bb_type="inverse"
-		bootstrapbutton:bb_icon_left="fa-image"
-		bootstrapbutton:bb_icon_right="fa-qrcode"
+		bootstrapbutton:bb_type="danger"
+		bootstrapbutton:bb_icon_right="fa-wifi"
 		bootstrapbutton:bb_roundedCorners="true"
-	/>
-	<com.beardedhen.androidbootstrap.BootstrapEditText
-		android:id="@+id/edt_qr_str"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/edt_qr_str"
-		android:layout_margin="5dp"
+		/>
 
-		bootstrapbutton:be_state="primary"
-		bootstrapbutton:be_roundedCorners="true"
-	/>
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:orientation="horizontal">
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:id="@+id/btn_make_qr"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/btn_make_qr"
+			android:onClick="onBtnClick"
+			android:layout_margin="5dp"
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout"
-        android:id="@+id/btn_logout"
-        android:layout_gravity="right"
-        android:onClick="onBtnClick" />
+			bootstrapbutton:bb_type="inverse"
+			bootstrapbutton:bb_icon_left="fa-image"
+			bootstrapbutton:bb_icon_right="fa-qrcode"
+			bootstrapbutton:bb_roundedCorners="true"
+			/>
+		<com.beardedhen.androidbootstrap.BootstrapEditText
+			android:id="@+id/edt_qr_str"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="@string/edt_qr_str"
+			android:layout_margin="5dp"
+
+			bootstrapbutton:be_state="primary"
+			bootstrapbutton:be_roundedCorners="true"
+			/>
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/logout"
+			android:id="@+id/btn_logout"
+			android:layout_gravity="right"
+			android:onClick="onBtnClick" />
+
+		</LinearLayout>
 </LinearLayout>
