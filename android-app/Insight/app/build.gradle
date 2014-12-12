@@ -20,9 +20,9 @@ android {
 }
 
 dependencies {
-	compile project(':AndroidBootstrap')
     compile fileTree(dir: 'libs', include: ['*.jar'])
 	compile 'me.dm7.barcodescanner:zbar:1.1'
-	compile 'com.google.zxing:core:3.1.0+'
+	compile 'com.google.zxing:core:3.1.0'
     compile 'com.google.code.gson:gson:2.3.1'
+	compile 'com.beardedhen:androidbootstrap:+'
 }

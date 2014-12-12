@@ -18,5 +18,6 @@
     <string name="logout">Logout</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_wifi_setup">WifiSetupActivity</string>
+    <string name="title_activity_register_insight">RegisterInsightActivity</string>
 
 </resources>

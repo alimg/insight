@@ -23,31 +23,38 @@
 		bootstrapbutton:be_roundedCorners="true"
 		bootstrapbutton:be_state="success"
 	/>
-	<com.beardedhen.androidbootstrap.BootstrapButton
-		android:id="@+id/btn_get_img"
+	<LinearLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/btn_get_img"
-		android:onClick="onBtnClick"
-		android:layout_margin="5dp"
+		android:layout_marginTop="50dp">
 
-		bootstrapbutton:bb_type="primary"
-		bootstrapbutton:bb_icon_right="fa-download"
-		bootstrapbutton:bb_roundedCorners="true"
-	/>
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:id="@+id/btn_get_img"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/btn_get_img"
+			android:onClick="onBtnClick"
+			android:layout_margin="5dp"
 
-	<com.beardedhen.androidbootstrap.BootstrapButton
-		android:id="@+id/btn_show_img"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/btn_show_img"
-		android:onClick="onBtnClick"
-		android:layout_margin="5dp"
+			bootstrapbutton:bb_type="primary"
+			bootstrapbutton:bb_icon_right="fa-download"
+			bootstrapbutton:bb_roundedCorners="true"
+			/>
 
-		bootstrapbutton:bb_type="success"
-		bootstrapbutton:bb_icon_right="fa-image"
-		bootstrapbutton:bb_roundedCorners="true"
-	/>
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:id="@+id/btn_show_img"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/btn_show_img"
+			android:onClick="onBtnClick"
+			android:layout_margin="5dp"
+
+			bootstrapbutton:bb_type="success"
+			bootstrapbutton:bb_icon_right="fa-image"
+			bootstrapbutton:bb_roundedCorners="true"
+			/>
+
+	</LinearLayout>
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
 		android:id="@+id/btn_scan_qr"
@@ -72,7 +79,7 @@
 		android:layout_margin="5dp"
 
 		bootstrapbutton:bb_type="danger"
-		bootstrapbutton:bb_icon_right="fa-wifi"
+		bootstrapbutton:bb_icon_right="fa-gear"
 		bootstrapbutton:bb_roundedCorners="true"
 		/>
 

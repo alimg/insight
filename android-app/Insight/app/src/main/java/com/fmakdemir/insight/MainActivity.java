@@ -1,7 +1,9 @@
 package com.fmakdemir.insight;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,10 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
+import com.fmakdemir.insight.webservice.WebApiConstants;
+import com.fmakdemir.insight.webservice.model.BaseResponse;
+import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
+import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -92,10 +98,6 @@ public class MainActivity extends Activity {
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
-            case R.id.btn_logout:
-                LoginService.getInstance(this).logout();
-                finish();
-                break;
 		}
 	}
 
@@ -105,6 +107,31 @@ public class MainActivity extends Activity {
 			if (resultCode == Activity.RESULT_OK) {
 				String result = intent.getStringExtra(QRScannerActivity.EXT_QR_RESULT);
 				Log.d("Test", "result=" + result);
+				String strAr[] = result.split("=");
+				if (strAr[0].equals("id")) {
+					final String insightId = strAr[1];
+					SharedPreferences prefs = getApplicationContext().getSharedPreferences("LoginService", Context.MODE_PRIVATE);
+					String email = prefs.getString("email", null);
+					DeviceWebApiHandler.registerInsight(email, insightId, new WebApiCallback<BaseResponse>() {
+						@Override
+						public void onSuccess(BaseResponse data) {
+							if(data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
+								Toast.makeText(getApplicationContext(), "Registration successful.", Toast.LENGTH_SHORT).show();
+								DataHolder.getListAdapter().add(insightId);
+							} else {
+								Toast.makeText(getApplicationContext(), "Registration failed.", Toast.LENGTH_SHORT).show();
+							}
+						}
+
+						@Override
+						public void onError(String cause) {
+							Toast.makeText(getApplicationContext(), "Registration failed.", Toast.LENGTH_SHORT).show();
+						}
+
+					});
+				} else {
+					ToastIt("QR not well formed!", Toast.LENGTH_LONG);
+				}
 
 			} else {
 				ToastIt("QR result was not ok: " + resultCode, Toast.LENGTH_LONG);

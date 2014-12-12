@@ -37,7 +37,7 @@ public class LoginService {
         return token != null && !token.isEmpty();
     }
 
-    public void login(String username, String password, final LoginListener listener) {
+    public void login(final String username, String password, final LoginListener listener) {
         UserWebApiHandler.loginUser(username, password, new WebApiCallback<LoginResponse>() {
             @Override
             public void onSuccess(LoginResponse data) {
@@ -45,7 +45,8 @@ public class LoginService {
                     SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor e = prefs.edit();
                     e.putString(KEY_SESSION_TOKEN, data.session_token);
-                    e.commit();
+					e.putString("email", username);
+					e.commit();
                     listener.loginSuccess(data.user);
                 }
                 else {

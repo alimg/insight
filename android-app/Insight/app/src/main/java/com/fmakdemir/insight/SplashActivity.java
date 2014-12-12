@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.fmakdemir.insight.R;
+import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.LoginService;
 import com.fmakdemir.insight.webservice.model.User;
 
@@ -38,9 +39,11 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+		DataHolder.setContext(getApplicationContext());
+
         loginService = LoginService.getInstance(this);
         if (loginService.isLoggedin()) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
             finish();
             return;
         }

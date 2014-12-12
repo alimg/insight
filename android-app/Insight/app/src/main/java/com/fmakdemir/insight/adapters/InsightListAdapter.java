@@ -17,6 +17,9 @@ import java.util.ArrayList;
 public class InsightListAdapter extends ArrayAdapter<String> {
 	private final Context context;
 
+	public InsightListAdapter(Context context) {
+		this(context, null);
+	}
 	public InsightListAdapter(Context context, ArrayList<String> idList) {
 
 		super(context, R.layout.insight_list_item);
