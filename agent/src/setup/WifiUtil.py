@@ -1,18 +1,44 @@
 import ServerConstants
-from subprocess import call
+from subprocess import call, check_output
 
 
-def setup_interface(SSID, password):
-    N = "0"
-    call(["wpa_cli", "set_network", N, "auth_alg", "OPEN"])
-    call(["wpa_cli", "set_network", N, "key_mgmt", "NONE"])
-    call(["wpa_cli", "set_network", N, "mode", "0"])
-    call(["wpa_cli", "set_network", N, "ssid", '"'+SSID+'"'])
-    call(["wpa_cli", "set_network", N, "wep_key0", '"'+password+'"'])
-    call(["wpa_cli", "reassociate"])
-    call(["wpa_cli", "save_config"])
+def _save_profile(conf, name):
+    prof_file = open("/etc/netctl/" + name, "w")
+    prof_file.write(conf)
+    prof_file.close()
+
+
+def setup_interface(SSID, password, encryption):
+    profile = """
+Interface=wlan0
+Connection=wireless
+Security={}
+ESSID='{}'
+Key='{}'
+IP=dhcp
+"""
+
+    profile = profile.format(encryption, SSID, password)
+    _save_profile(profile, "insight-wlan-new")
+
+    if call(["netctl", "switch-to", "insight-wlan-new"]) == 0:
+        _save_profile(profile, "insight-wlan-default")
+        call(["netctl", "enable", "insight-wlan-default"])
+        return 0
+    else:
+        return call(["netctl", "switch-to", "insight-wlan-default"])
+
+
+def reassociate():
+    call(["netctl", "start", "insight-wlan-0"])
 
 
 def check_connectivity():
     pass
 
+
+def get_wlan0_ip():
+    out = check_output(["sh", "-c", "ip addr show wlan0 | grep inet | awk '{ print $2 }'"])
+    if len(out) == 0:
+        return None
+    return out[0:out.find('/')]

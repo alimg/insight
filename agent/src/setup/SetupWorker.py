@@ -5,14 +5,14 @@ import WifiUtil
 
 def parse_qr_data(qr_data):
     ar = qr_data.split('\n')
-    if len(ar) <3:
+    if len(ar) <4:
         return None
-    return {'ssid': ar[0], 'pass': ar[1], 'data': ar[2:]}
+    return {'SSID': ar[0], 'pass': ar[1], 'encryption': ar[2], 'data': ar[3:]}
 
 
 class SetupWorker():
-    def __init__(self, agentConfig):
-        self.agentConfig = agentConfig
+    def __init__(self, agent_config):
+        self.agentConfig = agent_config
 
     def start_setup(self):
         setup_complete = False
@@ -32,8 +32,23 @@ class SetupWorker():
             qr_config = parse_qr_data(qr_data)
             if not qr_config:
                 continue
-            WifiUtil.setup_interface(qr_config['ssid'], qr_config['pass'])
-            self.agentConfig.save_user_conf(qr_config)
-            break
+
+            if WifiUtil.setup_interface(qr_config['SSID'], qr_config['pass'], qr_config['encryption']) == 0:
+                setup_complete = True
+                self.agentConfig.save_user_conf(qr_config)
+
+    def _validate_config(self, qr_config):
+        # wait until wlan0 got an ip
+        for j in range(2):
+            for i in range(10):
+                time.sleep(3)
+                ip = WifiUtil.get_wlan0_ip()
+                if ip:
+                    setup_complete = True
+                    self.agentConfig.save_user_conf(qr_config)
+                    break
+            if setup_complete:
+                break
+            WifiUtil.reassociate()
 
 
