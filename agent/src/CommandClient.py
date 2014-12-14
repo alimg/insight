@@ -1,17 +1,18 @@
 import socket
-from threading import Thread
+import time
+import DaemonThread
 
 from ServerConstants import *
 
 
-class CommandClient(Thread):
+class CommandClient(DaemonThread.DeamonThread):
     def __init__(self):
         super(CommandClient, self).__init__()
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.commandHandlers = []
         self.running = 1
 
-    def run(self):
+    def _run(self):
         self.socket.connect(NET_SERVER_ADDRESS)
         self.socket.send("hello")
 

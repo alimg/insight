@@ -1,5 +1,7 @@
 import UploadService, HwController, CommandClient, AgentConfig
 from setup import SetupWorker
+from setup import WifiUtil
+
 
 class Agent:
     def __init__(self, args):
@@ -11,8 +13,9 @@ class Agent:
         self.running = True
 
     def run(self):
-        userConf = self.agentConfig.get_user_conf()
-        if not userConf:
+        #userConf = self.agentConfig.get_user_conf()
+        local_ip = WifiUtil.get_wlan0_ip()
+        if not local_ip:
             worker = SetupWorker.SetupWorker(self.agentConfig)
             worker.start_setup()
 
@@ -21,8 +24,6 @@ class Agent:
         self.commandClient.start()
         self.hwController.start()
         self.uploadService.start()
-
-
 
     def stop(self):
         self.running = False
