@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.fmakdemir.insight.adapters.InsightListAdapter;
 import com.fmakdemir.insight.services.InsightMQTTService;
 import com.fmakdemir.insight.utils.DataHolder;
+import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
 
 import java.util.ArrayList;
@@ -51,10 +52,14 @@ public class HomeActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, final View view,
 									int position, long id) {
 
+				String insightIid = listAdapter.getItem(position);
+
 				Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-				final InsightListAdapter listAdapter = DataHolder.getListAdapter();
+				intent.putExtra(MainActivity.EXT_INSIGHT_IID, insightIid);
+				intent.putExtra(MainActivity.EXT_INSIGHT_EMAIL, Helper.getEmail());
+
 				Log.d("XXX", ""+listAdapter.getCount());
-				Toast.makeText(HomeActivity.this.getApplicationContext(), "ID: "+listAdapter.getItem(position), Toast.LENGTH_LONG).show();
+				Toast.makeText(HomeActivity.this.getApplicationContext(), "ID: "+insightIid, Toast.LENGTH_LONG).show();
 				intent.putExtra("InsightId", listAdapter.getItem(position));
 				startActivity(intent);
 //				overridePendingTransition (R.anim.open_next, R.anim.close_main);
