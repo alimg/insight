@@ -1,11 +1,15 @@
 package com.fmakdemir.insight.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.fmakdemir.insight.SplashActivity;
+import com.fmakdemir.insight.webservice.LoginService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,6 +79,11 @@ public class Helper {
 		return  ".\nType: "+e.getClass().getSimpleName()
 				+"\nCause: "+e.getCause()
 				+"\nMessage: "+e.getMessage();
+	}
+
+	public static String getEmail() {
+		SharedPreferences prefs = C.getSharedPreferences(LoginService.PREF_NAME, Context.MODE_PRIVATE);
+		return prefs.getString(LoginService.PREFS_EMAIL, "test@mail.com");
 	}
 
 }

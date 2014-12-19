@@ -10,8 +10,9 @@ import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 public class LoginService {
 
-    private static final String PREF_NAME = "LoginService";
-    private static final String KEY_SESSION_TOKEN = "session-token";
+    public static final String PREF_NAME = "LoginService";
+    public static final String KEY_SESSION_TOKEN = "session-token";
+	public static final String PREFS_EMAIL = "email";
     private final Context context;
     private String sessionToken = null;
 
@@ -45,7 +46,7 @@ public class LoginService {
                     SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor e = prefs.edit();
                     e.putString(KEY_SESSION_TOKEN, data.session_token);
-					e.putString("email", username);
+					e.putString(PREFS_EMAIL, username);
 					e.apply();
                     listener.loginSuccess(data.user);
                 }

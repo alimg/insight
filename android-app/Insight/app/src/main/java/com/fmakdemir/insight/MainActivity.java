@@ -15,19 +15,28 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.InputStream;
-import java.net.URL;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-	private BootstrapButton btnGetImg, btnShowImg;
+	public static final String EXT_INSIGHT_IID = "MainAct.ext_insight_iid";
+	public static final String EXT_INSIGHT_EMAIL = "MainAct.ext_insight_email";
+
+	private BootstrapButton btnGetImg;
 	private BootstrapEditText edtQRString;
-	private AsyncImageGetter asyncImageGetter;
+//	private AsyncImageGetter asyncImageGetter;
+
+	String insightIid, insightEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +45,10 @@ public class MainActivity extends Activity {
 
 		Helper.setContext(getApplicationContext());
 
+		insightIid = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_IID);
+		insightEmail = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_EMAIL);
+
 		btnGetImg = (BootstrapButton) findViewById(R.id.btn_get_img);
-		btnShowImg = (BootstrapButton) findViewById(R.id.btn_show_img);
 		edtQRString = (BootstrapEditText) findViewById(R.id.edt_qr_str);
     }
 
@@ -74,8 +85,9 @@ public class MainActivity extends Activity {
 		switch (v.getId()) {
 			case R.id.btn_get_img:
 				btnGetImg.setEnabled(false);
-				asyncImageGetter = new AsyncImageGetter("testuser", "testpass");
-				asyncImageGetter.execute();
+				//asyncImageGetter = new AsyncImageGetter("testuser", "testpass");
+				//asyncImageGetter.execute();
+				new AsyncImageGetter(insightIid, insightEmail).execute();
 				break;
 			case R.id.btn_show_img:
 				startActivity(new Intent(this, ImageTestActivity.class));
@@ -98,11 +110,11 @@ public class MainActivity extends Activity {
 		/**
 		 * constructor
 		 */
-		public AsyncImageGetter(String username, String password) {
+		public AsyncImageGetter(String insightId, String email) {
 			// add data to post data
 
-			mData.add(new BasicNameValuePair("username", username));
-			mData.add(new BasicNameValuePair("password", password));
+			mData.add(new BasicNameValuePair("insight_iid", insightId));
+			mData.add(new BasicNameValuePair("insight_email", email));
 		}
 
 		/**
@@ -110,33 +122,28 @@ public class MainActivity extends Activity {
 		 */
 		@Override
 		protected String doInBackground(Void... voids) {
-//			byte[] result;
-			String errMsg;
+			byte[] result;
+			String errMsg = "";
 			HttpClient client = DataHolder.getHttpClient();
 			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
 
 			try {
 
-				InputStream imgStream = new URL(DataHolder.getServerUrl()+"/robber.png").openConnection().getInputStream();
-//				Drawable d = Drawable.createFromStream(imgStream, "robber.png");
-//				Bitmap bm = BitmapFactory.decodeStream(imgStream);
-//				DataHolder.setBM(bm);
-//				Log.w("XX", ""+bm+"\n");
-//				bm.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(DataHolder.getDir() + "/asd.png"));
+				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
 
-				// set up post data
-//				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
+				HttpResponse response = client.execute(post);
 
-//				HttpResponse response = client.execute(post);
-//				StatusLine statusLine = response.getStatusLine();
-//				if(statusLine.getStatusCode() == HttpURLConnection.HTTP_OK) {
-					Helper.storeImage(imgStream, "testimg.png");
-//					result = EntityUtils.toByteArray(response.getEntity());
-//					str = new String(result, "UTF-8");
-					errMsg = "";
-//				} else {
-//					errMsg = "Error: "+statusLine.getStatusCode();
-//				}
+				StatusLine statusLine = response.getStatusLine();
+				int statusCode = statusLine.getStatusCode();
+				if(statusCode == HttpURLConnection.HTTP_OK) {
+					HttpEntity entity = response.getEntity();
+					Helper.storeImage(entity.getContent(), "testimg.png");
+					return errMsg;
+				} else {
+					throw new IOException("Download failed, HTTP response code "
+							+ statusCode + " - " + statusLine.getReasonPhrase());
+				}
+
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -150,10 +157,6 @@ public class MainActivity extends Activity {
 		 */
 		@Override
 		protected void onPostExecute(String errMsg) {
-/*			if (result.equals("logged_out")) {
-				android.os.Process.killProcess(android.os.Process.myPid());
-				System.exit(0);
-			}*/
 
 			btnGetImg.setEnabled(true);
 
@@ -163,35 +166,6 @@ public class MainActivity extends Activity {
 			} else {
 				Log.e(this.getClass().getSimpleName(), errMsg);
 			}
-
-/*			JSONObject json;
-//			Log.i(TAG+"_res", result);
-			try {
-				json = new JSONObject(result);
-				String err = json.optString("error", null);
-//				Log.e(TAG+"_err", ""+err);
-				if (err == null) {
-					String narId = json.optString("nar_id", null);
-					String lastalive = json.optString("lastalive", null);
-					if (narId == null || lastalive == null) {
-						return;
-					}
-//					Log.i(Helper.getTag(this), "Registered nar: " + narId + "|" + lastalive);
-
-					ToastIt("Got image");
-
-					Intent resultIntent = new Intent();
-					resultIntent.putExtra("TEST", );
-					setResult(Activity.RESULT_OK, resultIntent);
-//					LoginActivity.this.finish();
-					overridePendingTransition(R.anim.open_main, R.anim.close_next);
-
-				} else {
-					ToastIt(err);
-				}
-			} catch (Exception e) {
-				Helper.getExceptionString(e);
-			}*/
 
 		}
 	}
