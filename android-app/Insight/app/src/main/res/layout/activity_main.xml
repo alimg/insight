@@ -57,20 +57,6 @@
 	</LinearLayout>
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
-		android:id="@+id/btn_scan_qr"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/btn_scan_qr"
-		android:onClick="onBtnClick"
-		android:layout_margin="5dp"
-
-		bootstrapbutton:bb_type="inverse"
-		bootstrapbutton:bb_icon_left="fa-camera"
-		bootstrapbutton:bb_icon_right="fa-qrcode"
-		bootstrapbutton:bb_roundedCorners="true"
-	/>
-
-	<com.beardedhen.androidbootstrap.BootstrapButton
 		android:id="@+id/btn_wifi_setup"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -100,6 +86,7 @@
 			bootstrapbutton:bb_icon_right="fa-qrcode"
 			bootstrapbutton:bb_roundedCorners="true"
 			/>
+
 		<com.beardedhen.androidbootstrap.BootstrapEditText
 			android:id="@+id/edt_qr_str"
 			android:layout_width="match_parent"
@@ -109,7 +96,7 @@
 
 			bootstrapbutton:be_state="primary"
 			bootstrapbutton:be_roundedCorners="true"
-			/>
+		/>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:layout_width="wrap_content"

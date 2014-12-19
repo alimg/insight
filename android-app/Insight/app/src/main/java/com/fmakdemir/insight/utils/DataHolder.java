@@ -3,6 +3,7 @@ package com.fmakdemir.insight.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.util.Log;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
 
@@ -32,7 +33,6 @@ public class DataHolder {
 
 	public static void setContext(Context C) {
 		DataHolder.C = C;
-		listAdapter = new InsightListAdapter(C);
 	}
 
 	// common HttpClient for cookies
@@ -65,7 +65,11 @@ public class DataHolder {
 		return d;
 	}
 
+	public static void setListAdapter(InsightListAdapter adapter) {
+		listAdapter = adapter;
+	}
 	public static InsightListAdapter getListAdapter() {
+		Log.e("DH_LA", ""+listAdapter.getCount());
 		return listAdapter;
 	}
 

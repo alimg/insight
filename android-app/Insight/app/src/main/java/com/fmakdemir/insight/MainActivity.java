@@ -1,9 +1,7 @@
 package com.fmakdemir.insight;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +14,10 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
-import com.fmakdemir.insight.webservice.WebApiConstants;
-import com.fmakdemir.insight.webservice.model.BaseResponse;
-import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
-import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.InputStream;
@@ -84,10 +80,6 @@ public class MainActivity extends Activity {
 			case R.id.btn_show_img:
 				startActivity(new Intent(this, ImageTestActivity.class));
 				break;
-			case R.id.btn_scan_qr:
-				intent = new Intent(this, QRScannerActivity.class);
-				startActivityForResult(intent, DataHolder.REQ_INSIGHT_SCAN_QR);
-				break;
 			case R.id.btn_make_qr:
 				intent = new Intent(this, ImageTestActivity.class);
 				intent.putExtra(ImageTestActivity.EXT_MAKE_QR, true);
@@ -97,44 +89,6 @@ public class MainActivity extends Activity {
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
-		}
-	}
-
-	// get result from qr scan and generate a new Nar object
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == DataHolder.REQ_INSIGHT_SCAN_QR) {
-			if (resultCode == Activity.RESULT_OK) {
-				String result = intent.getStringExtra(QRScannerActivity.EXT_QR_RESULT);
-				Log.d("Test", "result=" + result);
-				String strAr[] = result.split("=");
-				if (strAr[0].equals("id")) {
-					final String insightId = strAr[1];
-					SharedPreferences prefs = getApplicationContext().getSharedPreferences("LoginService", Context.MODE_PRIVATE);
-					String email = prefs.getString("email", null);
-					DeviceWebApiHandler.registerInsight(email, insightId, new WebApiCallback<BaseResponse>() {
-						@Override
-						public void onSuccess(BaseResponse data) {
-							if(data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
-								Toast.makeText(getApplicationContext(), "Registration successful.", Toast.LENGTH_SHORT).show();
-								DataHolder.getListAdapter().add(insightId);
-							} else {
-								Toast.makeText(getApplicationContext(), "Registration failed.", Toast.LENGTH_SHORT).show();
-							}
-						}
-
-						@Override
-						public void onError(String cause) {
-							Toast.makeText(getApplicationContext(), "Registration failed.", Toast.LENGTH_SHORT).show();
-						}
-
-					});
-				} else {
-					ToastIt("QR not well formed!", Toast.LENGTH_LONG);
-				}
-
-			} else {
-				ToastIt("QR result was not ok: " + resultCode, Toast.LENGTH_LONG);
-			}
 		}
 	}
 
@@ -158,11 +112,11 @@ public class MainActivity extends Activity {
 		protected String doInBackground(Void... voids) {
 //			byte[] result;
 			String errMsg;
-//			HttpClient client = DataHolder.getHttpClient();
-//			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/robber.png");
-//			HttpPost post = new HttpPost("http://fmakdemir.com/sketches/robber.png");
+			HttpClient client = DataHolder.getHttpClient();
+			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
 
 			try {
+
 				InputStream imgStream = new URL(DataHolder.getServerUrl()+"/robber.png").openConnection().getInputStream();
 //				Drawable d = Drawable.createFromStream(imgStream, "robber.png");
 //				Bitmap bm = BitmapFactory.decodeStream(imgStream);

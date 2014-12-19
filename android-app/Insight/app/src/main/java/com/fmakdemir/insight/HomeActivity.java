@@ -18,6 +18,8 @@ import com.fmakdemir.insight.services.InsightMQTTService;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.LoginService;
 
+import java.util.ArrayList;
+
 
 public class HomeActivity extends Activity {
 
@@ -34,9 +36,14 @@ public class HomeActivity extends Activity {
 		startService(mServiceIntent);
 
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
+		ArrayList<String> strList = new ArrayList<String>();
+		strList.add("xxxxxxxxxxx");
+		InsightListAdapter adapter = new InsightListAdapter(getApplicationContext(), strList);
+		DataHolder.setListAdapter(adapter);
 		final InsightListAdapter listAdapter = DataHolder.getListAdapter();
+		listAdapter.add("Test Insight1");
 		listView.setAdapter(listAdapter);
-		listAdapter.add("Test Insight");
+		listAdapter.add("Test Insight2");
 		listAdapter.notifyDataSetChanged();
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

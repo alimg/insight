@@ -16,27 +16,21 @@ import java.util.ArrayList;
  */
 public class InsightListAdapter extends ArrayAdapter<String> {
 	private final Context context;
-	private ArrayList<String> idList;
+	private final ArrayList<String> insightList;
 
-	public InsightListAdapter(Context context) {
-		this(context, null);
-	}
-	public InsightListAdapter(Context context, ArrayList<String> idList) {
+	public InsightListAdapter(Context context, ArrayList<String> insightList) {
 
-		super(context, R.layout.insight_list_item);
+		super(context, R.layout.insight_list_item, insightList);
 
 		this.context = context;
-		this.idList = new ArrayList<String>();
-		if (idList != null) {
-			this.idList.addAll(idList);
-		}
+		this.insightList = insightList;
 	}
 
-	private static class StringViewHolder {
+	private static class InsightViewHolder {
 		public TextView titleView;
 	}
 
-	StringViewHolder StringViewHolder;
+	InsightViewHolder insightViewHolder;
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -45,32 +39,33 @@ public class InsightListAdapter extends ArrayAdapter<String> {
 			// Get rowView from inflater
 			convertView = View.inflate(context, R.layout.insight_list_item, null);
 
-			StringViewHolder = new StringViewHolder();
-			StringViewHolder.titleView = (TextView) convertView.findViewById(R.id.insight_item_id);
-			convertView.setTag(StringViewHolder);
+			insightViewHolder = new InsightViewHolder();
+			insightViewHolder.titleView = (TextView) convertView.findViewById(R.id.insight_item_id);
+			convertView.setTag(insightViewHolder);
 		} else {
-			StringViewHolder = (StringViewHolder) convertView.getTag();
+			insightViewHolder = (InsightViewHolder) convertView.getTag();
 		}
 
-		StringViewHolder.titleView.setText(idList.get(position));
+		insightViewHolder.titleView.setText(insightList.get(position));
+		insightViewHolder.titleView.setTextColor(context.getResources().getColor(R.color.black));
 
 		// return view
 		return convertView;
 	}
 
 	@Override
-	public void add(String String) {
-		idList.add(String);
-		notifyDataSetChanged();
+	public void add(String insightId) {
+		insightList.add(insightId);
+		this.notifyDataSetChanged();
 	}
 
 	public void remove(String item_id) {
-		for(String id: idList) {
-			if (id.equals(item_id)) {
-				idList.remove(id);
-				notifyDataSetChanged();
-				return;
-			}
-		}
+		insightList.remove(item_id);
+//		Log.i("NL", insightList.toString());
+		this.notifyDataSetChanged();
+	}
+
+	public String get(int position) {
+		return insightList.get(position);
 	}
 }

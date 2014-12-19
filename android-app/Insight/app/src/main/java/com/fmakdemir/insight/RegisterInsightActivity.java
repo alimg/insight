@@ -22,10 +22,14 @@ import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 public class RegisterInsightActivity extends Activity {
 
+	private BootstrapEditText editInsightId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_insight);
+
+		editInsightId = ((BootstrapEditText)findViewById(R.id.edit_insight_id));
     }
 
     @Override
@@ -56,8 +60,9 @@ public class RegisterInsightActivity extends Activity {
 				break;
 			case R.id.btn_register_insight:
 				intent = new Intent();
-				String insightId = ((BootstrapEditText)findViewById(R.id.edit_insight_id)).getText().toString();
+				String insightId = editInsightId.getText().toString();
 				if (insightId != null && !insightId.isEmpty()) {
+					editInsightId.setText(insightId);
 					intent.putExtra(QRScannerActivity.EXT_QR_RESULT, "id=" + insightId);
 					onActivityResult(DataHolder.REQ_INSIGHT_SCAN_QR, Activity.RESULT_OK, intent);
 				}
