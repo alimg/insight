@@ -16,7 +16,6 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
-import com.fmakdemir.insight.webservice.LoginService;
 import com.fmakdemir.insight.webservice.WebApiConstants;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
@@ -39,7 +38,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-		DataHolder.setContext(getApplicationContext());
+		Helper.setContext(getApplicationContext());
 
 		btnGetImg = (BootstrapButton) findViewById(R.id.btn_get_img);
 		btnShowImg = (BootstrapButton) findViewById(R.id.btn_show_img);

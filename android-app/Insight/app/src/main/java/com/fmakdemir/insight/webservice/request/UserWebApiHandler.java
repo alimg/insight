@@ -1,5 +1,6 @@
 package com.fmakdemir.insight.webservice.request;
 
+import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.fmakdemir.insight.webservice.model.LoginResponse;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserWebApiHandler extends BaseWebApiHandler {
-    private static final String URL_BASE = "http://128.199.52.88:5000";
+    private static final String URL_BASE = DataHolder.getServerUrl();
     private static final String URL_LOGIN = URL_BASE+"/login";
     private static final String URL_REGISTER = URL_BASE+"/register";
 

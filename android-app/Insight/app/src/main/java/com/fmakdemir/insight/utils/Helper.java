@@ -1,16 +1,13 @@
 package com.fmakdemir.insight.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +19,19 @@ import java.io.InputStream;
 public class Helper {
 
 	private static Context C;
+
+	public static void toastIt(String msg) {
+		toastIt(msg, Toast.LENGTH_SHORT);
+	}
+	public static void toastIt(String msg, int len) {
+		Toast.makeText(C, msg, len).show();
+	}
+	public static void toastIt(int strId) {
+		toastIt(strId, Toast.LENGTH_SHORT);
+	}
+	public static void toastIt(int strId, int len) {
+		toastIt(C.getString(strId), len);
+	}
 
 	public static void storeImage(InputStream inputStream, String filename) throws IOException {
 
@@ -56,6 +66,15 @@ public class Helper {
 
 	public static void setContext(Context C) {
 		Helper.C = C;
+		DataHolder.setContext(C);
+	}
+
+	public static String getTag(Object o) {return o.getClass().getSimpleName();}
+
+	public static String getExceptionString(Exception e) {
+		return  ".\nType: "+e.getClass().getSimpleName()
+				+"\nCause: "+e.getCause()
+				+"\nMessage: "+e.getMessage();
 	}
 
 }

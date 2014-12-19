@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class InsightListAdapter extends ArrayAdapter<String> {
 	private final Context context;
+	private ArrayList<String> idList;
 
 	public InsightListAdapter(Context context) {
 		this(context, null);
@@ -25,8 +26,9 @@ public class InsightListAdapter extends ArrayAdapter<String> {
 		super(context, R.layout.insight_list_item);
 
 		this.context = context;
+		this.idList = new ArrayList<String>();
 		if (idList != null) {
-			this.addAll(idList);
+			this.idList.addAll(idList);
 		}
 	}
 
@@ -50,25 +52,25 @@ public class InsightListAdapter extends ArrayAdapter<String> {
 			StringViewHolder = (StringViewHolder) convertView.getTag();
 		}
 
-		StringViewHolder.titleView.setText(this.getItem(position));
+		StringViewHolder.titleView.setText(idList.get(position));
 
 		// return view
 		return convertView;
 	}
 
-/*	@Override
+	@Override
 	public void add(String String) {
-		this.add(String);
-		this.notifyDataSetChanged();
+		idList.add(String);
+		notifyDataSetChanged();
 	}
-*/
-/*	public void remove(String item_id) {
-		for(String id: ) {
+
+	public void remove(String item_id) {
+		for(String id: idList) {
 			if (id.equals(item_id)) {
 				idList.remove(id);
-				this.notifyDataSetChanged();
+				notifyDataSetChanged();
 				return;
 			}
 		}
-	}*/
+	}
 }

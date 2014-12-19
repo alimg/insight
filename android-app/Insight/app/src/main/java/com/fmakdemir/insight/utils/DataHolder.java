@@ -3,12 +3,13 @@ package com.fmakdemir.insight.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.util.Log;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.util.Hashtable;
 
 /**
  * @author fma
@@ -22,7 +23,7 @@ public class DataHolder {
 	public static final int REQ_INSIGHT_SCAN_QR = 0xff0;
 
 	private static HttpClient httpClient;
-	final private static String serverHostname = "192.168.42.180";
+	final private static String serverHostname = "128.199.52.88:5000";
 	final private static String serverProtocol = "http://";
 
 	private static Context C;
@@ -31,7 +32,6 @@ public class DataHolder {
 
 	public static void setContext(Context C) {
 		DataHolder.C = C;
-		Helper.setContext(C);
 		listAdapter = new InsightListAdapter(C);
 	}
 
@@ -69,4 +69,8 @@ public class DataHolder {
 		return listAdapter;
 	}
 
+	private static Hashtable<String, String> dataCache = new Hashtable<String, String>();
+	public static void addServerMessage(String key, String value) {
+		dataCache.put(key, value);
+	}
 }

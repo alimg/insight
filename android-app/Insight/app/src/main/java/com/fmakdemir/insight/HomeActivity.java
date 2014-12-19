@@ -2,8 +2,9 @@ package com.fmakdemir.insight;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
+import com.fmakdemir.insight.services.InsightMQTTService;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.LoginService;
 
@@ -23,6 +25,13 @@ public class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+		Log.i(getClass().getSimpleName(), "Device ID: "+mDeviceID);
+		Intent mServiceIntent = new Intent(this, InsightMQTTService.class);
+		mServiceIntent.setData(Uri.parse(mDeviceID));
+		// Starts the IntentService
+		startService(mServiceIntent);
 
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
 		final InsightListAdapter listAdapter = DataHolder.getListAdapter();
@@ -53,6 +62,10 @@ public class HomeActivity extends Activity {
 				LoginService.getInstance(this).logout();
 				finish();
 				break;
+			case R.id.btn_add_new:
+				Intent intent = new Intent(HomeActivity.this, RegisterInsightActivity.class);
+				startActivity(intent);
+				break;
 		}
 	}
 
@@ -69,9 +82,15 @@ public class HomeActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+		switch (id) {
+			case R.id.action_settings:
+				Toast.makeText(getApplicationContext(), "Action Settings", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.action_logout:
+				LoginService.getInstance(this).logout();
+				finish();
+				break;
+		}
         return super.onOptionsItemSelected(item);
     }
 }

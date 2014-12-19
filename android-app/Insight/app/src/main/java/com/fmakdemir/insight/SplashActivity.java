@@ -3,14 +3,10 @@ package com.fmakdemir.insight;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.fmakdemir.insight.R;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.LoginService;
 import com.fmakdemir.insight.webservice.model.User;

@@ -46,7 +46,7 @@ public class LoginService {
                     SharedPreferences.Editor e = prefs.edit();
                     e.putString(KEY_SESSION_TOKEN, data.session_token);
 					e.putString("email", username);
-					e.commit();
+					e.apply();
                     listener.loginSuccess(data.user);
                 }
                 else {

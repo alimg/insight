@@ -1,7 +1,7 @@
 package com.fmakdemir.insight.webservice.request;
 
+import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
-import com.fmakdemir.insight.webservice.model.LoginResponse;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeviceWebApiHandler extends BaseWebApiHandler {
-    private static final String URL_BASE = "http://128.199.52.88:5000";
+    private static final String URL_BASE = DataHolder.getServerUrl();
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
 
 
