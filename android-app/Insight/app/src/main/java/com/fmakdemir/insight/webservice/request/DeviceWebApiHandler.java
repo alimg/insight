@@ -17,13 +17,13 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
 
 
-    public static void registerInsight(String email, String insightId,
+    public static void registerInsight(String username, String insightId,
                           WebApiCallback<BaseResponse> callback) {
         HttpPost req = new HttpPost(URL_REGISTER_INSIGHT);
 
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("insight_iid", insightId));
-        nameValuePairs.add(new BasicNameValuePair("insight_email", email));
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("insight_id", insightId));
+        nameValuePairs.add(new BasicNameValuePair("username", username));
 
         try {
             req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

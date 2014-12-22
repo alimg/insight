@@ -1,9 +1,7 @@
 package com.fmakdemir.insight;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -45,9 +43,10 @@ public class RegisterInsightActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+		switch (id) {
+			case R.id.action_settings:
+				return true;
+		}
         return super.onOptionsItemSelected(item);
     }
 
@@ -80,14 +79,15 @@ public class RegisterInsightActivity extends Activity {
 				String strAr[] = result.split("=");
 				if (strAr[0].equals("id")) {
 					final String insightId = strAr[1];
-					SharedPreferences prefs = getApplicationContext().getSharedPreferences("LoginService", Context.MODE_PRIVATE);
-					String email = prefs.getString("email", null);
-					DeviceWebApiHandler.registerInsight(email, insightId, new WebApiCallback<BaseResponse>() {
+					final String username = Helper.getUsername();
+					DeviceWebApiHandler.registerInsight(username, insightId, new WebApiCallback<BaseResponse>() {
 						@Override
 						public void onSuccess(BaseResponse data) {
 							if(data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
 								Toast.makeText(getApplicationContext(), "Registration successful.", Toast.LENGTH_SHORT).show();
+								// add insight to list and return to home
 								DataHolder.getListAdapter().add(insightId);
+								RegisterInsightActivity.this.finish();
 							} else {
 								Toast.makeText(getApplicationContext(), "Registration failed.", Toast.LENGTH_SHORT).show();
 							}

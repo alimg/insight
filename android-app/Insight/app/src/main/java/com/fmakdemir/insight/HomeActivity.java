@@ -2,6 +2,7 @@ package com.fmakdemir.insight;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -15,8 +16,8 @@ import android.widget.Toast;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
 import com.fmakdemir.insight.services.InsightMQTTService;
+import com.fmakdemir.insight.utils.AudioAsynctask;
 import com.fmakdemir.insight.utils.DataHolder;
-import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
 
 import java.util.ArrayList;
@@ -29,6 +30,14 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+		try {
+			AssetFileDescriptor afd = getAssets().openFd("out.mp3");
+			new AudioAsynctask().play(afd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
 		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 		Log.i(getClass().getSimpleName(), "Device ID: "+mDeviceID);
 		Intent mServiceIntent = new Intent(this, InsightMQTTService.class);
@@ -37,15 +46,12 @@ public class HomeActivity extends Activity {
 		startService(mServiceIntent);
 
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
-		ArrayList<String> strList = new ArrayList<String>();
-		strList.add("xxxxxxxxxxx");
+
+		ArrayList<String> strList = new ArrayList<>();
 		InsightListAdapter adapter = new InsightListAdapter(getApplicationContext(), strList);
 		DataHolder.setListAdapter(adapter);
 		final InsightListAdapter listAdapter = DataHolder.getListAdapter();
-		listAdapter.add("Test Insight1");
 		listView.setAdapter(listAdapter);
-		listAdapter.add("Test Insight2");
-		listAdapter.notifyDataSetChanged();
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -56,13 +62,11 @@ public class HomeActivity extends Activity {
 
 				Intent intent = new Intent(HomeActivity.this, MainActivity.class);
 				intent.putExtra(MainActivity.EXT_INSIGHT_IID, insightIid);
-				intent.putExtra(MainActivity.EXT_INSIGHT_EMAIL, Helper.getEmail());
 
-				Log.d("XXX", ""+listAdapter.getCount());
 				Toast.makeText(HomeActivity.this.getApplicationContext(), "ID: "+insightIid, Toast.LENGTH_LONG).show();
 				intent.putExtra("InsightId", listAdapter.getItem(position));
 				startActivity(intent);
-//				overridePendingTransition (R.anim.open_next, R.anim.close_main);
+				overridePendingTransition (R.anim.open_next, R.anim.close_main);
 			}
 
 		});
@@ -70,10 +74,10 @@ public class HomeActivity extends Activity {
 
 	public void btnClicked(View v) {
 		switch (v.getId()) {
-			case R.id.btn_logout:
+/*			case R.id.btn_logout:
 				LoginService.getInstance(this).logout();
 				finish();
-				break;
+				break;*/
 			case R.id.btn_add_new:
 				Intent intent = new Intent(HomeActivity.this, RegisterInsightActivity.class);
 				startActivity(intent);

@@ -2,7 +2,9 @@ package com.fmakdemir.insight.webservice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.model.LoginResponse;
 import com.fmakdemir.insight.webservice.model.User;
 import com.fmakdemir.insight.webservice.request.UserWebApiHandler;
@@ -12,7 +14,6 @@ public class LoginService {
 
     public static final String PREF_NAME = "LoginService";
     public static final String KEY_SESSION_TOKEN = "session-token";
-	public static final String PREFS_EMAIL = "email";
     private final Context context;
     private String sessionToken = null;
 
@@ -46,8 +47,11 @@ public class LoginService {
                     SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor e = prefs.edit();
                     e.putString(KEY_SESSION_TOKEN, data.session_token);
-					e.putString(PREFS_EMAIL, username);
 					e.apply();
+
+					Helper.putUsername(data.user.name);
+					Helper.putEmail(data.user.email);
+
                     listener.loginSuccess(data.user);
                 }
                 else {
@@ -63,6 +67,7 @@ public class LoginService {
     }
 
     public String getSessionToken() {
+		Log.i("token", ""+sessionToken);
         return sessionToken;
     }
 
@@ -70,7 +75,7 @@ public class LoginService {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor e = prefs.edit();
         e.remove(KEY_SESSION_TOKEN);
-        e.commit();
+        e.apply();
     }
 
     public interface LoginListener {

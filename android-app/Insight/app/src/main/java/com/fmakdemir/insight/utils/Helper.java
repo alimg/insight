@@ -8,9 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.fmakdemir.insight.SplashActivity;
-import com.fmakdemir.insight.webservice.LoginService;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,16 +20,21 @@ import java.io.InputStream;
 public class Helper {
 
 	private static Context C;
+	public static void setContext(Context C) {
+		DataHolder.setContext(C);
+		Helper.C = C;
+	}
 
+	public static void toastIt(int strId) {
+		toastIt(strId, Toast.LENGTH_SHORT);
+	}
 	public static void toastIt(String msg) {
 		toastIt(msg, Toast.LENGTH_SHORT);
 	}
 	public static void toastIt(String msg, int len) {
 		Toast.makeText(C, msg, len).show();
 	}
-	public static void toastIt(int strId) {
-		toastIt(strId, Toast.LENGTH_SHORT);
-	}
+
 	public static void toastIt(int strId, int len) {
 		toastIt(C.getString(strId), len);
 	}
@@ -59,18 +61,13 @@ public class Helper {
 	public static Drawable retrieveImage(String filename) throws IOException {
 
 		File file = new File(C.getFilesDir(), filename);
-		Log.i("RetrieveImage", "file path: "+file.getAbsolutePath());
+		Log.i("RetrieveImage", "file path: " + file.getAbsolutePath());
 
 		if (file.exists()) {
 			return Drawable.createFromPath(file.getAbsolutePath());
 		} else {
 			throw new IOException("File not found on path: "+file.getAbsolutePath(), null);
 		}
-	}
-
-	public static void setContext(Context C) {
-		Helper.C = C;
-		DataHolder.setContext(C);
 	}
 
 	public static String getTag(Object o) {return o.getClass().getSimpleName();}
@@ -82,8 +79,24 @@ public class Helper {
 	}
 
 	public static String getEmail() {
-		SharedPreferences prefs = C.getSharedPreferences(LoginService.PREF_NAME, Context.MODE_PRIVATE);
-		return prefs.getString(LoginService.PREFS_EMAIL, "test@mail.com");
+		SharedPreferences prefs = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE);
+		return prefs.getString(DataHolder.PREFS_EMAIL, "test@mail.com");
 	}
 
+	public static String getUsername() {
+		SharedPreferences prefs = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE);
+		return prefs.getString(DataHolder.PREFS_USERNAME, "testuser");
+	}
+
+	public static void putUsername(String username) {
+		SharedPreferences.Editor e = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE).edit();
+		e.putString(DataHolder.PREFS_USERNAME, username);
+		e.apply();
+	}
+
+	public static void putEmail(String email) {
+		SharedPreferences.Editor e = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE).edit();
+		e.putString(DataHolder.PREFS_EMAIL, email);
+		e.apply();
+	}
 }

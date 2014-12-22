@@ -1,11 +1,13 @@
 package com.fmakdemir.insight;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
@@ -39,6 +41,9 @@ public class WifiSetupActivity extends Activity {
 			ImageView myImage = (ImageView) findViewById(R.id.wifi_qr_image);
 			myImage.setImageBitmap(bitmap);
 
+			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+
 		} catch (WriterException e) {
 			e.printStackTrace();
 		}
@@ -57,9 +62,10 @@ public class WifiSetupActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+		switch (id) {
+			case R.id.action_settings:
+				return true;
+		}
         return super.onOptionsItemSelected(item);
     }
 }

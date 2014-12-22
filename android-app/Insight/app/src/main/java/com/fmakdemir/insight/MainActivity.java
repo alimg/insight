@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 
@@ -30,13 +29,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 	public static final String EXT_INSIGHT_IID = "MainAct.ext_insight_iid";
-	public static final String EXT_INSIGHT_EMAIL = "MainAct.ext_insight_email";
 
 	private BootstrapButton btnGetImg;
-	private BootstrapEditText edtQRString;
-//	private AsyncImageGetter asyncImageGetter;
 
-	String insightIid, insightEmail;
+	String insightIid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +42,16 @@ public class MainActivity extends Activity {
 		Helper.setContext(getApplicationContext());
 
 		insightIid = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_IID);
-		insightEmail = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_EMAIL);
 
 		btnGetImg = (BootstrapButton) findViewById(R.id.btn_get_img);
-		edtQRString = (BootstrapEditText) findViewById(R.id.edt_qr_str);
+//		edtQRString = (BootstrapEditText) findViewById(R.id.edt_qr_str);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         return true;
     }
 
@@ -66,9 +61,10 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+		switch (id) {
+			case R.id.action_settings:
+				return true;
+		}
         return super.onOptionsItemSelected(item);
     }
 
@@ -85,36 +81,35 @@ public class MainActivity extends Activity {
 		switch (v.getId()) {
 			case R.id.btn_get_img:
 				btnGetImg.setEnabled(false);
-				//asyncImageGetter = new AsyncImageGetter("testuser", "testpass");
-				//asyncImageGetter.execute();
-				new AsyncImageGetter(insightIid, insightEmail).execute();
+				String username = Helper.getUsername();
+				new AsyncImageGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_show_img:
 				startActivity(new Intent(this, ImageTestActivity.class));
 				break;
-			case R.id.btn_make_qr:
+/*			case R.id.btn_make_qr:
 				intent = new Intent(this, ImageTestActivity.class);
 				intent.putExtra(ImageTestActivity.EXT_MAKE_QR, true);
 				intent.putExtra(ImageTestActivity.EXT_QR_STR, edtQRString.getText().toString());
 				startActivity(intent);
 				break;
-			case R.id.btn_wifi_setup:
+*/			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
 		}
 	}
 
 	public class AsyncImageGetter extends AsyncTask<Void, Void, String> {
-		private ArrayList<NameValuePair> mData = new ArrayList<NameValuePair>();
+		private ArrayList<NameValuePair> mData = new ArrayList<>();
 
 		/**
 		 * constructor
 		 */
-		public AsyncImageGetter(String insightId, String email) {
+		public AsyncImageGetter(String insightId, String username) {
 			// add data to post data
 
-			mData.add(new BasicNameValuePair("insight_iid", insightId));
-			mData.add(new BasicNameValuePair("insight_email", email));
+			mData.add(new BasicNameValuePair("insight_id", insightId));
+			mData.add(new BasicNameValuePair("username", username));
 		}
 
 		/**
@@ -122,7 +117,6 @@ public class MainActivity extends Activity {
 		 */
 		@Override
 		protected String doInBackground(Void... voids) {
-			byte[] result;
 			String errMsg = "";
 			HttpClient client = DataHolder.getHttpClient();
 			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");

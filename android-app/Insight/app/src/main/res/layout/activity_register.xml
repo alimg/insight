@@ -1,14 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:tools="http://schemas.android.com/tools"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:paddingLeft="@dimen/activity_horizontal_margin"
-			  android:paddingRight="@dimen/activity_horizontal_margin"
-			  android:paddingTop="@dimen/activity_vertical_margin"
-			  android:paddingBottom="@dimen/activity_vertical_margin"
-			  tools:context="com.fmakdemir.insight.RegisterActivity"
-			  android:orientation="vertical">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:bb="http://schemas.android.com/apk/res-auto"
+
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:orientation="vertical"
+	android:background="@color/act_background"
+
+	tools:context="com.fmakdemir.insight.RegisterActivity">
 
 	<TextView
 		android:layout_width="wrap_content"
@@ -20,37 +24,43 @@
 		/>
 
 	<com.beardedhen.androidbootstrap.BootstrapEditText
+		android:id="@+id/edit_name"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/edit_name"
 		android:layout_marginTop="105dp"
 		android:hint="@string/username"
 		android:singleLine="true"
-		android:inputType="textPersonName"/>
+		android:inputType="textPersonName"
+		/>
+
 	<com.beardedhen.androidbootstrap.BootstrapEditText
+		android:id="@+id/edit_email"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/edit_email"
+		android:layout_marginTop="-2dp"
 		android:hint="@string/email"
 		android:singleLine="true"
-		android:inputType="textEmailAddress"/>
+		android:inputType="textEmailAddress"
+		/>
 
 	<com.beardedhen.androidbootstrap.BootstrapEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edit_password"
+		android:id="@+id/edit_password"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-2dp"
         android:hint="@string/password"
         android:singleLine="true"
-        android:inputType="textPassword"/>
-
+        android:inputType="textPassword"
+		/>
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/register"
-        android:id="@+id/btn_register"
+		android:id="@+id/btn_register"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:text="@string/register"
 		android:layout_gravity="center"
-		app:bb_type="default"
+		bb:bb_type="default"
 		/>
 
 

@@ -20,8 +20,11 @@ import java.util.Hashtable;
 public class DataHolder {
 
 	public static final String PREF_FILE = "insight_prefs";
-	public static final String PREF_NAME_SERVER_URL = "IPREFS_SERVER_URL";
+	public static final String PREFS_EMAIL = "insight_prefs.email";
+	public static final String PREFS_USERNAME = "insight_prefs.username";
+
 	public static final int REQ_INSIGHT_SCAN_QR = 0xff0;
+	public static final String SENDER_ID = "513291732910";
 
 	private static HttpClient httpClient;
 	final private static String serverHostname = "128.199.52.88:5000";
@@ -73,7 +76,7 @@ public class DataHolder {
 		return listAdapter;
 	}
 
-	private static Hashtable<String, String> dataCache = new Hashtable<String, String>();
+	private static Hashtable<String, String> dataCache = new Hashtable<>();
 	public static void addServerMessage(String key, String value) {
 		dataCache.put(key, value);
 	}
