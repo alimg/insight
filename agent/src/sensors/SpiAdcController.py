@@ -16,24 +16,25 @@ _adc.max_speed_hz = 488000
 class AdcController():
     def __init__(self):
         self.thread = None
+        self.callback = None
 
-    @staticmethod
-    def __read_data(args):
+    def __read_data(self, callback):
         file_name = "out.raw"
         compressed_file_name = "out.ogg"
         fout = open(file_name, "wb")
         buff = []
         k = 80
-        i = k
         tbegin = time.time()
+        print tbegin
         tx = []
         for i in range(1801):
             tx.extend([0, 1])
+        i = k
         while i:
             i -= 1
-            # t1=time.time()
-            ar = _adc.xfer(tx);
-            # print len(ar)/2.0/(time.time()-t1)
+            #t1 = time.time()
+            ar = _adc.xfer(tx)
+            #print len(ar)/2.0/(time.time()-t1)
             buff.append(ar[2:])
         elapsed = time.time() - tbegin
         print "elapsed ", elapsed
@@ -45,12 +46,19 @@ class AdcController():
         print "samples ", samples
         print "rate ", samples / elapsed
         call(["sh", "-c", "oggenc -r  -B 16 -C 1 -R 13000 '%s' -o '%s'" % (file_name, compressed_file_name)])
-        args(compressed_file_name)
+        callback(compressed_file_name)
 
     def capture_audio(self, callback):
         if self.thread:
             return
-        self.thread = Thread(target=self.__read_data, args=callback)
+        self.callback = callback
+        l = lambda x: self.__read_data(x)
+        self.thread = Thread(target=l, args=(lambda arg: self.on_recording_finished(arg),))
+        self.thread.start()
+
+    def on_recording_finished(self, arg):
+        self.callback(arg)
+        self.thread = None
 
 
 _adc_controller = AdcController()
