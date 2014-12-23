@@ -54,3 +54,6 @@ class UploadService(Thread):
     def stop(self):
         self.running = False
         self.file_queue.put(self._STOP)
+
+    def upload_audio(self, file_name):
+        self.file_queue.put(file_name)

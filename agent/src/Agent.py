@@ -7,7 +7,9 @@ class Agent:
     def __init__(self, args):
         self.args = args
         self.agentConfig = AgentConfig.AgentConfig()
-        self.hwController = HwController.HwController(lambda event: self.uploadService.upload_photo(event))
+        self.hwController = HwController.HwController(
+            camera_event_handler=lambda event: self.uploadService.upload_photo(event),
+            audio_event_handler=lambda event: self.uploadService.upload_audio(event))
         self.commandClient = CommandClient.CommandClient()
         self.uploadService = UploadService.UploadService()
         self.running = True
