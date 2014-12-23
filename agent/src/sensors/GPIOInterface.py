@@ -1,0 +1,4 @@
+PIN_PIR = 2
+
+PIN_MUX0 = 14
+PIN_MUX1 = 15

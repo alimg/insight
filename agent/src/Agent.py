@@ -13,9 +13,10 @@ class Agent:
         self.running = True
 
     def run(self):
-        #userConf = self.agentConfig.get_user_conf()
+        user_conf = self.agentConfig.get_user_conf()
         local_ip = WifiUtil.get_wlan0_ip()
-        if not local_ip:
+        print "Local IP: ", local_ip
+        if not local_ip and not user_conf:
             worker = SetupWorker.SetupWorker(self.agentConfig)
             worker.start_setup()
 

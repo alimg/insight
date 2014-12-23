@@ -3,6 +3,10 @@ import Queue
 import socket
 import os
 import struct
+import time
+import AgentConfig
+from PIL import Image
+
 
 from ServerConstants import *
 
@@ -39,9 +43,12 @@ class UploadService(Thread):
                 #print len(buff)
         data = con.recv(64)
         print "response: "+data
+        #os.remove(file_name)
         con.close()
 
-    def upload_photo(self, file_name):
+    def upload_photo(self, image_data):
+        file_name = AgentConfig.DATA_STORAGE_DIR+"%s.jpeg" % time.time()
+        image_data.save(file_name, "jpeg")
         self.file_queue.put(file_name)
 
     def stop(self):

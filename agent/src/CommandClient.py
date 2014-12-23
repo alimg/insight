@@ -5,7 +5,7 @@ import DaemonThread
 from ServerConstants import *
 
 
-class CommandClient(DaemonThread.DeamonThread):
+class CommandClient(DaemonThread.DaemonThread):
     def __init__(self):
         super(CommandClient, self).__init__()
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

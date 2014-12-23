@@ -30,7 +30,7 @@ IP=dhcp
 
 
 def reassociate():
-    call(["netctl", "start", "insight-wlan-0"])
+    call(["netctl", "start", "insight-wlan-new"])
 
 
 def check_connectivity():
