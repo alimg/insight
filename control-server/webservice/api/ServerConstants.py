@@ -6,3 +6,7 @@ DB_NAME = 'insight'
 DB_USER = 'root'
 DB_PASSWORD = 'root'
 DB_ADDRESS = 'localhost'
+
+STORAGE_DIR = '/srv/data'
+
+device_command_listener = None

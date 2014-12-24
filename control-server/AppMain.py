@@ -1,21 +1,24 @@
 from UploadServer import UploadServer
 from CommandServer import CommandServer
 import ClientConnectionHandler
-
+from webservice import WebService
 
 class AppMain:
     def __init__(self):
-        HOST = "localhost"
+        HOST = "0.0.0.0"
         UPLOAD_SERVER_PORT = 5014
         COMMAND_SERVER_PORT = 5013
         self.command_server = CommandServer((HOST, COMMAND_SERVER_PORT))
         self.upload_server = UploadServer((HOST, UPLOAD_SERVER_PORT))
+        self.web_service = WebService.WebService(lambda (x, y): self.command_server.send_command(x, y))
         self.running = True
 
     def start(self):
         self.command_server.set_connection_handler(ClientConnectionHandler.ConnectionHandler())
         self.command_server.start()
         self.upload_server.start()
+        self.web_service.start()
+
 
     def stop(self):
         self.running = False
