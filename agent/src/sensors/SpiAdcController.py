@@ -18,14 +18,14 @@ class AdcController():
         self.thread = None
         self.callback = None
 
-    def __read_data(self, callback):
+    def __read_audio_data(self, callback):
         file_name = "out.raw"
         compressed_file_name = "out.ogg"
         fout = open(file_name, "wb")
         buff = []
         k = 160
         tbegin = time.time()
-        #print tbegin
+        # print tbegin
         tx = []
         for i in range(1801):
             tx.extend([0, 1])
@@ -52,9 +52,45 @@ class AdcController():
         if self.thread:
             return
         self.callback = callback
-        l = lambda x: self.__read_data(x)
+        l = lambda x: self.__read_audio_data(x)
         self.thread = Thread(target=l, args=(lambda arg: self.on_recording_finished(arg),))
         self.thread.start()
+
+    def read_ldr_sensor(self):
+        tx = []
+        for i in range(9):
+            tx.extend([0, 1])
+        ar = _adc.xfer(tx)
+        lar = len(ar)
+        j = 2
+        value = 0
+        i = 0
+        while j < lar:
+            val = (ar[j] << 8) + ar[j + 1]
+            value += val
+            j += 2
+            i += 1
+        value /= i
+        return value
+
+    def read_temperature_sensor(self):
+        tx = []
+        for i in range(9):
+            tx.extend([0, 1])
+        ar = _adc.xfer(tx)
+        lar = len(ar)
+        j = 2
+        value = 0
+        i = 0
+        while j < lar:
+            val = (ar[j] << 8) + ar[j + 1]
+            j += 2
+            if val > 4000:
+                continue
+            value += val
+            i += 1
+        value /= i
+        return (3.3*value/4096)*100
 
     def on_recording_finished(self, arg):
         self.callback(arg)
