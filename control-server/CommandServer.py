@@ -6,6 +6,7 @@ import socket
 class CommandServer(Thread, SocketServer.TCPServer):
     def __init__(self, address):
         super(CommandServer, self).__init__()
+        SocketServer.TCPServer.allow_reuse_address = True
         SocketServer.TCPServer.__init__(self, address, ClientConnectionHandler)
         self.client_connection_handler = None
 
@@ -17,6 +18,9 @@ class CommandServer(Thread, SocketServer.TCPServer):
 
     def set_connection_handler(self, handler):
         self.client_connection_handler = handler
+
+    def send_command(self, device, command):
+        self._client_context.request.sendall(command)
 
 
 class ClientConnectionHandler(SocketServer.BaseRequestHandler):
@@ -30,6 +34,7 @@ class ClientConnectionHandler(SocketServer.BaseRequestHandler):
 
     def handle(self):
         self.server.client_connection_handler.on_connected(self, self.client_address)
+        self.server._client_context = self
         while self.running:
             data = self.request.recv(1024)
             if not data:

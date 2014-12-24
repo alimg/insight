@@ -30,6 +30,9 @@ class HwController(Thread):
                 self.camera_event_handler(image)
             elif command['action'] == "cap_audio":
                 self.adc_controller.capture_audio(lambda captured_file: self.on_audio_captured(captured_file))
+            elif command['action'] == "cap_temperature":
+                temp = self.adc_controller.read_temperature_sensor()
+                print temp
 
 
     def process_command(self, command):

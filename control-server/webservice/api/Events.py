@@ -17,4 +17,5 @@ class List(restful.Resource):
         session_token = request.form['session_token']
         userid = SessionUtil._SESSION[session_token]['user']
 
-        return {'status': '0', 'devices': [{'id': '1001', 'name':'Device 1', 'status':'offline'}]}
+        return {'status': '0', 'events': [
+            {'id': '1001', 'device_id':'1001', 'date':'2014-11-28 14:09:43', 'type':'unknown', 'priority':'0'}]}
