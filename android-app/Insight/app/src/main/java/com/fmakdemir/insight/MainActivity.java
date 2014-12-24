@@ -93,13 +93,15 @@ public class MainActivity extends Activity {
 				new AsyncSoundGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_play_snd:
-				Helper.playSound("testsnd.mp3");
+				Helper.playSound(DataHolder.TEST_SND);
 				break;
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
 		}
 	}
+
+	static boolean getImage = false, getSound = false;
 
 	public class AsyncImageGetter extends AsyncTask<Void, Void, String> {
 		private ArrayList<NameValuePair> mData = new ArrayList<>();
@@ -112,6 +114,12 @@ public class MainActivity extends Activity {
 
 			mData.add(new BasicNameValuePair("insight_id", insightId));
 			mData.add(new BasicNameValuePair("username", username));
+			if (!getImage) {
+				mData.add(new BasicNameValuePair("act", "take"));
+			} else {
+				mData.add(new BasicNameValuePair("act", "get"));
+			}
+			getImage = !getImage;
 		}
 
 		/**
@@ -177,6 +185,12 @@ public class MainActivity extends Activity {
 
 			mData.add(new BasicNameValuePair("insight_id", insightId));
 			mData.add(new BasicNameValuePair("username", username));
+			if (!getSound) {
+				mData.add(new BasicNameValuePair("act", "take"));
+			} else {
+				mData.add(new BasicNameValuePair("act", "get"));
+			}
+			getSound = !getSound;
 		}
 
 		/**
@@ -198,7 +212,8 @@ public class MainActivity extends Activity {
 				int statusCode = statusLine.getStatusCode();
 				if(statusCode == HttpURLConnection.HTTP_OK) {
 					HttpEntity entity = response.getEntity();
-					Helper.storeSound(entity.getContent(), "testsnd.mp3");
+					Helper.storeSound(entity.getContent(), DataHolder.TEST_SND);
+					Helper.playSound(DataHolder.TEST_SND);
 					return errMsg;
 				} else {
 					throw new IOException("Download failed, HTTP response code "
@@ -223,7 +238,6 @@ public class MainActivity extends Activity {
 
 			if (errMsg.equals("")) {
 				ToastIt("Got Sound!\n" + errMsg);
-				Helper.playSound("testsnd.mp3");
 			} else {
 				Log.e(this.getClass().getSimpleName(), errMsg);
 			}

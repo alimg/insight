@@ -25,6 +25,7 @@ public class DataHolder {
 
 	public static final int REQ_INSIGHT_SCAN_QR = 0xff0;
 	public static final String SENDER_ID = "513291732910";
+	public static final String TEST_SND = "testsnd.mp3";
 
 	private static HttpClient httpClient;
 	final private static String serverHostname = "128.199.52.88:5000";
