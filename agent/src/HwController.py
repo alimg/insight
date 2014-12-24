@@ -34,7 +34,6 @@ class HwController(Thread):
                 temp = self.adc_controller.read_temperature_sensor()
                 print temp
 
-
     def process_command(self, command):
         print "proccessCommand ", command
         self.command_queue.put(command)

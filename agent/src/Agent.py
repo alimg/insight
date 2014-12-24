@@ -15,6 +15,7 @@ class Agent:
         self.running = True
 
     def run(self):
+        self.agentConfig.load_config()
         user_conf = self.agentConfig.get_user_conf()
         local_ip = WifiUtil.get_wlan0_ip()
         print "Local IP: ", local_ip

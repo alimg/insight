@@ -47,8 +47,8 @@ class UploadService(Thread):
         con.close()
 
     def upload_photo(self, image_data):
-        file_name = AgentConfig.DATA_STORAGE_DIR+"%s.jpeg" % time.time()
-        image_data.save(file_name, "jpeg")
+        file_name = AgentConfig.DATA_STORAGE_DIR+"%s.png" % time.time()
+        image_data.save(file_name, "png")
         self.file_queue.put(file_name)
 
     def stop(self):
