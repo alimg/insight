@@ -41,10 +41,4 @@ build/
 *~
 *.swp
 =======
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
 >>>>>>> 836e0dd5aa5c61e28aa62dfdaef633b59a7c7cf9

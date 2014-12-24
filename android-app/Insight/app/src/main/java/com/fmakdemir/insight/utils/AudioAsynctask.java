@@ -3,6 +3,11 @@ package com.fmakdemir.insight.utils;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Environment;
+
+import java.io.File;
+import java.io.InputStream;
 
 /**
  * @author fma
@@ -10,20 +15,17 @@ import android.media.MediaPlayer;
  */
 public class AudioAsynctask {
 
-	public void play(AssetFileDescriptor afd) {
+	public void play(String path) {
 //		String url = "http://........"; // your URL here
 		MediaPlayer mediaPlayer = new MediaPlayer();
 		mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 		try {
-			mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+			mediaPlayer.setDataSource(path);
 			mediaPlayer.prepare();
 			mediaPlayer.start();
 
-//			mediaPlayer.setDataSource(url);
-//			mediaPlayer.prepare(); // might take long! (for buffering, etc)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		mediaPlayer.start();
 	}
 }

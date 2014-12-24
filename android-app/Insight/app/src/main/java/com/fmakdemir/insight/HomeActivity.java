@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -18,8 +19,24 @@ import com.fmakdemir.insight.adapters.InsightListAdapter;
 import com.fmakdemir.insight.services.InsightMQTTService;
 import com.fmakdemir.insight.utils.AudioAsynctask;
 import com.fmakdemir.insight.utils.DataHolder;
+import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 
@@ -30,20 +47,12 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-		try {
-			AssetFileDescriptor afd = getAssets().openFd("out.mp3");
-			new AudioAsynctask().play(afd);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-
 		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 		Log.i(getClass().getSimpleName(), "Device ID: "+mDeviceID);
-		Intent mServiceIntent = new Intent(this, InsightMQTTService.class);
-		mServiceIntent.setData(Uri.parse(mDeviceID));
+		Intent mMQTTServiceIntent = new Intent(this, InsightMQTTService.class);
+		mMQTTServiceIntent.setData(Uri.parse(mDeviceID));
 		// Starts the IntentService
-		startService(mServiceIntent);
+		startService(mMQTTServiceIntent);
 
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
 
@@ -70,6 +79,8 @@ public class HomeActivity extends Activity {
 			}
 
 		});
+
+		new AsyncInsightListGetter(Helper.getEmail()).execute();
     }
 
 	public void btnClicked(View v) {
@@ -109,4 +120,79 @@ public class HomeActivity extends Activity {
 		}
         return super.onOptionsItemSelected(item);
     }
+	private class AsyncInsightListGetter extends AsyncTask<Void, Void, String> {
+		private ArrayList<NameValuePair> mData = new ArrayList<>();
+
+		/**
+		 * constructor
+		 */
+		public AsyncInsightListGetter(String email) {
+			// add data to post data
+
+			mData.add(new BasicNameValuePair("email", email));
+		}
+
+		/**
+		 * background
+		 */
+		@Override
+		protected String doInBackground(Void... voids) {
+			String result = "";
+			HttpClient client = DataHolder.getHttpClient();
+			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight_list");
+
+			try {
+
+				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
+
+				HttpResponse response = client.execute(post);
+
+				StatusLine statusLine = response.getStatusLine();
+				int statusCode = statusLine.getStatusCode();
+				if(statusCode == HttpURLConnection.HTTP_OK) {
+					HttpEntity entity = response.getEntity();
+					byte[] resEnt = EntityUtils.toByteArray(response.getEntity());
+					result = new String(resEnt, "UTF-8");
+					return result;
+
+				} else {
+					throw new IOException("Download failed, HTTP response code "
+							+ statusCode + " - " + statusLine.getReasonPhrase());
+				}
+
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+		/**
+		 * on getting result
+		 */
+		@Override
+		protected void onPostExecute(String result) {
+			try {
+				Object json = new JSONTokener(result).nextValue();
+				if (json instanceof JSONObject) {
+					if (!((JSONObject) json).optString("status").equals("0")) {
+						Log.e(this.getClass().getSimpleName(), ""+((JSONObject) json).optString("message"));
+						return;
+					}
+					JSONArray insightList = ((JSONObject) json).optJSONArray("insight_list");
+					InsightListAdapter adapter = DataHolder.getListAdapter();
+					adapter.clear();
+
+					for (int i=0; i<insightList.length(); ++i) {
+						adapter.add(insightList.getJSONArray(i).getString(0));
+					}
+				} else {
+					Helper.toastIt("There was a server error try again later");
+				}
+			} catch (Exception e) {
+				Log.e(Helper.getTag(this), Helper.getExceptionString(e));
+			}
+
+		}
+	}
 }

@@ -3,6 +3,8 @@ package com.fmakdemir.insight;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,15 +20,25 @@ import com.google.zxing.WriterException;
 
 public class WifiSetupActivity extends Activity {
 
-    @Override
+	BootstrapEditText editWifiName;
+
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_setup);
-    }
+
+		editWifiName = (BootstrapEditText) findViewById(R.id.edit_wifi_name);
+
+		WifiManager wifiMgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+		WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
+		if (wifiMgr.isWifiEnabled()) {
+			editWifiName.setText(wifiInfo.getSSID());
+		}
+
+	}
 
 	public void setupQR(View v) {
 		//Encode with a QR Code image
-		BootstrapEditText editWifiName = (BootstrapEditText) findViewById(R.id.edit_wifi_name);
 		BootstrapEditText editWifiPass = (BootstrapEditText) findViewById(R.id.edit_wifi_pass);
 
 		String qrStr = editWifiName.getText().toString()+"\n"+editWifiPass.getText().toString();

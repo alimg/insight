@@ -23,6 +23,8 @@ public class Helper {
 	public static void setContext(Context C) {
 		DataHolder.setContext(C);
 		Helper.C = C;
+		SharedPreferences.Editor e = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE).edit();
+		e.apply();
 	}
 
 	public static void toastIt(int strId) {
@@ -50,6 +52,26 @@ public class Helper {
 		inputStream.close();
 		fos.close();
 		b.recycle();
+
+		String logStr = ".\ncount = "+C.fileList().length;
+		for (String s : C.fileList()) {
+			logStr += "\n"+s;
+		}
+		Log.i("FL", logStr);
+	}
+
+	public static void storeSound(InputStream inputStream, String filename) throws IOException {
+
+		File file = new File(C.getFilesDir(), filename);
+		Log.i("StoreSound", "file path: "+file.getAbsolutePath());
+
+		FileOutputStream fos = C.openFileOutput(filename, Context.MODE_PRIVATE);
+		int c;
+		while ((c = inputStream.read()) != -1) {
+			fos.write(c);
+		}
+		inputStream.close();
+		fos.close();
 
 		String logStr = ".\ncount = "+C.fileList().length;
 		for (String s : C.fileList()) {
@@ -98,5 +120,10 @@ public class Helper {
 		SharedPreferences.Editor e = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE).edit();
 		e.putString(DataHolder.PREFS_EMAIL, email);
 		e.apply();
+	}
+
+	public static void playSound(String filename) {
+		String path =  new File(C.getFilesDir(), filename).getAbsolutePath();
+		new AudioAsynctask().play(path);
 	}
 }

@@ -80,4 +80,9 @@ public class DataHolder {
 	public static void addServerMessage(String key, String value) {
 		dataCache.put(key, value);
 	}
+	public static String getServerMessage(String key) {
+		String value = dataCache.get(key);
+		dataCache.remove(key);
+		return value;
+	}
 }

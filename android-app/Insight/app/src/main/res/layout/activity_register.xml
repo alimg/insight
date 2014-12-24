@@ -34,6 +34,16 @@
 		/>
 
 	<com.beardedhen.androidbootstrap.BootstrapEditText
+		android:id="@+id/edit_password"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="-2dp"
+		android:hint="@string/password"
+		android:singleLine="true"
+		android:inputType="textPassword"
+		/>
+
+	<com.beardedhen.androidbootstrap.BootstrapEditText
 		android:id="@+id/edit_email"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -43,15 +53,6 @@
 		android:inputType="textEmailAddress"
 		/>
 
-	<com.beardedhen.androidbootstrap.BootstrapEditText
-		android:id="@+id/edit_password"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="-2dp"
-        android:hint="@string/password"
-        android:singleLine="true"
-        android:inputType="textPassword"
-		/>
 
 	<com.beardedhen.androidbootstrap.BootstrapButton
 		android:id="@+id/btn_register"

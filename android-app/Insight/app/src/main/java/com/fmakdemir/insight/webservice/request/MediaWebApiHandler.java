@@ -19,12 +19,29 @@ import java.util.List;
  */
 public class MediaWebApiHandler extends BaseWebApiHandler {
 	private static final String URL_BASE = DataHolder.getServerUrl();
-	private static final String URL_REGISTER_INSIGHT = URL_BASE+"/insight/sound";
+	private static final String URL_DOWNLOAD_SOUND = URL_BASE+"/insight/sound";
 
 
-	public static void downloadAudio(String insightId,
+	public static void downloadSound(String insightId,
 									   WebApiCallback<BaseResponse> callback) {
-		HttpPost req = new HttpPost(URL_REGISTER_INSIGHT);
+		HttpPost req = new HttpPost(URL_DOWNLOAD_SOUND);
+		String username = Helper.getUsername();
+
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		nameValuePairs.add(new BasicNameValuePair("insight_id", insightId));
+		nameValuePairs.add(new BasicNameValuePair("username", username));
+
+		try {
+			req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		connect(req, callback, BaseResponse.class);
+	}
+
+	public static void downloadImage(String insightId,
+									 WebApiCallback<BaseResponse> callback) {
+		HttpPost req = new HttpPost(URL_DOWNLOAD_SOUND);
 		String username = Helper.getUsername();
 
 		List<NameValuePair> nameValuePairs = new ArrayList<>();

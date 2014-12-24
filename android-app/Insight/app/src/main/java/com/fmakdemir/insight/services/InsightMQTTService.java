@@ -397,6 +397,8 @@ public class InsightMQTTService extends Service implements MqttSimpleCallback
 		broadcastIntent.putExtra(MQTT_MSG_RECEIVED_TOPIC, topic);
 		broadcastIntent.putExtra(MQTT_MSG_RECEIVED_MSG,   message);
 		sendBroadcast(broadcastIntent);
+
+		DataHolder.addServerMessage(topic, message);
 	}
 
 	// methods used to notify the user of what has happened for times when

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 	public static final String EXT_INSIGHT_IID = "MainAct.ext_insight_iid";
 
-	private BootstrapButton btnGetImg;
+	private BootstrapButton btnGetImg, btnGetSnd;
 
 	String insightIid;
 
@@ -42,9 +43,10 @@ public class MainActivity extends Activity {
 		Helper.setContext(getApplicationContext());
 
 		insightIid = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_IID);
+		((BootstrapEditText) findViewById(R.id.edit_title_insight)).setText(insightIid);
 
 		btnGetImg = (BootstrapButton) findViewById(R.id.btn_get_img);
-//		edtQRString = (BootstrapEditText) findViewById(R.id.edt_qr_str);
+		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_get_snd);
     }
 
 
@@ -77,23 +79,23 @@ public class MainActivity extends Activity {
 	}
 
 	public void onBtnClick(View v) {
-		Intent intent;
+		String username = Helper.getUsername();
 		switch (v.getId()) {
 			case R.id.btn_get_img:
 				btnGetImg.setEnabled(false);
-				String username = Helper.getUsername();
 				new AsyncImageGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_show_img:
 				startActivity(new Intent(this, ImageTestActivity.class));
 				break;
-/*			case R.id.btn_make_qr:
-				intent = new Intent(this, ImageTestActivity.class);
-				intent.putExtra(ImageTestActivity.EXT_MAKE_QR, true);
-				intent.putExtra(ImageTestActivity.EXT_QR_STR, edtQRString.getText().toString());
-				startActivity(intent);
+			case R.id.btn_get_snd:
+				btnGetSnd.setEnabled(false);
+				new AsyncSoundGetter(insightIid, username).execute();
 				break;
-*/			case R.id.btn_wifi_setup:
+			case R.id.btn_play_snd:
+				Helper.playSound("testsnd.mp3");
+				break;
+			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
 		}
@@ -157,6 +159,71 @@ public class MainActivity extends Activity {
 			if (errMsg.equals("")) {
 				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
 				ToastIt("Got image!\n" + errMsg);
+			} else {
+				Log.e(this.getClass().getSimpleName(), errMsg);
+			}
+
+		}
+	}
+
+	public class AsyncSoundGetter extends AsyncTask<Void, Void, String> {
+		private ArrayList<NameValuePair> mData = new ArrayList<>();
+
+		/**
+		 * constructor
+		 */
+		public AsyncSoundGetter(String insightId, String username) {
+			// add data to post data
+
+			mData.add(new BasicNameValuePair("insight_id", insightId));
+			mData.add(new BasicNameValuePair("username", username));
+		}
+
+		/**
+		 * background
+		 */
+		@Override
+		protected String doInBackground(Void... voids) {
+			String errMsg = "";
+			HttpClient client = DataHolder.getHttpClient();
+			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/sound");
+
+			try {
+
+				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
+
+				HttpResponse response = client.execute(post);
+
+				StatusLine statusLine = response.getStatusLine();
+				int statusCode = statusLine.getStatusCode();
+				if(statusCode == HttpURLConnection.HTTP_OK) {
+					HttpEntity entity = response.getEntity();
+					Helper.storeSound(entity.getContent(), "testsnd.mp3");
+					return errMsg;
+				} else {
+					throw new IOException("Download failed, HTTP response code "
+							+ statusCode + " - " + statusLine.getReasonPhrase());
+				}
+
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
+			}
+			return errMsg;
+		}
+
+		/**
+		 * on getting result
+		 */
+		@Override
+		protected void onPostExecute(String errMsg) {
+
+			btnGetSnd.setEnabled(true);
+
+			if (errMsg.equals("")) {
+				ToastIt("Got Sound!\n" + errMsg);
+				Helper.playSound("testsnd.mp3");
 			} else {
 				Log.e(this.getClass().getSimpleName(), errMsg);
 			}

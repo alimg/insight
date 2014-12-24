@@ -24,7 +24,6 @@ public class LoginService {
 
 
     public static LoginService getInstance(Context context) {
-
         return new LoginService(context);
     }
 
