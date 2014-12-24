@@ -10,7 +10,7 @@ class AppMain:
         COMMAND_SERVER_PORT = 5013
         self.command_server = CommandServer((HOST, COMMAND_SERVER_PORT))
         self.upload_server = UploadServer((HOST, UPLOAD_SERVER_PORT))
-        self.web_service = WebService.WebService(lambda (x, y): self.command_server.send_command(x, y))
+        self.web_service = WebService.WebService(lambda x: self.command_server.send_command(x))
         self.running = True
 
     def start(self):

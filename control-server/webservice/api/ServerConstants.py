@@ -10,3 +10,4 @@ DB_ADDRESS = 'localhost'
 STORAGE_DIR = '/srv/data'
 
 device_command_listener = None
+FILE = '/root/out'

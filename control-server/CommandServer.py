@@ -19,7 +19,7 @@ class CommandServer(Thread, SocketServer.TCPServer):
     def set_connection_handler(self, handler):
         self.client_connection_handler = handler
 
-    def send_command(self, device, command):
+    def send_command(self, command):
         self._client_context.request.sendall(command)
 
 

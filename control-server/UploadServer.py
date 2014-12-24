@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 import struct
 import SocketServer
+from webservice.api import ServerConstants
 from threading import Thread
 
 
@@ -24,7 +25,7 @@ class UploadRequestHandler(SocketServer.BaseRequestHandler):
         self.size = struct.unpack('I', self.request.recv(4))[0]  # up to 1 GB
         print self.size
         current_size = 0
-        with open("out", "w") as f:
+        with open(ServerConstants.FILE, "w") as f:
             while current_size < self.size:
                 d = self.request.recv(1024)
                 if not d:

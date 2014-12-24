@@ -11,6 +11,7 @@ db = MySQLdb.connect(host=ServerConstants.DB_ADDRESS,
                      passwd=ServerConstants.DB_PASSWORD,
                      db=ServerConstants.DB_NAME)
 
+#### Need to fetch all results before using same connection
 
 class Login(restful.Resource):
 

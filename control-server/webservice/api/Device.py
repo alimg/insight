@@ -22,15 +22,17 @@ db = MySQLdb.connect(host=ServerConstants.DB_ADDRESS,
 class RegisterInsight(restful.Resource):
 
     def post(self):
-        iid = request.form['insight_iid']
-        email = request.form['insight_email']
+        iid = request.form['insight_id']
+        uname = request.form['username']
         #in_pass = request.form['insight_pass']
         #password = DBUtil.hash_string(in_id +'|'+ in_pass)
-
+        print iid, uname
         cursor = db.cursor()
-        cursor.execute('SELECT id, email FROM users WHERE email=\'{}\''.format(email))
-
+        cursor.execute('SELECT id FROM users WHERE name=\'{}\''.format(uname))
+        print cursor
         user = cursor.fetchone()
+        if user is None or len(user) == 0:
+            return {'status': ServerConstants.STATUS_ERROR}
 
         cursor = db.cursor()
         sql = 'INSERT INTO `device` (`id`, `userid`) ' \
@@ -44,59 +46,30 @@ class RegisterInsight(restful.Resource):
 
 class PullImage(restful.Resource):
     def post(self):
-        iid = request.form['insight_iid']
-        email = request.form['insight_email']
-#		iid="TEST_INSIGHT"
-#		email="mail@mail.com"
-
-        img = Image.new("RGB", (512, 512), "white")
-        draw = ImageDraw.Draw(img)
-        # font = ImageFont.truetype(<font-file>, <font-size>)
-        font = ImageFont.truetype("/root/insight/control-server/webservice/api/sans-serif.ttf", 48)
-        # draw.text((x, y),"Sample Text",(r,g,b))
-        draw.text((0,   0), "iid: "+iid, (0, 0, 0), font=font)
-        draw.text((0, 128), "email: "+email, (0, 0, 0), font=font)
-        output = StringIO()
-        img.save(output, 'PNG')
-        output.seek(0)
-        return send_file(output, mimetype='image/png')
+#        iid = request.form['insight_id']
+ #       uid = request.form['username']
+        act = request.form['act']
+        print act
+        if act == 'take':
+            f=ServerConstants.device_command_listener
+            f('{"action":"cap_photo"}')
+            return {}
+        else:
+            output = StringIO()
+            img = Image.open(ServerConstants.FILE)
+            img.save(output, 'PNG')
+            output.seek(0)
+            return send_file(output, mimetype='image/png')
 
 
 
 class PullSound(restful.Resource):
     def post(self):
-        buf = StringIO()
-        # read audio
-        return send_file(buf, mimetype='sound/mp3')
-
-"""
-=======
-                     user=ServerConstants.DB_USER,
-                     passwd=ServerConstants.DB_PASSWORD,
-                     db=ServerConstants.DB_NAME)
-
-class List(restful.Resource):
-
-    def post(self):
-        session_token = request.form['session_token']
-        userid = SessionUtil._SESSION[session_token]['user']
-
-        return {'status': '0', 'devices': [{'id': '1001', 'name':'Device 1', 'status':'offline'}]}
-
-class Command(restful.Resource):
-
-    def post(self):
-        session_token = request.form['session_token']
-        userid = SessionUtil._SESSION[session_token]['user']
-        device = request.form['device_id']
-
-        command = request.form['command']
-
-        listener = ServerConstants.device_command_listener
-        if not listener:
-            return {'status': '1'}
-
-        listener(device, command)
-        return {'status': '0'}
->>>>>>> Stashed changes
-"""
+        act = request.form['act']
+        print act
+        if act == 'take':
+            f=ServerConstants.device_command_listener
+            f('{"action":"cap_audio"}')
+            return {}
+        else:#ServerConstants.FILE
+            return send_file("bell.mp3", mimetype='audio/mp3')

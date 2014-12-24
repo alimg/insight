@@ -13,7 +13,7 @@ class WebService:
         self.app = Flask(__name__)
         self.app.debug = True
         self.device_command_listener = device_command_listener
-        ServerConstants.device_command_listener = lambda (x, y): device_command_listener(x, y)
+        ServerConstants.device_command_listener = lambda x: device_command_listener(x)
         api = restful.Api(self.app)
 
         api.add_resource(User.Login, '/login')
@@ -21,8 +21,9 @@ class WebService:
         api.add_resource(Device.RegisterInsight, '/register_insight')
         api.add_resource(Device.PullImage, '/insight/image')
         api.add_resource(Device.PullSound, '/insight/sound')
-
-    def run(self):
+        api.add_resource(User.ListInsight, '/insight_list')
+#        api.add_resource(CommandHandler, '/insight/send_command')
+    def start(self):
         self.app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
 
 
