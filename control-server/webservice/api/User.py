@@ -62,9 +62,8 @@ class ListInsight(restful.Resource):
                 if user is None or len(user) < 1:
                     return {'status': ServerConstants.STATUS_ERROR, 'message': 'user not found'}
 
-                cursor = db.cursor()
                 sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
                 print sql
                 cursor.execute(sql)
+                return {'status': '0', 'insight_list': cursor.fetchall()}
 
-        return {'status': '0', 'insight_list': cursor.fetchall()}
