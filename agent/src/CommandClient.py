@@ -1,6 +1,7 @@
 import socket
 import time
 import DaemonThread
+import json
 
 from ServerConstants import *
 
@@ -26,6 +27,9 @@ class CommandClient(DaemonThread.DaemonThread):
                 continue
             for handler in self.commandHandlers:
                 handler(data)
+
+    def send_message(self, command):
+        self.socket.sendall(json.dumps(command))
 
     def add_command_handler(self, handler):
         self.commandHandlers.append(handler)

@@ -1,5 +1,4 @@
 from threading import Thread
-import json
 import Queue
 from sensors.PIRSensor import PIRSensor
 from sensors import Camera
@@ -21,10 +20,9 @@ class HwController(Thread):
 
     def run(self):
         while self.running:
-            data = self.command_queue.get()
-            if data == self._STOP:
+            command = self.command_queue.get()
+            if command == self._STOP:
                 break
-            command = json.loads(data)
             if command['action'] == "cap_photo":
                 image = self.camera.take_picture()
                 self.camera_event_handler(image)
@@ -33,6 +31,8 @@ class HwController(Thread):
             elif command['action'] == "cap_temperature":
                 temp = self.adc_controller.read_temperature_sensor()
                 print temp
+
+
 
     def process_command(self, command):
         print "processCommand ", command

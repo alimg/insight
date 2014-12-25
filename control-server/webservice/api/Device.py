@@ -8,6 +8,7 @@ from flask import send_file
 from PIL import Image
 
 import ServerConstants
+from CommandServer import DeviceNotOnlineException
 
 
 class RegisterInsight(restful.Resource):
@@ -35,14 +36,16 @@ class RegisterInsight(restful.Resource):
 
 class PullImage(restful.Resource):
     def post(self):
-        # iid = request.form['insight_id']
-        #        uid = request.form['username']
+        iid = request.form['insight_id']
+        #uid = request.form['username']
         act = request.form['act']
         print act
         if act == 'take':
-            f = ServerConstants.device_command_listener
-            f('{"action":"cap_photo"}')
-            return {}
+            try:
+                ServerConstants.device_command_listener(iid, '{"action":"cap_photo"}')
+            except DeviceNotOnlineException:
+                return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
+            return {'status': '0'}
         else:
             output = StringIO()
             img = Image.open(ServerConstants.FILE)
@@ -53,11 +56,14 @@ class PullImage(restful.Resource):
 
 class PullSound(restful.Resource):
     def post(self):
+        iid = request.form['insight_id']
         act = request.form['act']
         print act
         if act == 'take':
-            f = ServerConstants.device_command_listener
-            f('{"action":"cap_audio"}')
-            return {}
+            try:
+                ServerConstants.device_command_listener(iid, '{"action":"cap_audio"}')
+            except DeviceNotOnlineException:
+                return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
+            return {'status': '0'}
         else:  # ServerConstants.FILE
             return send_file("bell.mp3", mimetype='audio/mp3')

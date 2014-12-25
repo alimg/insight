@@ -1,14 +1,18 @@
 from threading import Thread
 import SocketServer
-import socket
+import DeviceConnctionManager
+
+
+class DeviceNotOnlineException(Exception):
+    pass
 
 
 class CommandServer(Thread, SocketServer.TCPServer):
     def __init__(self, address):
         super(CommandServer, self).__init__()
         SocketServer.TCPServer.allow_reuse_address = True
-        SocketServer.TCPServer.__init__(self, address, ClientConnectionHandler)
-        self.client_connection_handler = None
+        SocketServer.TCPServer.__init__(self, address, DeviceConnctionManager)
+        self.client_connection_handler = DeviceConnctionManager.ConnectionHandler()
 
     def run(self):
         self.serve_forever()
@@ -16,11 +20,15 @@ class CommandServer(Thread, SocketServer.TCPServer):
     def stop(self):
         self.shutdown()
 
-    def set_connection_handler(self, handler):
-        self.client_connection_handler = handler
+    def get_connection_handler(self):
+        return self.client_connection_handler
 
-    def send_command(self, command):
-        self._client_context.request.sendall(command)
+    def send_command(self, device, command):
+        ip = self.client_connection_handler.get_device_ip(device)
+        if ip:
+            self.client_connection_handler.get_device_context(ip).send_command(command)
+        else:
+            raise DeviceNotOnlineException("Device %s is not online" % device)
 
 
 class ClientConnectionHandler(SocketServer.BaseRequestHandler):
@@ -34,7 +42,6 @@ class ClientConnectionHandler(SocketServer.BaseRequestHandler):
 
     def handle(self):
         self.server.client_connection_handler.on_connected(self, self.client_address)
-        self.server._client_context = self
         while self.running:
             data = self.request.recv(1024)
             if not data:

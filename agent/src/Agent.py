@@ -1,6 +1,7 @@
 import UploadService, HwController, CommandClient, AgentConfig
 from setup import SetupWorker
 from setup import WifiUtil
+import json
 
 
 class Agent:
@@ -42,5 +43,9 @@ class Agent:
             self.hwController.join(1000)
             self.commandClient.join(1000)
 
-    def process_command(self, command):
-        self.hwController.process_command(command)
+    def process_command(self, data):
+        command = json.loads(data)
+        if command["action"] == 'get_device_id':
+            self.commandClient.send_message({"action": "device_id", "value": self.agentConfig.get_device_id()})
+        else:
+            self.hwController.process_command(command)

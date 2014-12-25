@@ -1,6 +1,7 @@
 STATUS_SUCCESS = '0'
 STATUS_ERROR = '1'
 STATUS_ALREADY_EXISTS = '2'
+STATUS_DEVICE_OFFLINE = '3'
 
 DB_NAME = 'insight'
 DB_USER = 'root'
@@ -20,3 +21,4 @@ dbconfig = {
 }
 
 mysql_pool = None
+
