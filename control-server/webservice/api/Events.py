@@ -6,10 +6,6 @@ import DBUtil
 import ServerConstants
 import SessionUtil
 
-db = MySQLdb.connect(host=ServerConstants.DB_ADDRESS,
-                     user=ServerConstants.DB_USER,
-                     passwd=ServerConstants.DB_PASSWORD,
-                     db=ServerConstants.DB_NAME)
 
 class List(restful.Resource):
 

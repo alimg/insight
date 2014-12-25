@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -38,9 +39,9 @@ public class BaseWebApiHandler {
                         }
                     });
                     return;
-                } catch (IOException e) {
+                } catch (JsonParseException e) {
                     e.printStackTrace();
-                } catch (IllegalStateException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
