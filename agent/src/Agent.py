@@ -24,7 +24,7 @@ class Agent:
             worker = SetupWorker.SetupWorker(self.agentConfig)
             worker.start_setup()
 
-        self.commandClient.add_command_handler(lambda command: self.hwController.process_command(command))
+        self.commandClient.add_command_handler(lambda command: self.process_command(command))
 
         self.commandClient.start()
         self.hwController.start()
@@ -41,3 +41,6 @@ class Agent:
             self.uploadService.join(1000)
             self.hwController.join(1000)
             self.commandClient.join(1000)
+
+    def process_command(self, command):
+        self.hwController.process_command(command)

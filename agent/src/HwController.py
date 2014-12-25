@@ -35,7 +35,7 @@ class HwController(Thread):
                 print temp
 
     def process_command(self, command):
-        print "proccessCommand ", command
+        print "processCommand ", command
         self.command_queue.put(command)
 
     def stop(self):
