@@ -7,7 +7,6 @@ import ServerConstants
 import SessionUtil
 
 
-
 class Login(restful.Resource):
 
     def post(self):
@@ -61,7 +60,6 @@ class ListInsight(restful.Resource):
                 user = cursor.fetchone()
                 if user is None or len(user) < 1:
                     return {'status': ServerConstants.STATUS_ERROR, 'message': 'user not found'}
-
                 sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
                 print sql
                 cursor.execute(sql)

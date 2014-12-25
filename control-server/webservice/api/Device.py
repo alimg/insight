@@ -1,5 +1,5 @@
-from cStringIO import StringIO
 from contextlib import closing
+from cStringIO import StringIO
 
 from flask.ext import restful
 
@@ -20,17 +20,14 @@ class RegisterInsight(restful.Resource):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
                 cursor.execute('SELECT id FROM users WHERE name=\'{}\''.format(uname))
-                print cursor
                 user = cursor.fetchone()
+                print cursor.fetchall()
                 if user is None or len(user) == 0:
                     return {'status': ServerConstants.STATUS_ERROR}
-
-                cursor = db.cursor()
                 sql = 'INSERT INTO `device` (`id`, `userid`) ' \
                       'VALUES (\'{}\', \'{}\')'.format(iid, user[0])
                 print sql
                 cursor.execute(sql)
-
                 db.commit()
 
         return {'status': '0'}
