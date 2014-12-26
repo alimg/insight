@@ -9,11 +9,12 @@ from ServerConstants import *
 class CommandClient(DaemonThread.DaemonThread):
     def __init__(self):
         super(CommandClient, self).__init__()
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.commandHandlers = []
         self.running = 1
 
     def _run(self):
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect(NET_SERVER_ADDRESS)
         #self.socket.send("hello")
 
