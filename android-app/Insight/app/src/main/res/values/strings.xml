@@ -22,5 +22,6 @@
     <string name="icon">icon</string>
     <string name="title_activity_photo_list">PhotoListActivity</string>
     <string name="title_activity_sound_list">SoundListActivity</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 
 </resources>

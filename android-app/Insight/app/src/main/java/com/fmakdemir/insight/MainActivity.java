@@ -88,7 +88,12 @@ public class MainActivity extends Activity {
 				new AsyncImageRequester(insightIid, username).execute();
 				break;
 			case R.id.btn_list_photos:
+<<<<<<< HEAD
 				startActivity(new Intent(this, PhotoListActivity.class));
+=======
+				//startActivity(new Intent(this, PhotoListActivity.class));
+                startActivity(new Intent(this, WebViewActivity.class));
+>>>>>>> 2a955c4737fc708806398396a70b3d2463a3521c
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_get_snd:
@@ -96,7 +101,8 @@ public class MainActivity extends Activity {
 				new AsyncSoundRequester(insightIid, username).execute();
 				break;
 			case R.id.btn_play_snd:
-				startActivity(new Intent(this, SoundListActivity.class));
+				//startActivity(new Intent(this, SoundListActivity.class));
+                startActivity(new Intent(this, WebViewActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_wifi_setup:
