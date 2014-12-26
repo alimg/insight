@@ -25,11 +25,11 @@ class WebService:
         api = restful.Api(self.app)
 
         api.add_resource(User.Login, '/login')
-#        api.add_resource(User.RegisterUser, '/register')
- #       api.add_resource(Device.RegisterInsight, '/register_insight')
-  #      api.add_resource(Device.PullImage, '/insight/image')
-   #     api.add_resource(Device.PullSound, '/insight/sound')
-    #    api.add_resource(User.ListInsight, '/insight_list')
+        api.add_resource(User.RegisterUser, '/register')
+        api.add_resource(Device.RegisterInsight, '/register_insight')
+        api.add_resource(Device.PullImage, '/insight/image')
+        api.add_resource(Device.PullSound, '/insight/sound')
+        api.add_resource(User.ListInsight, '/insight_list')
         api.add_resource(HelloWorld, '/') # to check if site is up
 
 #        api.add_resource(CommandHandler, '/insight/send_command')
