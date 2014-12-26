@@ -56,6 +56,6 @@ class AppMain:
                 event_id = cursor.lastrowid
                 db.commit()
 
-                publish.single("/insight/android", file_name, hostname="iot.eclipse.org")
+                publish.single("/insight/android", str(file_name), hostname="iot.eclipse.org")
 
 
