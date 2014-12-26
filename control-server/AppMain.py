@@ -44,7 +44,7 @@ class AppMain:
                     user_id = rows[0]
 
                 sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`) ' \
-                      'VALUES (NULL, \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],
+                      'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],
                                                                                              user_id,
                                                                                              meta_data["date"],
                                                                                              meta_data["type"],
