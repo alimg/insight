@@ -28,4 +28,4 @@ class AgentConfig():
             self.config.write(configfile)
 
     def get_device_id(self):
-        return self.device_conf.getint("Device", "id")
+        return self.device_conf.get("Device", "id")

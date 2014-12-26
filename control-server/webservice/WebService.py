@@ -13,7 +13,7 @@ class WebService:
         self.app = Flask(__name__)
         self.app.debug = True
         self.device_command_listener = device_command_listener
-        ServerConstants.device_command_listener = lambda x: device_command_listener(x)
+        ServerConstants.device_command_listener = lambda x, y: device_command_listener(x, y)
         api = restful.Api(self.app)
 
         api.add_resource(User.Login, '/login')

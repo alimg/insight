@@ -39,7 +39,7 @@ class PullImage(restful.Resource):
         iid = request.form['insight_id']
         #uid = request.form['username']
         act = request.form['act']
-        print act
+        print act, iid
         if act == 'take':
             try:
                 ServerConstants.device_command_listener(iid, '{"action":"cap_photo"}')
@@ -51,7 +51,7 @@ class PullImage(restful.Resource):
             img = Image.open(ServerConstants.FILE)
             img.save(output, 'PNG')
             output.seek(0)
-            return send_file(output, mimetype='image/png')
+            return send_file(output, mimetype='image/jpeg')
 
 
 class PullSound(restful.Resource):

@@ -8,15 +8,15 @@ class Agent:
     def __init__(self, args):
         self.args = args
         self.agentConfig = AgentConfig.AgentConfig()
+        self.agentConfig.load_config()
         self.hwController = HwController.HwController(
             camera_event_handler=lambda event: self.uploadService.upload_photo(event),
             audio_event_handler=lambda event: self.uploadService.upload_audio(event))
         self.commandClient = CommandClient.CommandClient()
-        self.uploadService = UploadService.UploadService()
+        self.uploadService = UploadService.UploadService(self.agentConfig.get_device_id())
         self.running = True
 
     def run(self):
-        self.agentConfig.load_config()
         user_conf = self.agentConfig.get_user_conf()
         local_ip = WifiUtil.get_wlan0_ip()
         print "Local IP: ", local_ip

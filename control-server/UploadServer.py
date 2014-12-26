@@ -22,6 +22,12 @@ class UploadServer(Thread):
 class UploadRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         # self.request is the TCP socket connected to the client
+
+
+        header_size = struct.unpack('I', self.request.recv(4))[0]
+        header = struct.unpack('%ds'% (header_size), self.request.recv(header_size))[0]
+        print header
+
         self.size = struct.unpack('I', self.request.recv(4))[0]  # up to 1 GB
         print self.size
         current_size = 0

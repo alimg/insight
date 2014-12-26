@@ -41,7 +41,7 @@ public class WifiSetupActivity extends Activity {
 		//Encode with a QR Code image
 		BootstrapEditText editWifiPass = (BootstrapEditText) findViewById(R.id.edit_wifi_pass);
 
-		String qrStr = editWifiName.getText().toString()+"\n"+editWifiPass.getText().toString();
+		String qrStr = editWifiName.getText().toString()+"\n"+editWifiPass.getText().toString()+"\nwep\ntest";
 
 		QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(qrStr,
 				null,

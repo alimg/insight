@@ -10,8 +10,9 @@ class DeviceNotOnlineException(Exception):
 class CommandServer(Thread, SocketServer.TCPServer):
     def __init__(self, address):
         super(CommandServer, self).__init__()
+        self.daemon = True
         SocketServer.TCPServer.allow_reuse_address = True
-        SocketServer.TCPServer.__init__(self, address, DeviceConnctionManager)
+        SocketServer.TCPServer.__init__(self, address, ClientConnectionHandler)
         self.client_connection_handler = DeviceConnctionManager.ConnectionHandler()
 
     def run(self):
@@ -24,9 +25,10 @@ class CommandServer(Thread, SocketServer.TCPServer):
         return self.client_connection_handler
 
     def send_command(self, device, command):
+        print "Send command ", device, " ", command
         ip = self.client_connection_handler.get_device_ip(device)
         if ip:
-            self.client_connection_handler.get_device_context(ip).send_command(command)
+            self.client_connection_handler.get_device_context(ip).send_message(command)
         else:
             raise DeviceNotOnlineException("Device %s is not online" % device)
 
@@ -50,7 +52,7 @@ class ClientConnectionHandler(SocketServer.BaseRequestHandler):
         self.server.client_connection_handler.on_disconnected(self.client_address)
         self.request.close()
 
-    def send_command(self, data):
+    def send_message(self, data):
         self.request.sendall(data)
 
     def finish(self):
