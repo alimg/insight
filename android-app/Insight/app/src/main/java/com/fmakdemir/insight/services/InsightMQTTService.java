@@ -454,6 +454,7 @@ public class InsightMQTTService extends Service implements MqttSimpleCallback
 			// Moves the big view style object into the notification object.
 			mBuilder.setStyle(inboxStyle);
 			mBuilder.setNumber(events.size());
+
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

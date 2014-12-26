@@ -40,6 +40,16 @@
 
 			bb:bb_type="primary"
 			bb:bb_icon_left="fa-file-image-o"
+			/>
+
+		<com.beardedhen.androidbootstrap.BootstrapButton
+			android:id="@+id/btn_get_img"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Get"
+			android:onClick="onBtnClick"
+
+			bb:bb_type="info"
 			bb:bb_icon_right="fa-download"
 			/>
 

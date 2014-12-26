@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="btn_req_photo">Request Photo</string>
+	<string name="btn_req_photo">Request</string>
 	<string name="btn_list_photos">List Photos</string>
 
-	<string name="btn_req_sound">Request Sound</string>
+	<string name="btn_req_sound">Request</string>
 	<string name="btn_list_sounds">List Sound</string>
 
 	<string name="btn_scan_qr">Insight from QR</string>
