@@ -84,4 +84,4 @@ class PullSound(restful.Resource):
             return {'status': '0'}
         else:  # ServerConstants.FILE
             event = get_latest_event(iid, 'ogg')
-            return send_file("bell.mp3", mimetype='audio/mp3')
+            return send_file(ServerConstants.STORAGE_DIR+event[1], mimetype='audio/ogg')
