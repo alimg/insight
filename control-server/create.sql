@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `userid` int NOT NULL,
   `date` DATETIME,
   `type` varchar(32),
+  `filename` varchar(128) NOT NULL,
   `data` varchar(256)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

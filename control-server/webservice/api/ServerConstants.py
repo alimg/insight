@@ -8,7 +8,7 @@ DB_USER = 'root'
 DB_PASSWORD = 'root'
 DB_ADDRESS = 'localhost'
 
-STORAGE_DIR = '/srv/data'
+STORAGE_DIR = '/root/data/'
 
 device_command_listener = None
 FILE = '/root/out'
