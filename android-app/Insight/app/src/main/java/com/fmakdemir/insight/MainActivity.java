@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 	public static final String EXT_INSIGHT_IID = "MainAct.ext_insight_iid";
 
-	private BootstrapButton btnGetImg, btnGetSnd;
+	private BootstrapButton btnTakeImg, btnGetSnd;
 
 	String insightIid;
 
@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 		insightIid = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_IID);
 		((BootstrapEditText) findViewById(R.id.edit_title_insight)).setText(insightIid);
 
-		btnGetImg = (BootstrapButton) findViewById(R.id.btn_get_img);
+		btnTakeImg = (BootstrapButton) findViewById(R.id.btn_take_img);
 		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_get_snd);
 
     }
@@ -83,17 +83,17 @@ public class MainActivity extends Activity {
 	public void onBtnClick(View v) {
 		String username = Helper.getUsername();
 		switch (v.getId()) {
-			case R.id.btn_get_img:
-				btnGetImg.setEnabled(false);
-				new AsyncImageGetter(insightIid, username).execute();
+			case R.id.btn_take_img:
+				btnTakeImg.setEnabled(false);
+				new AsyncImageRequester(insightIid, username).execute();
 				break;
 			case R.id.btn_list_photos:
-				startActivity(new Intent(this, PhotoListActivity.class));
-				overridePendingTransition(R.anim.open_next, R.anim.close_main);
+//				startActivity(new Intent(this, PhotoListActivity.class));
+//				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_get_snd:
 				btnGetSnd.setEnabled(false);
-				new AsyncSoundGetter(insightIid, username).execute();
+				new AsyncSoundRequester(insightIid, username).execute();
 				break;
 			case R.id.btn_play_snd:
 				startActivity(new Intent(this, SoundListActivity.class));
@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(String errMsg) {
 
-			btnGetImg.setEnabled(true);
+			btnTakeImg.setEnabled(true);
 
 			if (errMsg.equals("")) {
 				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
@@ -222,7 +222,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(String errMsg) {
 
-			btnGetImg.setEnabled(true);
+			btnTakeImg.setEnabled(true);
 
 			if (errMsg.equals("")) {
 				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
