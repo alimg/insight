@@ -15,6 +15,7 @@ import java.util.List;
 public class DeviceWebApiHandler extends BaseWebApiHandler {
     private static final String URL_BASE = DataHolder.getServerUrl();
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
+	private static final String URL_LIST_INSIGHT = URL_BASE+"/list_insight";
 
 
     public static void registerInsight(String username, String insightId,
@@ -33,4 +34,17 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
         connect(req, callback, BaseResponse.class);
     }
 
+	public static void listInsight(String email, WebApiCallback<BaseResponse> callback) {
+		HttpPost req = new HttpPost(URL_REGISTER_INSIGHT);
+
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		nameValuePairs.add(new BasicNameValuePair("email", email));
+
+		try {
+			req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		connect(req, callback, BaseResponse.class);
+	}
 }

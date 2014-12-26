@@ -28,7 +28,7 @@ public class DataHolder {
 	public static final String TEST_SND = "testsnd.mp3";
 
 	private static HttpClient httpClient;
-	final private static String serverHostname = "128.199.52.88:5000";
+	final private static String serverHostname = "192.168.2.6:5000";//"128.199.52.88:5000";
 	final private static String serverProtocol = "http://";
 
 	private static Context C;

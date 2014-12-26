@@ -14,6 +14,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
+import com.fmakdemir.insight.utils.MediaStorageHelper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,6 +48,7 @@ public class MainActivity extends Activity {
 
 		btnGetImg = (BootstrapButton) findViewById(R.id.btn_get_img);
 		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_get_snd);
+
     }
 
 
@@ -85,7 +87,7 @@ public class MainActivity extends Activity {
 				btnGetImg.setEnabled(false);
 				new AsyncImageGetter(insightIid, username).execute();
 				break;
-			case R.id.btn_show_img:
+			case R.id.btn_list_photos:
 				startActivity(new Intent(this, ImageTestActivity.class));
 				break;
 			case R.id.btn_get_snd:
@@ -93,7 +95,7 @@ public class MainActivity extends Activity {
 				new AsyncSoundGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_play_snd:
-				Helper.playSound(DataHolder.TEST_SND);
+				MediaStorageHelper.playSound(DataHolder.TEST_SND);
 				break;
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
@@ -141,7 +143,7 @@ public class MainActivity extends Activity {
 				int statusCode = statusLine.getStatusCode();
 				if(statusCode == HttpURLConnection.HTTP_OK) {
 					HttpEntity entity = response.getEntity();
-					Helper.storeImage(entity.getContent(), "testimg.png");
+					MediaStorageHelper.storePhoto(entity.getContent());
 					return errMsg;
 				} else {
 					throw new IOException("Download failed, HTTP response code "
@@ -212,8 +214,8 @@ public class MainActivity extends Activity {
 				int statusCode = statusLine.getStatusCode();
 				if(statusCode == HttpURLConnection.HTTP_OK) {
 					HttpEntity entity = response.getEntity();
-					Helper.storeSound(entity.getContent(), DataHolder.TEST_SND);
-					Helper.playSound(DataHolder.TEST_SND);
+					MediaStorageHelper.storeSound(entity.getContent());
+					MediaStorageHelper.playSound(DataHolder.TEST_SND);
 					return errMsg;
 				} else {
 					throw new IOException("Download failed, HTTP response code "

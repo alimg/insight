@@ -35,7 +35,7 @@
 			android:id="@+id/btn_get_img"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/btn_get_img"
+			android:text="@string/btn_req_photo"
 			android:onClick="onBtnClick"
 
 			bb:bb_type="primary"
@@ -44,10 +44,10 @@
 			/>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:id="@+id/btn_show_img"
+			android:id="@+id/btn_list_photos"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/btn_show_img"
+			android:text="@string/btn_list_photos"
 			android:onClick="onBtnClick"
 
 			bb:bb_type="success"
@@ -65,7 +65,7 @@
 			android:id="@+id/btn_get_snd"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Get Sound"
+			android:text="@string/btn_req_sound"
 			android:onClick="onBtnClick"
 
 			bb:bb_type="primary"
@@ -77,7 +77,7 @@
 			android:id="@+id/btn_play_snd"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Play Sound"
+			android:text="@string/btn_list_sounds"
 			android:onClick="onBtnClick"
 
 			bb:bb_type="success"

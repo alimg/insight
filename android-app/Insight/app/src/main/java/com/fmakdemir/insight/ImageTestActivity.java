@@ -1,54 +1,28 @@
 package com.fmakdemir.insight;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.fmakdemir.insight.ZXingQRGenerator.Contents;
-import com.fmakdemir.insight.ZXingQRGenerator.QRCodeEncoder;
-import com.fmakdemir.insight.utils.Helper;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
+import com.fmakdemir.insight.utils.MediaStorageHelper;
 
 import java.io.IOException;
 
 
 public class ImageTestActivity extends Activity {
 
-	public static final String EXT_MAKE_QR = "ImageTestActivity_ExtMakeQR";
-	public static final String EXT_QR_STR = "ImageTestActivity_ExtQRStr";
+	public static final String EXT_IMG_NAME = "ImageTestAct.ext_img_name";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_test);
 
+		String imageName = getIntent().getStringExtra(EXT_IMG_NAME);
 		try {
-			if (getIntent().getBooleanExtra(EXT_MAKE_QR, false)) {
-				//Encode with a QR Code image
-				String qrStr = getIntent().getStringExtra(EXT_QR_STR);
-				if (qrStr == null || qrStr.equals("")) {
-					qrStr = "test qr string";
-				}
-				QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(qrStr,
-						null,
-						Contents.Type.TEXT,
-						BarcodeFormat.QR_CODE.toString(),
-						512);
-				try {
-					Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
-					ImageView myImage = (ImageView) findViewById(R.id.img_view);
-					myImage.setImageBitmap(bitmap);
-
-				} catch (WriterException e) {
-					e.printStackTrace();
-				}
-			} else {
-				((ImageView) findViewById(R.id.img_view)).setImageDrawable(Helper.retrieveImage("testimg.png"));
-			}
+			((ImageView) findViewById(R.id.img_view)).setImageDrawable(MediaStorageHelper.retrievePhoto(imageName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

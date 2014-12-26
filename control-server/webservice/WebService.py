@@ -9,8 +9,12 @@ from threading import Thread
 
 class HelloWorld(restful.Resource):
 
-    def post(self):
+    def get(self):
         return {'test': 'Hello World!'}
+
+    def post(self):
+        return self.get
+
 
 class WebService:
     def __init__(self, device_command_listener):

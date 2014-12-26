@@ -15,21 +15,24 @@ class RegisterInsight(restful.Resource):
     def post(self):
         iid = request.form['insight_id']
         uname = request.form['username']
-        # in_pass = request.form['insight_pass']
-        #password = DBUtil.hash_string(in_id +'|'+ in_pass)
-        print iid, uname
+        print "RegIns:", iid, uname
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
-            with closing(db.cursor()) as cursor:
+            with closing(db.cursor(buffered=True)) as cursor:
                 cursor.execute('SELECT id FROM users WHERE name=\'{}\''.format(uname))
-                user = cursor.fetchone()
-                print cursor.fetchall()
-                if user is None or len(user) == 0:
+                if cursor.rowcount != 1:
                     return {'status': ServerConstants.STATUS_ERROR}
-                sql = 'INSERT INTO `device` (`id`, `userid`) ' \
-                      'VALUES (\'{}\', \'{}\')'.format(iid, user[0])
+                user = cursor.fetchone()
+
+                cursor.execute("INSERT INTO `insight`.`devices` (`id`, `name`, `last_response`) VALUES (NULL, '{}', CURRENT_TIMESTAMP);".format(iid))
+                db.commit()
+
+                cursor.execute("SELECT id FROM `devices` WHERE name='{}'".format(iid))
+                insight = cursor.fetchone();
+                cursor.fetchall()
+                sql = 'INSERT INTO `registered_devices` (`device_id`, `user_id`) ' \
+                      'VALUES (\'{}\', \'{}\')'.format(insight[0], user[0])
                 print sql
                 cursor.execute(sql)
-                db.commit()
 
         return {'status': '0'}
 
@@ -37,7 +40,6 @@ class RegisterInsight(restful.Resource):
 class PullImage(restful.Resource):
     def post(self):
         iid = request.form['insight_id']
-        #uid = request.form['username']
         act = request.form['act']
         print act, iid
         if act == 'take':

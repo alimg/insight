@@ -12,6 +12,7 @@ class Login(restful.Resource):
     def post(self):
         name = request.form['name']
         password = request.form['password']
+        print (name, password)
         password = DBUtil.hash_string(name + password)
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
@@ -54,14 +55,14 @@ class ListInsight(restful.Resource):
 
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                sql = "SELECT DISTINCT(id) FROM `users` WHERE email='{}'".format(email)
+                sql = "SELECT D.name FROM registered_devices JOIN devices as D, users as U WHERE U.email='{}'".format(email)
                 print sql
                 cursor.execute(sql)
-                user = cursor.fetchone()
-                if user is None or len(user) < 1:
-                    return {'status': ServerConstants.STATUS_ERROR, 'message': 'user not found'}
-                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
-                print sql
-                cursor.execute(sql)
+#                user = cursor.fetchone()
+#                if user is None or len(user) < 1:
+#                    return {'status': ServerConstants.STATUS_ERROR, 'message': 'user not found'}
+#                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
+#                print sql
+#                cursor.execute(sql)
                 return {'status': '0', 'insight_list': cursor.fetchall()}
 

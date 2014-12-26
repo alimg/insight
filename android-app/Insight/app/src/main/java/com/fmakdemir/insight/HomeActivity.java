@@ -21,6 +21,10 @@ import com.fmakdemir.insight.utils.AudioAsynctask;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
+import com.fmakdemir.insight.webservice.WebApiConstants;
+import com.fmakdemir.insight.webservice.model.BaseResponse;
+import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
+import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,13 +51,13 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+/*		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 		Log.i(getClass().getSimpleName(), "Device ID: "+mDeviceID);
 		Intent mMQTTServiceIntent = new Intent(this, InsightMQTTService.class);
 		mMQTTServiceIntent.setData(Uri.parse(mDeviceID));
 		// Starts the IntentService
 		startService(mMQTTServiceIntent);
-
+*/
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
 
 		ArrayList<String> strList = new ArrayList<>();
@@ -80,7 +84,25 @@ public class HomeActivity extends Activity {
 
 		});
 
-		new AsyncInsightListGetter(Helper.getEmail()).execute();
+
+/*		DeviceWebApiHandler.listInsight(Helper.getEmail(), new WebApiCallback<BaseResponse>() {
+					@Override
+					public void onSuccess(BaseResponse data) {
+						if (data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
+							Helper.toastIt("Listing InSights");
+						} else {
+							Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
+						}
+
+					}
+
+					@Override
+					public void onError(String cause) {
+						Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
+					}
+				}
+		);*/
+//		new AsyncInsightListGetter(Helper.getEmail()).execute();
     }
 
 	public void btnClicked(View v) {
@@ -150,7 +172,6 @@ public class HomeActivity extends Activity {
 				StatusLine statusLine = response.getStatusLine();
 				int statusCode = statusLine.getStatusCode();
 				if(statusCode == HttpURLConnection.HTTP_OK) {
-					HttpEntity entity = response.getEntity();
 					byte[] resEnt = EntityUtils.toByteArray(response.getEntity());
 					result = new String(resEnt, "UTF-8");
 					return result;

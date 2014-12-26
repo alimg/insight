@@ -19,5 +19,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_wifi_setup">WifiSetupActivity</string>
     <string name="title_activity_register_insight">RegisterInsightActivity</string>
-	<string name="icon">icon</string>
+    <string name="icon">icon</string>
+    <string name="title_activity_photo_list">PhotoListActivity</string>
+
 </resources>

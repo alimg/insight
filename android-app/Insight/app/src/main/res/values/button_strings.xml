@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="btn_get_img">Get Image</string>
-	<string name="btn_show_img">Show Image</string>
+	<string name="btn_req_photo">Request Photo</string>
+	<string name="btn_list_photos">List Photos</string>
+
+	<string name="btn_req_sound">Request Sound</string>
+	<string name="btn_list_sounds">Play Sound</string>
+
 	<string name="btn_scan_qr">Insight from QR</string>
 	<string name="btn_make_qr">Make QR</string>
 	<string name="btn_generate_qr">Generate QR</string>

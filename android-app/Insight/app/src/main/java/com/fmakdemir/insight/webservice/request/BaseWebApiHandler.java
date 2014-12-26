@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -24,7 +25,7 @@ public class BaseWebApiHandler {
             @Override
             public void run() {
 
-                HttpClient client = new DefaultHttpClient();
+                HttpClient client = DataHolder.getHttpClient();
                 try {
 					Log.i("XXX", request.getURI()+"\n"+request.getParams());
                     HttpResponse response = client.execute(request);
@@ -39,12 +40,10 @@ public class BaseWebApiHandler {
                         }
                     });
                     return;
-                } catch (JsonParseException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JsonParseException | IOException e) {
                     e.printStackTrace();
                 }
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
+				new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         cb.onError("");
