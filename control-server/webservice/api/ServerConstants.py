@@ -8,7 +8,7 @@ DB_USER = 'root'
 DB_PASSWORD = 'root'
 DB_ADDRESS = 'localhost'
 
-STORAGE_DIR = '/root/data/'
+STORAGE_DIR = '/usr/share/nginx/html/data/'
 
 device_command_listener = None
 FILE = '/root/out'
