@@ -36,6 +36,18 @@ class RegisterInsight(restful.Resource):
 
         return {'status': '0'}
 
+def get_latest_event(iid, ftype='jpeg'):
+    with closing(ServerConstants.mysql_pool.get_connection()) as db:
+        with closing(db.cursor(buffered=True)) as cursor:
+#            sql = "SELECT `date`, `filename` FROM `events` WHERE deviceid='{}' AND type='{}'".format(iid, ftype)
+            sql = "SELECT `date`, `filename` FROM `events` WHERE type='{}'".format(ftype)
+            print(sql)
+            cursor.execute(sql)
+            if cursor.rowcount != 1:
+                return {'status': ServerConstants.STATUS_ERROR}
+            event = cursor.fetchone()
+            return event
+
 
 class PullImage(restful.Resource):
     def post(self):
@@ -49,8 +61,10 @@ class PullImage(restful.Resource):
                 return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
             return {'status': '0'}
         else:
+            event = get_latest_event(iid, 'jpeg')
             output = StringIO()
-            img = Image.open(ServerConstants.FILE)
+            print ServerConstants.STORAGE_DIR+event[1]
+            img = Image.open(ServerConstants.STORAGE_DIR+event[1])
             img.save(output, 'PNG')
             output.seek(0)
             return send_file(output, mimetype='image/jpeg')

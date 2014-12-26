@@ -32,7 +32,7 @@ public class WifiSetupActivity extends Activity {
 		WifiManager wifiMgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
 		if (wifiMgr.isWifiEnabled()) {
-			editWifiName.setText(wifiInfo.getSSID());
+			editWifiName.setText(wifiInfo.getBSSID());
 		}
 
 	}

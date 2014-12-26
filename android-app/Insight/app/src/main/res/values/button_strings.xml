@@ -4,7 +4,7 @@
 	<string name="btn_list_photos">List Photos</string>
 
 	<string name="btn_req_sound">Request Sound</string>
-	<string name="btn_list_sounds">Play Sound</string>
+	<string name="btn_list_sounds">List Sound</string>
 
 	<string name="btn_scan_qr">Insight from QR</string>
 	<string name="btn_make_qr">Make QR</string>

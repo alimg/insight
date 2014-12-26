@@ -102,7 +102,7 @@ public class HomeActivity extends Activity {
 					}
 				}
 		);*/
-//		new AsyncInsightListGetter(Helper.getEmail()).execute();
+		new AsyncInsightListGetter(Helper.getEmail()).execute();
     }
 
 	public void btnClicked(View v) {

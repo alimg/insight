@@ -88,14 +88,16 @@ public class MainActivity extends Activity {
 				new AsyncImageGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_list_photos:
-				startActivity(new Intent(this, ImageTestActivity.class));
+				startActivity(new Intent(this, PhotoListActivity.class));
+				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_get_snd:
 				btnGetSnd.setEnabled(false);
 				new AsyncSoundGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_play_snd:
-				MediaStorageHelper.playSound(DataHolder.TEST_SND);
+				startActivity(new Intent(this, SoundListActivity.class));
+				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
@@ -131,7 +133,7 @@ public class MainActivity extends Activity {
 		protected String doInBackground(Void... voids) {
 			String errMsg = "";
 			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
+			HttpPost post = new HttpPost("https://dl.dropboxusercontent.com/u/67816286/test.png");//DataHolder.getServerUrl()+"/insight/image");
 
 			try {
 

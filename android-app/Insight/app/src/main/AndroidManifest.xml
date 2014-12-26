@@ -99,6 +99,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fmakdemir.insight.MainActivity" />
         </activity>
+        <activity
+            android:name=".SoundListActivity"
+            android:label="@string/title_activity_sound_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.fmakdemir.insight.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

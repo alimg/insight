@@ -11,47 +11,33 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
-import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.utils.MediaStorageHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 
 
-public class PhotoListActivity extends Activity {
+public class SoundListActivity extends Activity {
 
 	static InsightListAdapter listAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_photo_list);
+		setContentView(R.layout.activity_sound_list);
+		ListView listView = (ListView) findViewById(R.id.sound_list_view);
 
-		ListView listView = (ListView) findViewById(R.id.photo_list_view);
-
-		listAdapter = new InsightListAdapter(getApplicationContext(), MediaStorageHelper.listPhotos());
+		listAdapter = new InsightListAdapter(getApplicationContext(), MediaStorageHelper.listSounds());
 		listView.setAdapter(listAdapter);
 
 /*		for (String s: this.getFilesDir().list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
-				return filename.endsWith(MediaStorageHelper.PHOTO_EXT);
+				return filename.endsWith(MediaStorageHelper.SOUND_EXT);
 			}
 		})) {
-			Log.i("FS", s);
-			try {
-				InputStream in;
-				in = new FileInputStream(new File(this.getFilesDir(), s).getAbsolutePath());
-				MediaStorageHelper.storePhoto(in);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			listAdapter.add(s);
 		}*/
 
@@ -60,30 +46,21 @@ public class PhotoListActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, final View view,
 									int position, long id) {
 
-				String photoName = listAdapter.getItem(position);
+				String soundName = listAdapter.getItem(position);
 
-				Intent intent = new Intent(PhotoListActivity.this, ImageTestActivity.class);
-				intent.putExtra(ImageTestActivity.EXT_IMG_NAME, photoName);
+				MediaStorageHelper.playSound(soundName);
 
-				Helper.toastIt("Name: " + photoName);
-				startActivity(intent);
-				overridePendingTransition(R.anim.open_next, R.anim.close_main);
+				Helper.toastIt("Name: " + soundName);
 			}
 
 		});
-
 	}
 
-	@Override
-	protected void onDestroy() {
-		overridePendingTransition(R.anim.close_next, R.anim.open_main);
-		super.onDestroy();
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_photo_list, menu);
+		getMenuInflater().inflate(R.menu.menu_sound_list, menu);
 		return true;
 	}
 

@@ -36,7 +36,7 @@ class AppMain:
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
                 user_id = "15"
-                sql = 'SELECT userid FROM device WHERE id=\'{}\''.format(meta_data["device"])
+                sql = 'SELECT user_id FROM registered_devices WHERE device_id=\'{}\''.format(meta_data["device"])
                 cursor.execute(sql)
                 rows = cursor.fetchall()
                 print(rows)

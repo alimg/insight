@@ -18,8 +18,10 @@ import java.util.ArrayList;
  */
 public class MediaStorageHelper {
 
+	public static final String PHOTO_EXT = ".png";
+	public static final String SOUND_EXT = ".mp3";
 	private static Context C;
-	private static File PHOTO_DIR, SOUND_DIR;
+	public static File PHOTO_DIR, SOUND_DIR;
 
 	public static void init(Context context) {
 		C = context;
@@ -94,6 +96,7 @@ public class MediaStorageHelper {
 
 	public static Drawable retrievePhoto(String filename) throws IOException {
 
+		Log.i("XY", ""+PHOTO_DIR);
 		File file = new File(PHOTO_DIR, filename);
 		Log.i("RetrieveImage", "file path: " + file.getAbsolutePath());
 

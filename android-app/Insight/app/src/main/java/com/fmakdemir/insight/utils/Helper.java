@@ -2,6 +2,7 @@ package com.fmakdemir.insight.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -36,6 +37,7 @@ public class Helper {
 
 	public static String getEmail() {
 		SharedPreferences prefs = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE);
+		Log.i("SS", ""+prefs);
 		return prefs.getString(DataHolder.PREFS_EMAIL, "test@mail.com");
 	}
 
