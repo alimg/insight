@@ -44,10 +44,10 @@ def get_latest_event(iid, ftype='jpeg'):
             sql = "SELECT `date`, `filename` FROM `events` WHERE type='{}'".format(ftype)
             print(sql)
             cursor.execute(sql)
+            events = cursor.fetchall()
             if cursor.rowcount != 1:
                 return {'status': ServerConstants.STATUS_ERROR}
-            event = cursor.fetchone()
-            return event
+            return events[0]
 
 
 class PullImage(restful.Resource):

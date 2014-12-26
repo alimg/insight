@@ -35,7 +35,7 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
     }
 
 	public static void listInsight(String email, WebApiCallback<BaseResponse> callback) {
-		HttpPost req = new HttpPost(URL_REGISTER_INSIGHT);
+		HttpPost req = new HttpPost(URL_LIST_INSIGHT);
 
 		List<NameValuePair> nameValuePairs = new ArrayList<>();
 		nameValuePairs.add(new BasicNameValuePair("email", email));

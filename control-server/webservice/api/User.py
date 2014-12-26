@@ -10,7 +10,9 @@ import SessionUtil
 class Login(restful.Resource):
 
     def post(self):
+        print '\n'.join([x for x in request.form]);
         name = request.form['name']
+        print name
         password = request.form['password']
         print (name, password)
         password = DBUtil.hash_string(name + password)
