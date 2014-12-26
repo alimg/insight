@@ -105,8 +105,6 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	static boolean getImage = false, getSound = false;
-
 	public class AsyncImageGetter extends AsyncTask<Void, Void, String> {
 		private ArrayList<NameValuePair> mData = new ArrayList<>();
 
@@ -118,12 +116,7 @@ public class MainActivity extends Activity {
 
 			mData.add(new BasicNameValuePair("insight_id", insightId));
 			mData.add(new BasicNameValuePair("username", username));
-			if (!getImage) {
-				mData.add(new BasicNameValuePair("act", "take"));
-			} else {
-				mData.add(new BasicNameValuePair("act", "get"));
-			}
-			getImage = !getImage;
+			mData.add(new BasicNameValuePair("act", "get"));
 		}
 
 		/**
@@ -177,6 +170,69 @@ public class MainActivity extends Activity {
 
 		}
 	}
+	public class AsyncImageRequester extends AsyncTask<Void, Void, String> {
+		private ArrayList<NameValuePair> mData = new ArrayList<>();
+
+		/**
+		 * constructor
+		 */
+		public AsyncImageRequester(String insightId, String username) {
+			// add data to post data
+
+			mData.add(new BasicNameValuePair("insight_id", insightId));
+			mData.add(new BasicNameValuePair("username", username));
+			mData.add(new BasicNameValuePair("act", "take"));
+		}
+
+		/**
+		 * background
+		 */
+		@Override
+		protected String doInBackground(Void... voids) {
+			String errMsg = "";
+			HttpClient client = DataHolder.getHttpClient();
+			HttpPost post = new HttpPost("https://dl.dropboxusercontent.com/u/67816286/test.png");//DataHolder.getServerUrl()+"/insight/image");
+
+			try {
+
+				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
+
+				HttpResponse response = client.execute(post);
+
+				StatusLine statusLine = response.getStatusLine();
+				int statusCode = statusLine.getStatusCode();
+				if(statusCode == HttpURLConnection.HTTP_OK) {
+					return errMsg;
+				} else {
+					throw new IOException("Request failed, HTTP response code "
+							+ statusCode + " - " + statusLine.getReasonPhrase());
+				}
+
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
+			}
+			return errMsg;
+		}
+
+		/**
+		 * on getting result
+		 */
+		@Override
+		protected void onPostExecute(String errMsg) {
+
+			btnGetImg.setEnabled(true);
+
+			if (errMsg.equals("")) {
+				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
+				ToastIt("Got image!\n" + errMsg);
+			} else {
+				Log.e(this.getClass().getSimpleName(), errMsg);
+			}
+
+		}
+	}
 
 	public class AsyncSoundGetter extends AsyncTask<Void, Void, String> {
 		private ArrayList<NameValuePair> mData = new ArrayList<>();
@@ -189,12 +245,7 @@ public class MainActivity extends Activity {
 
 			mData.add(new BasicNameValuePair("insight_id", insightId));
 			mData.add(new BasicNameValuePair("username", username));
-			if (!getSound) {
-				mData.add(new BasicNameValuePair("act", "take"));
-			} else {
-				mData.add(new BasicNameValuePair("act", "get"));
-			}
-			getSound = !getSound;
+			mData.add(new BasicNameValuePair("act", "get"));
 		}
 
 		/**
@@ -221,6 +272,68 @@ public class MainActivity extends Activity {
 					return errMsg;
 				} else {
 					throw new IOException("Download failed, HTTP response code "
+							+ statusCode + " - " + statusLine.getReasonPhrase());
+				}
+
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
+			}
+			return errMsg;
+		}
+
+		/**
+		 * on getting result
+		 */
+		@Override
+		protected void onPostExecute(String errMsg) {
+
+			btnGetSnd.setEnabled(true);
+
+			if (errMsg.equals("")) {
+				ToastIt("Got Sound!\n" + errMsg);
+			} else {
+				Log.e(this.getClass().getSimpleName(), errMsg);
+			}
+
+		}
+	}
+	public class AsyncSoundRequester extends AsyncTask<Void, Void, String> {
+		private ArrayList<NameValuePair> mData = new ArrayList<>();
+
+		/**
+		 * constructor
+		 */
+		public AsyncSoundRequester(String insightId, String username) {
+			// add data to post data
+
+			mData.add(new BasicNameValuePair("insight_id", insightId));
+			mData.add(new BasicNameValuePair("username", username));
+			mData.add(new BasicNameValuePair("act", "take"));
+		}
+
+		/**
+		 * background
+		 */
+		@Override
+		protected String doInBackground(Void... voids) {
+			String errMsg = "";
+			HttpClient client = DataHolder.getHttpClient();
+			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/sound");
+
+			try {
+
+				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
+
+				HttpResponse response = client.execute(post);
+
+				StatusLine statusLine = response.getStatusLine();
+				int statusCode = statusLine.getStatusCode();
+				if(statusCode == HttpURLConnection.HTTP_OK) {
+					return errMsg;
+				} else {
+					throw new IOException("Request failed, HTTP response code "
 							+ statusCode + " - " + statusLine.getReasonPhrase());
 				}
 
