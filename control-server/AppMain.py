@@ -41,7 +41,7 @@ class AppMain:
                 rows = cursor.fetchall()
                 print(rows)
                 if rows:
-                    user_id = rows[0]
+                    user_id = rows[0][0]
 
                 sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`) ' \
                       'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],

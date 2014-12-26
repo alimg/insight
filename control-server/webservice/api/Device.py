@@ -23,7 +23,7 @@ class RegisterInsight(restful.Resource):
                     return {'status': ServerConstants.STATUS_ERROR}
                 user = cursor.fetchone()
 
-                cursor.execute("INSERT INTO `insight`.`devices` (`id`, `name`, `last_response`) VALUES (NULL, '{}', CURRENT_TIMESTAMP);".format(iid))
+                cursor.execute("INSERT INTO `insight`.`devices` (`id`, `name`, `last_response`) VALUES ('{}', '{}', CURRENT_TIMESTAMP);".format(iid, iid))
                 db.commit()
 
                 cursor.execute("SELECT id FROM `devices` WHERE name='{}'".format(iid))
@@ -33,6 +33,7 @@ class RegisterInsight(restful.Resource):
                       'VALUES (\'{}\', \'{}\')'.format(insight[0], user[0])
                 print sql
                 cursor.execute(sql)
+                db.commit()
 
         return {'status': '0'}
 

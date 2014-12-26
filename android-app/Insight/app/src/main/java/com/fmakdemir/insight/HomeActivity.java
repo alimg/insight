@@ -2,6 +2,7 @@ package com.fmakdemir.insight;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,14 +86,13 @@ public class HomeActivity extends Activity {
 						}
 
 					}
-
 					@Override
 					public void onError(String cause) {
 						Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
 					}
 				}
 		);*/
-		new AsyncInsightListGetter(Helper.getEmail()).execute();
+		new AsyncInsightListGetter(Helper.getUsername()).execute();
     }
 
 	public void btnClicked(View v) {
@@ -138,10 +138,10 @@ public class HomeActivity extends Activity {
 		/**
 		 * constructor
 		 */
-		public AsyncInsightListGetter(String email) {
+		public AsyncInsightListGetter(String sessionToken) {
 			// add data to post data
 
-			mData.add(new BasicNameValuePair("email", email));
+			mData.add(new BasicNameValuePair("user", sessionToken));
 		}
 
 		/**

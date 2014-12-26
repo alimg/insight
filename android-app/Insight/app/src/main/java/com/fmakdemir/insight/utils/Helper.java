@@ -43,7 +43,7 @@ public class Helper {
 
 	public static String getUsername() {
 		SharedPreferences prefs = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE);
-		return prefs.getString(DataHolder.PREFS_USERNAME, "testuser");
+		return prefs.getString(DataHolder.PREFS_USERNAME, "test");
 	}
 
 	public static void putUsername(String username) {

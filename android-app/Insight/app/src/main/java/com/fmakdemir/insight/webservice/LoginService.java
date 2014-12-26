@@ -16,6 +16,7 @@ public class LoginService {
     public static final String KEY_SESSION_TOKEN = "session-token";
     private final Context context;
     private String sessionToken = null;
+    private String userId;
 
     private LoginService(Context context) {
         this.context = context;

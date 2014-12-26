@@ -34,7 +34,7 @@ class WebService:
 
 #        api.add_resource(CommandHandler, '/insight/send_command')
     def start(self):
-        self.app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=True)
+        self.app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
 
 
 """

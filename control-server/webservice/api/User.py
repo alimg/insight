@@ -51,7 +51,8 @@ class RegisterUser(restful.Resource):
 class ListInsight(restful.Resource):
 
     def post(self):
-        email = request.form['email']
+        #user = SessionUtil._SESSION[request.form['session']]['user']
+        user = request.form['user']
 #        if len(email) < 6:
  #           return {'status': ServerConstants.STATUS_ERROR, 'message': 'mail too short'}
 
@@ -62,7 +63,7 @@ LEFT JOIN users as U \
 ON U.id=RU.user_id \
 LEFT JOIN devices as D \
 ON D.id=RU.device_id \
-WHERE U.email='{}'".format(email)
+WHERE U.name='{}'".format(user)
                 print sql
                 cursor.execute(sql)
 #                user = cursor.fetchone()
