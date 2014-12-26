@@ -47,6 +47,7 @@ class AppMain:
                       'VALUES (NULL, \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],
                                                                                              user_id,
                                                                                              meta_data["date"],
+                                                                                             meta_data["type"],
                                                                                              "",
                                                                                              file_name)
                 print(sql)
