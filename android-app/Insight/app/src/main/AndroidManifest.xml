@@ -107,6 +107,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.fmakdemir.insight.MainActivity" />
         </activity>
+        <activity
+            android:name=".WebViewActivity"
+            android:label="@string/title_activity_web_view" >
+        </activity>
     </application>
 
 </manifest>

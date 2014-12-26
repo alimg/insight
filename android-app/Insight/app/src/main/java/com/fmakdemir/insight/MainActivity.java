@@ -88,7 +88,8 @@ public class MainActivity extends Activity {
 				new AsyncImageGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_list_photos:
-				startActivity(new Intent(this, PhotoListActivity.class));
+				//startActivity(new Intent(this, PhotoListActivity.class));
+                startActivity(new Intent(this, WebViewActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_get_snd:
@@ -96,7 +97,8 @@ public class MainActivity extends Activity {
 				new AsyncSoundGetter(insightIid, username).execute();
 				break;
 			case R.id.btn_play_snd:
-				startActivity(new Intent(this, SoundListActivity.class));
+				//startActivity(new Intent(this, SoundListActivity.class));
+                startActivity(new Intent(this, WebViewActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_wifi_setup:
