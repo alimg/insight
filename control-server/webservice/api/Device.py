@@ -40,6 +40,7 @@ def get_latest_event(iid, ftype='jpeg'):
     with closing(ServerConstants.mysql_pool.get_connection()) as db:
         with closing(db.cursor(buffered=True)) as cursor:
 #            sql = "SELECT `date`, `filename` FROM `events` WHERE deviceid='{}' AND type='{}'".format(iid, ftype)
+            # ignores iid for demo
             sql = "SELECT `date`, `filename` FROM `events` WHERE type='{}'".format(ftype)
             print(sql)
             cursor.execute(sql)
@@ -82,4 +83,5 @@ class PullSound(restful.Resource):
                 return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
             return {'status': '0'}
         else:  # ServerConstants.FILE
+            event = get_latest_event(iid, 'ogg')
             return send_file("bell.mp3", mimetype='audio/mp3')

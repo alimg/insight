@@ -74,10 +74,14 @@ public class MediaStorageHelper {
 
 	public static ArrayList<String> listPhotos() {
 		ArrayList<String> list = new ArrayList<String>();
-		String logStr = "";
+		String logStr = ".";
 		for (String s : PHOTO_DIR.list()) {
-			logStr += "\n"+s;
-			list.add(s);
+			logStr += "\n|||"+s;
+//			list.add(s);
+		}
+		for (File f : PHOTO_DIR.listFiles()) {
+			logStr += "\n"+f.getAbsolutePath();
+			list.add(f.getName());
 		}
 		Log.i("Photo List", logStr);
 		return list;

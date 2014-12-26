@@ -48,6 +48,7 @@ public class LoginService {
                     e.putString(KEY_SESSION_TOKEN, data.session_token);
 					e.apply();
 
+					Log.i("Login", data.user.name+"|"+data.user.email);
 					Helper.putUsername(data.user.name);
 					Helper.putEmail(data.user.email);
 

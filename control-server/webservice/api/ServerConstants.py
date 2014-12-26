@@ -5,7 +5,7 @@ STATUS_DEVICE_OFFLINE = '3'
 
 DB_NAME = 'insight'
 DB_USER = 'root'
-DB_PASSWORD = '!narproject1617' #'root'
+DB_PASSWORD = 'root'
 DB_ADDRESS = 'localhost'
 
 STORAGE_DIR = '/root/data/'

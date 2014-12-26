@@ -2,11 +2,8 @@ package com.fmakdemir.insight;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,17 +13,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
-import com.fmakdemir.insight.services.InsightMQTTService;
-import com.fmakdemir.insight.utils.AudioAsynctask;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
-import com.fmakdemir.insight.webservice.WebApiConstants;
-import com.fmakdemir.insight.webservice.model.BaseResponse;
-import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
-import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
