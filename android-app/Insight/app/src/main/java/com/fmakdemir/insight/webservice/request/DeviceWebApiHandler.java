@@ -17,7 +17,6 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
 	private static final String URL_LIST_INSIGHT = URL_BASE+"/list_insight";
 
-
     public static void registerInsight(String username, String insightId,
                           WebApiCallback<BaseResponse> callback) {
         HttpPost req = new HttpPost(URL_REGISTER_INSIGHT);

@@ -38,22 +38,22 @@ public class PhotoListActivity extends Activity {
 		listAdapter = new InsightListAdapter(getApplicationContext(), MediaStorageHelper.listPhotos());
 		listView.setAdapter(listAdapter);
 
-/*		for (String s: this.getFilesDir().list(new FilenameFilter() {
+		for (String s: this.getFilesDir().list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.endsWith(MediaStorageHelper.PHOTO_EXT);
 			}
 		})) {
-			Log.i("FS", s);
+/*			Log.i("FS", s);
 			try {
 				InputStream in;
 				in = new FileInputStream(new File(this.getFilesDir(), s).getAbsolutePath());
 				MediaStorageHelper.storePhoto(in);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}*/
 			listAdapter.add(s);
-		}*/
+		}
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -61,6 +61,7 @@ public class PhotoListActivity extends Activity {
 									int position, long id) {
 
 				String photoName = listAdapter.getItem(position);
+				Log.i("XXX", photoName);
 
 				Intent intent = new Intent(PhotoListActivity.this, ImageTestActivity.class);
 				intent.putExtra(ImageTestActivity.EXT_IMG_NAME, photoName);

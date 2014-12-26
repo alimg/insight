@@ -88,8 +88,8 @@ public class MainActivity extends Activity {
 				new AsyncImageRequester(insightIid, username).execute();
 				break;
 			case R.id.btn_list_photos:
-//				startActivity(new Intent(this, PhotoListActivity.class));
-//				overridePendingTransition(R.anim.open_next, R.anim.close_main);
+				startActivity(new Intent(this, PhotoListActivity.class));
+				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_get_snd:
 				btnGetSnd.setEnabled(false);
@@ -126,7 +126,7 @@ public class MainActivity extends Activity {
 		protected String doInBackground(Void... voids) {
 			String errMsg = "";
 			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost("https://dl.dropboxusercontent.com/u/67816286/test.png");//DataHolder.getServerUrl()+"/insight/image");
+			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
 
 			try {
 
@@ -191,7 +191,7 @@ public class MainActivity extends Activity {
 		protected String doInBackground(Void... voids) {
 			String errMsg = "";
 			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost("https://dl.dropboxusercontent.com/u/67816286/test.png");//DataHolder.getServerUrl()+"/insight/image");
+			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
 
 			try {
 
@@ -225,7 +225,6 @@ public class MainActivity extends Activity {
 			btnTakeImg.setEnabled(true);
 
 			if (errMsg.equals("")) {
-				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
 				ToastIt("Got image!\n" + errMsg);
 			} else {
 				Log.e(this.getClass().getSimpleName(), errMsg);
@@ -267,8 +266,8 @@ public class MainActivity extends Activity {
 				int statusCode = statusLine.getStatusCode();
 				if(statusCode == HttpURLConnection.HTTP_OK) {
 					HttpEntity entity = response.getEntity();
-					MediaStorageHelper.storeSound(entity.getContent());
-					MediaStorageHelper.playSound(DataHolder.TEST_SND);
+//					MediaStorageHelper.storeSound(entity.getContent());
+//					MediaStorageHelper.playSound(DataHolder.TEST_SND);
 					return errMsg;
 				} else {
 					throw new IOException("Download failed, HTTP response code "

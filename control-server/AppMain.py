@@ -3,6 +3,7 @@ from UploadServer import UploadServer
 from CommandServer import CommandServer
 from webservice import WebService
 from webservice.api import ServerConstants
+import paho.mqtt.publish as publish
 
 
 class AppMain:
@@ -55,5 +56,6 @@ class AppMain:
                 event_id = cursor.lastrowid
                 db.commit()
 
-                #self.web_service.send_event_notification(event_id, user_id)
+                publish.single("/insight/android", file_name, hostname="iot.eclipse.org")
+
 

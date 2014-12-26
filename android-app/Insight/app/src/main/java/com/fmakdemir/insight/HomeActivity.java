@@ -3,8 +3,10 @@ package com.fmakdemir.insight;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
+import com.fmakdemir.insight.services.InsightMQTTService;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.utils.MediaStorageHelper;
@@ -47,13 +50,13 @@ public class HomeActivity extends Activity {
 		DataHolder.setContext(getApplicationContext());
 		MediaStorageHelper.init(getApplicationContext());
 
-/*		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 		Log.i(getClass().getSimpleName(), "Device ID: "+mDeviceID);
 		Intent mMQTTServiceIntent = new Intent(this, InsightMQTTService.class);
 		mMQTTServiceIntent.setData(Uri.parse(mDeviceID));
 		// Starts the IntentService
 		startService(mMQTTServiceIntent);
-*/
+
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
 
 
