@@ -36,7 +36,7 @@ public class MediaStorageHelper {
 		File file = new File(PHOTO_DIR, filename);
 		Log.i("StoreImage", "file path: " + file.getAbsolutePath());
 
-		FileOutputStream fos = C.openFileOutput(filename, Context.MODE_PRIVATE);
+		FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());//  C.openFileOutput(file.getPath(), Context.MODE_PRIVATE);
 		Bitmap b = BitmapFactory.decodeStream(inputStream);
 		b.compress(Bitmap.CompressFormat.PNG, 100, fos);
 		inputStream.close();
@@ -57,7 +57,7 @@ public class MediaStorageHelper {
 		File file = new File(SOUND_DIR, filename);
 		Log.i("StoreSound", "file path: "+file.getAbsolutePath());
 
-		FileOutputStream fos = C.openFileOutput(filename, Context.MODE_PRIVATE);
+		FileOutputStream fos = C.openFileOutput(file.getAbsolutePath(), Context.MODE_PRIVATE);
 		int c;
 		while ((c = inputStream.read()) != -1) {
 			fos.write(c);

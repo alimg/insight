@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.fmakdemir.insight.adapters.InsightListAdapter;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
+import com.fmakdemir.insight.utils.MediaStorageHelper;
 import com.fmakdemir.insight.webservice.LoginService;
 
 import org.apache.http.HttpResponse;
@@ -42,6 +43,10 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+		Helper.setContext(getApplicationContext());
+		DataHolder.setContext(getApplicationContext());
+		MediaStorageHelper.init(getApplicationContext());
+
 /*		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 		Log.i(getClass().getSimpleName(), "Device ID: "+mDeviceID);
 		Intent mMQTTServiceIntent = new Intent(this, InsightMQTTService.class);
@@ -50,6 +55,7 @@ public class HomeActivity extends Activity {
 		startService(mMQTTServiceIntent);
 */
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
+
 
 		ArrayList<String> strList = new ArrayList<>();
 		InsightListAdapter adapter = new InsightListAdapter(getApplicationContext(), strList);
