@@ -7,6 +7,10 @@ import os
 from api import ServerConstants
 from threading import Thread
 
+class HelloWorld(restful.Resource):
+
+    def post(self):
+        return {'test': 'Hello World!'}
 
 class WebService:
     def __init__(self, device_command_listener):
@@ -22,6 +26,8 @@ class WebService:
         api.add_resource(Device.PullImage, '/insight/image')
         api.add_resource(Device.PullSound, '/insight/sound')
         api.add_resource(User.ListInsight, '/insight_list')
+        api.add_resource(HelloWorld, '/') # to check if site is up
+
 #        api.add_resource(CommandHandler, '/insight/send_command')
     def start(self):
         self.app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
