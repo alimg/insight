@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `device` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `events` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `deviceid` int NOT NULL,
   `userid` int NOT NULL,
   `date` DATETIME,
