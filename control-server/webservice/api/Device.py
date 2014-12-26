@@ -47,6 +47,7 @@ def get_latest_event(iid, ftype='jpeg'):
             if cursor.rowcount != 1:
                 return {'status': ServerConstants.STATUS_ERROR}
             event = cursor.fetchone()
+            cursor.fetchall()
             return event
 
 
