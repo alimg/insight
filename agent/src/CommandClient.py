@@ -22,7 +22,8 @@ class CommandClient(DaemonThread.DaemonThread):
             if not data:
                 print "socket down"
                 time.sleep(5)
-                continue
+                self.socket.close()
+                raise socket.error()
             for handler in self.commandHandlers:
                 handler(data)
 

@@ -47,7 +47,13 @@ def get_latest_event(iid, ftype='jpeg'):
             events = cursor.fetchall()
             if cursor.rowcount != 1:
                 return {'status': ServerConstants.STATUS_ERROR}
+<<<<<<< HEAD
             return events[0]
+=======
+            event = cursor.fetchone()
+            cursor.fetchall()
+            return event
+>>>>>>> a3047ed0c7e3a7c8d043e956d2759ed2fa3b82a9
 
 
 class PullImage(restful.Resource):
