@@ -34,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -59,6 +60,9 @@ public class HomeActivity extends Activity {
 
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
 
+		for(File f:getApplicationContext().getFilesDir().listFiles() ) {
+			f.delete();
+		}
 
 		ArrayList<String> strList = new ArrayList<>();
 		InsightListAdapter adapter = new InsightListAdapter(getApplicationContext(), strList);

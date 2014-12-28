@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
 		((BootstrapEditText) findViewById(R.id.edit_title_insight)).setText(insightIid);
 
 		btnTakeImg = (BootstrapButton) findViewById(R.id.btn_take_img);
-		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_get_snd);
+		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_take_snd);
 
     }
 
@@ -90,11 +90,14 @@ public class MainActivity extends Activity {
 			case R.id.btn_get_img:
 				new AsyncImageGetter(insightIid, username).execute();
 				break;
+			case R.id.btn_get_snd:
+				new AsyncSoundGetter(insightIid, username).execute();
+				break;
 			case R.id.btn_list_photos:
 				startActivity(new Intent(this, PhotoListActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
-			case R.id.btn_get_snd:
+			case R.id.btn_take_snd:
 				btnGetSnd.setEnabled(false);
 				new AsyncSoundRequester(insightIid, username).execute();
 				break;

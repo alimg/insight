@@ -98,14 +98,15 @@ public class MediaStorageHelper {
 		return list;
 	}
 
-	public static Drawable retrievePhoto(String filename) throws IOException {
+	public static Bitmap retrievePhoto(String filename) throws IOException {
 
 		Log.i("XY", ""+PHOTO_DIR);
 		File file = new File(PHOTO_DIR, filename);
 		Log.i("RetrieveImage", "file path: " + file.getAbsolutePath());
 
 		if (file.exists()) {
-			return Drawable.createFromPath(file.getAbsolutePath());
+			return BitmapFactory.decodeFile(file.getAbsolutePath());
+//			return Drawable.createFromPath(file.getAbsolutePath());
 		} else {
 			throw new IOException("File not found on path: "+file.getAbsolutePath(), null);
 		}

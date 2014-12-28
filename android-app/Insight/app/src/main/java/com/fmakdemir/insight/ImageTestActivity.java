@@ -22,7 +22,7 @@ public class ImageTestActivity extends Activity {
 
 		String imageName = getIntent().getStringExtra(EXT_IMG_NAME);
 		try {
-			((ImageView) findViewById(R.id.img_view)).setImageDrawable(MediaStorageHelper.retrievePhoto(imageName));
+			((ImageView) findViewById(R.id.img_view)).setImageBitmap(MediaStorageHelper.retrievePhoto(imageName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

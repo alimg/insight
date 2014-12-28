@@ -11,18 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fmakdemir.insight.adapters.InsightListAdapter;
-import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.utils.MediaStorageHelper;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 
 
 public class PhotoListActivity extends Activity {
@@ -38,12 +31,17 @@ public class PhotoListActivity extends Activity {
 		listAdapter = new InsightListAdapter(getApplicationContext(), MediaStorageHelper.listPhotos());
 		listView.setAdapter(listAdapter);
 
-		for (String s: this.getFilesDir().list(new FilenameFilter() {
+		for (File f: this.getFilesDir().listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.endsWith(MediaStorageHelper.PHOTO_EXT);
 			}
 		})) {
+			if (!f.getName().equals("testimg.png")) {
+				f.delete();
+			} else {
+				listAdapter.add(f.getName());
+			}
 /*			Log.i("FS", s);
 			try {
 				InputStream in;
@@ -52,7 +50,6 @@ public class PhotoListActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}*/
-			listAdapter.add(s);
 		}
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

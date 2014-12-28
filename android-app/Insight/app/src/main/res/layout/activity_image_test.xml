@@ -7,7 +7,10 @@
 	android:background="@color/act_background"
 
 	tools:context="com.fmakdemir.insight.ImageTestActivity">
-
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Image Test"/>
 	<ImageView
 		android:id="@+id/img_view"
 		android:layout_width="fill_parent"
