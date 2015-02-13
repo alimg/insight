@@ -10,7 +10,7 @@ import SessionUtil
 class Login(restful.Resource):
 
     def post(self):
-        print '\n'.join([x for x in request.form]);
+        print '\n'.join([x for x in request.form])
         name = request.form['name']
         print name
         password = request.form['password']
@@ -19,9 +19,7 @@ class Login(restful.Resource):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
                 cursor.execute('SELECT id, name, email FROM users WHERE name=\'{}\' and password=\'{}\''.format(name, password))
-
                 user = cursor.fetchone()
-
                 if not user:
                     return {'status': ServerConstants.STATUS_ERROR}
                 return {'status': ServerConstants.STATUS_SUCCESS,
@@ -40,8 +38,7 @@ class RegisterUser(restful.Resource):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
                 sql = 'INSERT INTO `users` (`id`, `name`, `email`, `password`, `push_token`) ' \
-                      'VALUES (NULL, \'{}\', \'{}\', \'{}\', \'\')'.format(name, email, password)
-                print sql
+                      'VALUES (NULL, \'{}\', \'{}\', \'{}\', \'{}\')'.format(name, email, password, "")
                 cursor.execute(sql)
                 db.commit()
 
@@ -51,26 +48,13 @@ class RegisterUser(restful.Resource):
 class ListInsight(restful.Resource):
 
     def post(self):
-        #user = SessionUtil._SESSION[request.form['session']]['user']
-        user = request.form['user']
-#        if len(email) < 6:
- #           return {'status': ServerConstants.STATUS_ERROR, 'message': 'mail too short'}
+        user = SessionUtil.get_user_id(request.form['session'])
+        if not user:
+            return {'status': ServerConstants.STATUS_INVALID_SESSION}
 
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                sql = "SELECT D.name FROM registered_devices as RU \
-LEFT JOIN users as U \
-ON U.id=RU.user_id \
-LEFT JOIN devices as D \
-ON D.id=RU.device_id \
-WHERE U.name='{}'".format(user)
-                print sql
+                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
                 cursor.execute(sql)
-#                user = cursor.fetchone()
-#                if user is None or len(user) < 1:
-#                    return {'status': ServerConstants.STATUS_ERROR, 'message': 'user not found'}
-#                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
-#                print sql
-#                cursor.execute(sql)
-                return {'status': '0', 'insight_list': cursor.fetchall()}
+                return {'status': '0', 'devices': cursor.fetchall()}
 

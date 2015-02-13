@@ -47,7 +47,9 @@ class UploadService(Thread):
                 #print len(buff)
         data = con.recv(64)
         print "response: "+data
-        #os.remove(file_name)
+        if data == "ok":
+            os.remove(file_name)
+            print "sent file "+file_name+" successfully"
         con.close()
 
     def upload_photo(self, image_data):

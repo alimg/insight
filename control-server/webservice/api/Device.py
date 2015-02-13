@@ -8,34 +8,35 @@ from flask import send_file
 from PIL import Image
 
 import ServerConstants
+import SessionUtil
 from CommandServer import DeviceNotOnlineException
 
 
 class RegisterInsight(restful.Resource):
     def post(self):
+        user = SessionUtil.get_user_id(request.form['session'])
+        if not user:
+            return {'status': ServerConstants.STATUS_INVALID_SESSION}
         iid = request.form['insight_id']
-        uname = request.form['username']
-        print "RegIns:", iid, uname
+
+        print "RegIns:", iid, user
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor(buffered=True)) as cursor:
-                cursor.execute('SELECT id FROM users WHERE name=\'{}\''.format(uname))
-                if cursor.rowcount != 1:
-                    return {'status': ServerConstants.STATUS_ERROR}
-                user = cursor.fetchone()
+                cursor.execute("SELECT userid FROM `devices` WHERE id='{}'".format(iid))
+                user = cursor.fetchall()[0][0]
+                print(user)
+                if user:
+                    return {'status': ServerConstants.STATUS_ERROR, 'message': 'device already has an owner'}
 
-                cursor.execute("INSERT INTO `insight`.`devices` (`id`, `name`, `last_response`) VALUES ('{}', '{}', CURRENT_TIMESTAMP);".format(iid, iid))
-                db.commit()
-
-                cursor.execute("SELECT id FROM `devices` WHERE name='{}'".format(iid))
-                insight = cursor.fetchone();
-                cursor.fetchall()
-                sql = 'INSERT INTO `registered_devices` (`device_id`, `user_id`) ' \
-                      'VALUES (\'{}\', \'{}\')'.format(insight[0], user[0])
-                print sql
-                cursor.execute(sql)
+                cursor.execute("UPDATE `devices` SET `userid`=\'{}\' WHERE id='{}'".format(user, iid))
                 db.commit()
 
         return {'status': '0'}
+
+class DeviceCommand(restful.Resource):
+    def post(self):
+        pass
+
 
 def get_latest_event(iid, ftype='jpeg'):
     with closing(ServerConstants.mysql_pool.get_connection()) as db:

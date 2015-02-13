@@ -3,7 +3,6 @@ from UploadServer import UploadServer
 from CommandServer import CommandServer
 from webservice import WebService
 from webservice.api import ServerConstants
-import paho.mqtt.publish as publish
 
 
 class AppMain:
@@ -36,8 +35,8 @@ class AppMain:
     def on_file_uploaded(self, meta_data, file_name):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                user_id = "15"
-                sql = 'SELECT user_id FROM registered_devices WHERE device_id=\'{}\''.format(meta_data["device"])
+                user_id = ""
+                sql = 'SELECT user_id FROM devices WHERE device_id=\'{}\''.format(meta_data["device"])
                 cursor.execute(sql)
                 rows = cursor.fetchall()
                 print(rows)
@@ -56,6 +55,6 @@ class AppMain:
                 event_id = cursor.lastrowid
                 db.commit()
 
-                publish.single("/insight/android", str(file_name), hostname="iot.eclipse.org")
+                #publish.single("/insight/android", str(file_name), hostname="iot.eclipse.org")
 
 
