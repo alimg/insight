@@ -23,12 +23,11 @@ class RegisterInsight(restful.Resource):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor(buffered=True)) as cursor:
                 cursor.execute("SELECT userid FROM `devices` WHERE id='{}'".format(iid))
-                user = cursor.fetchall()[0][0]
-                print(user)
-                if user:
+                if cursor.fetchall()[0][0]:
                     return {'status': ServerConstants.STATUS_ERROR, 'message': 'device already has an owner'}
-
-                cursor.execute("UPDATE `devices` SET `userid`=\'{}\' WHERE id='{}'".format(user, iid))
+                sql = "UPDATE `devices` SET `userid`='{}' WHERE id={}".format(user, iid)
+                print sql
+                cursor.execute(sql)
                 db.commit()
 
         return {'status': '0'}

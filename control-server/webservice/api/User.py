@@ -24,12 +24,13 @@ class Login(restful.Resource):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
                 cursor.execute('SELECT id, name, email FROM users WHERE name=\'{}\' and password=\'{}\''.format(name, password))
-                user = cursor.fetchone()
+                user = cursor.fetchall()
                 if not user:
                     return {'status': ServerConstants.STATUS_ERROR}
+                user = user[0]
                 return {'status': ServerConstants.STATUS_SUCCESS,
                         'user': {'id': user[0], 'name': user[1], 'email': user[2]},
-                        'session_token': SessionUtil.generate_token(name)}
+                        'session_token': SessionUtil.generate_token(user[0])}
 
 
 class RegisterUser(restful.Resource):
@@ -59,7 +60,7 @@ class ListInsight(restful.Resource):
 
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user[0])
+                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user)
                 cursor.execute(sql)
                 return {'status': '0', 'devices': cursor.fetchall()}
 
