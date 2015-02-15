@@ -62,5 +62,8 @@ class ListInsight(restful.Resource):
             with closing(db.cursor()) as cursor:
                 sql = "SELECT id FROM `device` WHERE userid='{}'".format(user)
                 cursor.execute(sql)
-                return {'status': '0', 'devices': cursor.fetchall()}
+                devices = []
+                for row in cursor.fetchall():
+                    devices.append(row[0])
+                return {'status': '0', 'devices': devices}
 

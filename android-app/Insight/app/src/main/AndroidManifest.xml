@@ -34,21 +34,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".DeviceActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".EventListActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".ImageTestActivity"
             android:label="@string/title_activity_image_test"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".DeviceActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fmakdemir.insight.MainActivity" />
+                android:value=".DeviceActivity" />
         </activity>
         <activity
             android:name=".QRScannerActivity"
             android:label="@string/title_activity_qrscanner"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".DeviceActivity" >
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -61,18 +65,18 @@
         <activity
             android:name=".WifiSetupActivity"
             android:label="@string/title_activity_wifi_setup"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".DeviceActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fmakdemir.insight.MainActivity" />
+                android:value=".DeviceActivity" />
         </activity>
         <activity
             android:name=".RegisterInsightActivity"
             android:label="@string/title_activity_register_insight"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".DeviceActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fmakdemir.insight.MainActivity" />
+                android:value=".DeviceActivity" />
         </activity>
 
         <receiver
@@ -94,18 +98,18 @@
         <activity
             android:name=".PhotoListActivity"
             android:label="@string/title_activity_photo_list"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".DeviceActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fmakdemir.insight.MainActivity" />
+                android:value=".DeviceActivity" />
         </activity>
         <activity
             android:name=".SoundListActivity"
             android:label="@string/title_activity_sound_list"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".DeviceActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.fmakdemir.insight.MainActivity" />
+                android:value=".DeviceActivity" />
         </activity>
         <activity
             android:name=".WebViewActivity"

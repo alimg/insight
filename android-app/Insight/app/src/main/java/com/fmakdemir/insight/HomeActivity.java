@@ -3,7 +3,6 @@ package com.fmakdemir.insight;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -20,22 +19,12 @@ import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.utils.MediaStorageHelper;
 import com.fmakdemir.insight.webservice.LoginService;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import com.fmakdemir.insight.webservice.WebApiConstants;
+import com.fmakdemir.insight.webservice.model.DeviceListResponse;
+import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
+import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 
@@ -43,6 +32,24 @@ public class HomeActivity extends Activity {
 
     private LoginService loginService;
     private InsightListAdapter adapter;
+    private WebApiCallback<DeviceListResponse> mDevicesListener =  new WebApiCallback<DeviceListResponse>() {
+        @Override
+        public void onSuccess(DeviceListResponse data) {
+            if (data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
+                adapter.clear();
+                for (String device: data.devices)
+                    adapter.add(device);
+            } else {
+                Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
+            }
+
+        }
+
+        @Override
+        public void onError(String cause) {
+            Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,7 @@ public class HomeActivity extends Activity {
 		}
 
 		ArrayList<String> strList = new ArrayList<>();
-		InsightListAdapter adapter = new InsightListAdapter(getApplicationContext(), strList);
+		adapter = new InsightListAdapter(getApplicationContext(), strList);
 		DataHolder.setListAdapter(adapter);
 		final InsightListAdapter listAdapter = DataHolder.getListAdapter();
 		listView.setAdapter(listAdapter);
@@ -85,8 +92,8 @@ public class HomeActivity extends Activity {
 
 				String insightIid = listAdapter.getItem(position);
 
-				Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-				intent.putExtra(MainActivity.EXT_INSIGHT_IID, insightIid);
+				Intent intent = new Intent(HomeActivity.this, DeviceActivity.class);
+				intent.putExtra(DeviceActivity.EXT_INSIGHT_IID, insightIid);
 
 				Toast.makeText(HomeActivity.this.getApplicationContext(), "ID: "+insightIid, Toast.LENGTH_LONG).show();
 				intent.putExtra("InsightId", listAdapter.getItem(position));
@@ -97,33 +104,18 @@ public class HomeActivity extends Activity {
 		});
 
 
-/*		DeviceWebApiHandler.listInsight(Helper.getEmail(), new WebApiCallback<BaseResponse>() {
-					@Override
-					public void onSuccess(BaseResponse data) {
-						if (data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
-							Helper.toastIt("Listing InSights");
-						} else {
-							Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
-						}
-
-					}
-					@Override
-					public void onError(String cause) {
-						Helper.toastIt("Couldn't fetch InSightList!", Toast.LENGTH_LONG);
-					}
-				}
-		);*/
-		new AsyncInsightListGetter(loginService.getSessionToken()).execute();
+		DeviceWebApiHandler.listInsight(loginService.getSessionToken(), mDevicesListener);
     }
 
 	public void btnClicked(View v) {
+        Intent intent;
 		switch (v.getId()) {
-/*			case R.id.btn_logout:
-				LoginService.getInstance(this).clearSession();
-				finish();
-				break;*/
+            case R.id.btn_event_list:
+                intent = new Intent(HomeActivity.this, EventListActivity.class);
+                startActivity(intent);
+                break;
 			case R.id.btn_add_new:
-				Intent intent = new Intent(HomeActivity.this, RegisterInsightActivity.class);
+				intent = new Intent(HomeActivity.this, RegisterInsightActivity.class);
 				startActivity(intent);
 				break;
 		}
@@ -153,78 +145,4 @@ public class HomeActivity extends Activity {
 		}
         return super.onOptionsItemSelected(item);
     }
-	private class AsyncInsightListGetter extends AsyncTask<Void, Void, String> {
-		private ArrayList<NameValuePair> mData = new ArrayList<>();
-
-		/**
-		 * constructor
-		 */
-		public AsyncInsightListGetter(String sessionToken) {
-			// add data to post data
-
-			mData.add(new BasicNameValuePair("session", sessionToken));
-		}
-
-		/**
-		 * background
-		 */
-		@Override
-		protected String doInBackground(Void... voids) {
-			String result = "";
-			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight_list");
-
-			try {
-
-				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
-
-				HttpResponse response = client.execute(post);
-
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if(statusCode == HttpURLConnection.HTTP_OK) {
-					byte[] resEnt = EntityUtils.toByteArray(response.getEntity());
-					result = new String(resEnt, "UTF-8");
-					return result;
-
-				} else {
-					throw new IOException("Download failed, HTTP response code "
-							+ statusCode + " - " + statusLine.getReasonPhrase());
-				}
-
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			return result;
-		}
-
-		/**
-		 * on getting result
-		 */
-		@Override
-		protected void onPostExecute(String result) {
-			try {
-				Object json = new JSONTokener(result).nextValue();
-				if (json instanceof JSONObject) {
-					if (!((JSONObject) json).optString("status").equals("0")) {
-						Log.e(this.getClass().getSimpleName(), ""+((JSONObject) json).optString("message"));
-						return;
-					}
-					JSONArray insightList = ((JSONObject) json).optJSONArray("insight_list");
-					InsightListAdapter adapter = DataHolder.getListAdapter();
-					adapter.clear();
-
-					for (int i=0; i<insightList.length(); ++i) {
-						adapter.add(insightList.getJSONArray(i).getString(0));
-					}
-				} else {
-					Helper.toastIt("There was a server error try again later");
-				}
-			} catch (Exception e) {
-				Log.e(Helper.getTag(this), Helper.getExceptionString(e));
-			}
-
-		}
-	}
 }

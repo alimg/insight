@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class DeviceActivity extends Activity {
 	public static final String EXT_INSIGHT_IID = "MainAct.ext_insight_iid";
 
 	private BootstrapButton btnTakeImg, btnGetSnd;
@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 
 		Helper.setContext(getApplicationContext());
 
-		insightIid = getIntent().getStringExtra(MainActivity.EXT_INSIGHT_IID);
+		insightIid = getIntent().getStringExtra(DeviceActivity.EXT_INSIGHT_IID);
 		((BootstrapEditText) findViewById(R.id.edit_title_insight)).setText(insightIid);
 
 		btnTakeImg = (BootstrapButton) findViewById(R.id.btn_take_img);
@@ -169,7 +169,7 @@ public class MainActivity extends Activity {
 			btnTakeImg.setEnabled(true);
 
 			if (errMsg.equals("")) {
-				MainActivity.this.startActivity(new Intent(MainActivity.this, ImageTestActivity.class));
+				DeviceActivity.this.startActivity(new Intent(DeviceActivity.this, ImageTestActivity.class));
 				ToastIt("Got image!\n" + errMsg);
 			} else {
 				Log.e(this.getClass().getSimpleName(), errMsg);

@@ -10,7 +10,18 @@
 
 	tools:context="com.fmakdemir.insight.HomeActivity">
 
-	<LinearLayout
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btn_event_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_list_events"
+        android:onClick="btnClicked"
+
+        bb:bb_type="success"
+        bb:bb_icon_right="fa-plus"
+        />
+
+    <LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
@@ -37,7 +48,8 @@
 			bb:bb_type="success"
 			bb:bb_icon_right="fa-plus"
 			/>
-	</LinearLayout>
+
+    </LinearLayout>
 
 	<ListView
 		android:id="@+id/list_view_insight"

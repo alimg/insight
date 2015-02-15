@@ -23,7 +23,7 @@ class List(restful.Resource):
                 for row in rows:
                     events.append(
                         {'id': row[0],
-                         'device_id': row[1],
+                         'deviceid': row[1],
                          'date': row[2],
                          'type': row[3],
                          'filename': row[4]}

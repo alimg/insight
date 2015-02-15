@@ -58,13 +58,11 @@ public class MediaWebApiHandler extends BaseWebApiHandler {
 		connect(req, callback, BaseResponse.class);
 	}
     
-    public static void listEvents(String session, String insightId,
-                                     WebApiCallback<EventListResponse> callback) {
+    public static void listEvents(String session, WebApiCallback<EventListResponse> callback) {
         HttpPost req = new HttpPost(URL_LIST_EVENTS);
         
         List<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("session", session));
-        nameValuePairs.add(new BasicNameValuePair("insight_id", insightId));
 
         try {
             req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

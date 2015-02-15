@@ -29,6 +29,7 @@ public class DataHolder {
 
 	private static HttpClient httpClient;
 	final private static String serverHostname = "128.199.52.88:5000";
+	//final private static String serverHostname = "188.166.5.98:5000";
 	final private static String serverProtocol = "http://";
 
 	private static Context C;

@@ -32,7 +32,7 @@ class WebService:
         api.add_resource(Device.PullSound, '/insight/sound')
         api.add_resource(Events.List, '/events/list')
         api.add_resource(User.ListInsight, '/insight_list')
-        api.add_resource(HelloWorld, '/') # to check if site is up
+        api.add_resource(HelloWorld, '/')  # to check if site is up
 
 #        api.add_resource(CommandHandler, '/insight/send_command')
     def start(self):

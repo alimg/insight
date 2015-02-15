@@ -16,7 +16,7 @@ import java.util.List;
 public class DeviceWebApiHandler extends BaseWebApiHandler {
     private static final String URL_BASE = DataHolder.getServerUrl();
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
-	private static final String URL_LIST_INSIGHT = URL_BASE+"/list_insight";
+	private static final String URL_LIST_INSIGHT = URL_BASE+"/insight_list";
 
     public static void registerInsight(String token, String insightId,
                           WebApiCallback<BaseResponse> callback) {
