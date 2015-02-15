@@ -14,3 +14,9 @@ def get_user_id(session_token):
     if session_token in _SESSION:
         return _SESSION[session_token]['user']
     return None
+
+
+def is_valid(session_token):
+    if session_token in _SESSION:
+        return True
+    return False

@@ -51,4 +51,16 @@ public class UserWebApiHandler extends BaseWebApiHandler {
         connect(req, callback, BaseResponse.class);
     }
 
+    public static void validateSession(String sessionToken, WebApiCallback<BaseResponse> callback) {
+        HttpPost req = new HttpPost(URL_LOGIN);
+
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        nameValuePairs.add(new BasicNameValuePair("session", sessionToken));
+        try {
+            req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        connect(req, callback, BaseResponse.class);
+    }
 }

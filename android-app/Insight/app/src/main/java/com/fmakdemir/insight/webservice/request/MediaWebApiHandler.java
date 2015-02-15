@@ -3,6 +3,7 @@ package com.fmakdemir.insight.webservice.request;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
+import com.fmakdemir.insight.webservice.model.EventListResponse;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -19,7 +20,8 @@ import java.util.List;
  */
 public class MediaWebApiHandler extends BaseWebApiHandler {
 	private static final String URL_BASE = DataHolder.getServerUrl();
-	private static final String URL_DOWNLOAD_SOUND = URL_BASE+"/insight/sound";
+    private static final String URL_DOWNLOAD_SOUND = URL_BASE+"/insight/sound";
+	private static final String URL_LIST_EVENTS = URL_BASE+"/events/list";
 
 
 	public static void downloadSound(String insightId,
@@ -55,5 +57,20 @@ public class MediaWebApiHandler extends BaseWebApiHandler {
 		}
 		connect(req, callback, BaseResponse.class);
 	}
+    
+    public static void listEvents(String session, String insightId,
+                                     WebApiCallback<EventListResponse> callback) {
+        HttpPost req = new HttpPost(URL_LIST_EVENTS);
+        
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("session", session));
+        nameValuePairs.add(new BasicNameValuePair("insight_id", insightId));
 
+        try {
+            req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        connect(req, callback, EventListResponse.class);
+    }
 }

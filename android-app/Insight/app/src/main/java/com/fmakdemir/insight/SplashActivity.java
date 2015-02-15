@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.webservice.LoginService;
+import com.fmakdemir.insight.webservice.SessionStatusListener;
 import com.fmakdemir.insight.webservice.model.User;
 
 public class SplashActivity extends Activity {
@@ -31,6 +32,19 @@ public class SplashActivity extends Activity {
         }
     };
     private View registerButton;
+    private SessionStatusListener mSessionListener = new SessionStatusListener() {
+        @Override
+        public void onSuccess() {
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            finish();
+        }
+
+        @Override
+        public void onFail() {
+            startActivity(getIntent());
+            finish();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +54,7 @@ public class SplashActivity extends Activity {
 
         loginService = LoginService.getInstance(this);
         if (loginService.isLoggedin()) {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
+            loginService.validateSession(mSessionListener);
             return;
         }
         setContentView(R.layout.activity_splash);

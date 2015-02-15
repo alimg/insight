@@ -1,4 +1,12 @@
 package com.fmakdemir.insight.webservice.model;
 
-public class EventListResponse {
+import java.util.List;
+
+public class EventListResponse extends BaseResponse {
+    public List<Event> events;
+
+    private class Event {
+        public String id;
+        public String date;
+    }
 }
