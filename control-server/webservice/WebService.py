@@ -31,6 +31,7 @@ class WebService:
         api.add_resource(Device.PullImage, '/insight/image')
         api.add_resource(Device.PullSound, '/insight/sound')
         api.add_resource(Events.List, '/events/list')
+        api.add_resource(Events.GetData, '/events/data')
         api.add_resource(User.ListInsight, '/insight_list')
         api.add_resource(HelloWorld, '/')  # to check if site is up
 

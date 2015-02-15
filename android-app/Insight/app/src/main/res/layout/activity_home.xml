@@ -10,57 +10,57 @@
 
 	tools:context="com.fmakdemir.insight.HomeActivity">
 
-    <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/btn_event_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_list_events"
-        android:onClick="btnClicked"
-
-        bb:bb_type="success"
-        bb:bb_icon_right="fa-plus"
-        />
 
     <LinearLayout
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
 
-		<com.beardedhen.androidbootstrap.BootstrapEditText
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:text = "@string/edit_title_device_list"
-			android:textSize="22sp"
-			android:editable="false"
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_add_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_add_insight"
+            android:layout_gravity="center_horizontal"
+            android:onClick="btnClicked"
 
-			bb:be_state="success"
-			/>
+            bb:bb_type="success"
+            bb:bb_icon_right="fa-plus"
+            />
 
-		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:id="@+id/btn_add_new"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/btn_add_insight"
-			android:layout_gravity="end"
-			android:onClick="btnClicked"
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_event_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_list_events"
+            android:onClick="btnClicked"
 
-			bb:bb_type="success"
-			bb:bb_icon_right="fa-plus"
-			/>
+            bb:bb_type="success"
+            bb:bb_icon_right="fa-plus"
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            />
 
     </LinearLayout>
 
-	<ListView
+    <com.beardedhen.androidbootstrap.BootstrapEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text = "@string/edit_title_device_list"
+        android:textSize="22sp"
+        android:editable="false"
+
+        bb:be_state="success" />
+    <ListView
 		android:id="@+id/list_view_insight"
 		android:layout_width="match_parent"
 		android:layout_height="fill_parent">
 	</ListView>
 
-	<com.beardedhen.androidbootstrap.BootstrapButton
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/logout"
-		/>
 
 </LinearLayout>

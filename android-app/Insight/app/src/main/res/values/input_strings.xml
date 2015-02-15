@@ -4,7 +4,7 @@
 	<string name="hint_wifi_password">Wifi password</string>
 	<string name="hint_insight_id">Insight Id</string>
 	<string name="edit_title_device_list">List of Devices</string>
-	<string name="btn_add_insight">Add New</string>
+	<string name="btn_add_insight">Add New Device</string>
 	<string name="edt_photo_list_title">List of Photos on Device</string>
 	<string name="edt_list_sounds_title">List of Sounds on Device</string>
 </resources>

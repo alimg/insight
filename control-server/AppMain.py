@@ -4,6 +4,7 @@ from CommandServer import CommandServer
 from webservice import WebService
 from webservice.api import ServerConstants
 
+import datetime
 
 class AppMain:
     def __init__(self):
@@ -43,12 +44,13 @@ class AppMain:
                 if rows:
                     user_id = rows[0][0]
 
+                event_time = datetime.datetime.fromtimestamp(int(meta_data["date"])*1000)
                 sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`) ' \
                       'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],
                                                                                              user_id,
                                                                                              meta_data["date"],
                                                                                              meta_data["type"],
-                                                                                             "",
+                                                                                             str(event_time),
                                                                                              file_name)
                 print(sql)
                 cursor.execute(sql)

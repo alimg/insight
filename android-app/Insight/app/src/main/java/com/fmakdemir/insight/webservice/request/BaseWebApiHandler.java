@@ -9,6 +9,7 @@ import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;

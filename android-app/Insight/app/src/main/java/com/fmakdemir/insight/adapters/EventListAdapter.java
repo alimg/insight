@@ -45,8 +45,13 @@ public class EventListAdapter extends BaseAdapter{
         EventListResponse.Event event = list.get(position);
         ((TextView)convertView.findViewById(R.id.text_date)).setText("Date: "+event.date);
         ((TextView)convertView.findViewById(R.id.text_device)).setText("Device: "+event.deviceid);
-        ((TextView)convertView.findViewById(R.id.text_type)).setText("Tyoe: "+event.type);
-        //((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource();
+        ((TextView)convertView.findViewById(R.id.text_type)).setText("File name: "+event.filename);
+            
+        if (event.type.equals("ogg"))
+            ((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource(R.drawable.ic_audio);
+        else if (event.type.equals("mpeg"))
+            ((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource(R.drawable.ic_video);
+        else ((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource(R.drawable.ic_image);
         return convertView;
     }
 
