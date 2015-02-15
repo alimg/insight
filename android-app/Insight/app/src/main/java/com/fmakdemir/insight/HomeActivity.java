@@ -2,7 +2,6 @@ package com.fmakdemir.insight;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,11 +41,20 @@ import java.util.ArrayList;
 
 public class HomeActivity extends Activity {
 
+    private LoginService loginService;
+    private InsightListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        loginService = LoginService.getInstance(this);
+        if (!loginService.isLoggedin()) {
+            finish();
+            return;
+        }
+        
 		Helper.setContext(getApplicationContext());
 		DataHolder.setContext(getApplicationContext());
 		MediaStorageHelper.init(getApplicationContext());
@@ -105,13 +113,13 @@ public class HomeActivity extends Activity {
 					}
 				}
 		);*/
-		new AsyncInsightListGetter(Helper.getUsername()).execute();
+		new AsyncInsightListGetter(loginService.getSessionToken()).execute();
     }
 
 	public void btnClicked(View v) {
 		switch (v.getId()) {
 /*			case R.id.btn_logout:
-				LoginService.getInstance(this).logout();
+				LoginService.getInstance(this).clearSession();
 				finish();
 				break;*/
 			case R.id.btn_add_new:
@@ -139,7 +147,7 @@ public class HomeActivity extends Activity {
 				Toast.makeText(getApplicationContext(), "Action Settings", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.action_logout:
-				LoginService.getInstance(this).logout();
+				LoginService.getInstance(this).clearSession();
 				finish();
 				break;
 		}
@@ -154,7 +162,7 @@ public class HomeActivity extends Activity {
 		public AsyncInsightListGetter(String sessionToken) {
 			// add data to post data
 
-			mData.add(new BasicNameValuePair("user", sessionToken));
+			mData.add(new BasicNameValuePair("session", sessionToken));
 		}
 
 		/**

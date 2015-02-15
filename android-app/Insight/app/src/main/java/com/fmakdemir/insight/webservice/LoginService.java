@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.fmakdemir.insight.utils.Helper;
+import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.fmakdemir.insight.webservice.model.LoginResponse;
 import com.fmakdemir.insight.webservice.model.User;
 import com.fmakdemir.insight.webservice.request.UserWebApiHandler;
@@ -72,11 +73,30 @@ public class LoginService {
         return sessionToken;
     }
 
-    public void logout() {
+    public void clearSession() {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor e = prefs.edit();
         e.remove(KEY_SESSION_TOKEN);
         e.apply();
+    }
+
+    public void validateSession(final SessionStatusListener listener) {
+        UserWebApiHandler.validateSession(getSessionToken(), new WebApiCallback<BaseResponse>() {
+            @Override
+            public void onSuccess(BaseResponse data) {
+                if (data.status.equals(WebApiConstants.STATUS_SUCCESS))
+                    listener.onSuccess();
+                else {
+                    clearSession();
+                    listener.onFail();
+                }
+            }
+
+            @Override
+            public void onError(String cause) {
+                
+            }
+        });
     }
 
     public interface LoginListener {

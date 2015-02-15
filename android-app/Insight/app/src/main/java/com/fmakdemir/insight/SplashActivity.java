@@ -41,7 +41,7 @@ public class SplashActivity extends Activity {
 
         @Override
         public void onFail() {
-            startActivity(getIntent());
+            startActivity(new Intent(SplashActivity.this, SplashActivity.class));
             finish();
         }
     };

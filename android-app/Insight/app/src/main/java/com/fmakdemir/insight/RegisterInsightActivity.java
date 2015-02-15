@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
+import com.fmakdemir.insight.webservice.LoginService;
 import com.fmakdemir.insight.webservice.WebApiConstants;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
@@ -21,13 +22,20 @@ import com.fmakdemir.insight.webservice.request.WebApiCallback;
 public class RegisterInsightActivity extends Activity {
 
 	private BootstrapEditText editInsightId;
+    private LoginService loginService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_insight);
 
-		editInsightId = ((BootstrapEditText)findViewById(R.id.edit_insight_id));
+        loginService = LoginService.getInstance(this);
+        if (!loginService.isLoggedin()) {
+            finish();
+            return;
+        }
+
+        editInsightId = ((BootstrapEditText)findViewById(R.id.edit_insight_id));
     }
 
     @Override
@@ -80,7 +88,7 @@ public class RegisterInsightActivity extends Activity {
 				if (strAr[0].equals("id")) {
 					final String insightId = strAr[1];
 					final String username = Helper.getUsername();
-					DeviceWebApiHandler.registerInsight(username, insightId, new WebApiCallback<BaseResponse>() {
+					DeviceWebApiHandler.registerInsight(loginService.getSessionToken(), insightId, new WebApiCallback<BaseResponse>() {
 						@Override
 						public void onSuccess(BaseResponse data) {
 							if(data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
