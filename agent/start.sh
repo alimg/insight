@@ -1,2 +1,2 @@
 #!/bin/sh
-python2 src/main.py "$@"
+python2 -u src/main.py "$@"
