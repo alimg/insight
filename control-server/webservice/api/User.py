@@ -10,16 +10,13 @@ import SessionUtil
 class Login(restful.Resource):
 
     def post(self):
-        print '\n'.join([x for x in request.form])
         if 'session' in request.form:
             #check session
             if SessionUtil.is_valid(request.form['session']):
                 return {'status': ServerConstants.STATUS_SUCCESS}
             return {'status': ServerConstants.STATUS_INVALID_SESSION}
         name = request.form['name']
-        print name
         password = request.form['password']
-        print (name, password)
         password = DBUtil.hash_string(name + password)
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:

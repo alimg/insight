@@ -21,12 +21,11 @@ class List(restful.Resource):
                 cursor.execute(sql)
                 events = []
                 rows = cursor.fetchall()
-                print "list devices: ", rows
                 for row in rows:
                     events.append(
                         {'id': row[0],
                          'deviceid': row[1],
-                         'date': row[2],
+                         'date': str(row[2]),
                          'type': row[3],
                          'filename': row[4]}
                     )
@@ -48,13 +47,12 @@ class GetData(restful.Resource):
                 rows = cursor.fetchall()
                 if rows:
                     filename = ServerConstants.STORAGE_DIR+rows[0][0]
-                    type = rows[0][1]
-                    if type == 'jpeg':
+                    event_type = rows[0][1]
+                    if event_type == 'jpeg':
                         output = StringIO()
-                        print ServerConstants.STORAGE_DIR+filename
                         img = Image.open(filename)
                         img.save(output, 'JPEG')
                         output.seek(0)
                         return send_file(output, mimetype='image/jpeg')
-                    elif type == 'ogg':
+                    elif event_type == 'ogg':
                         return send_file(filename, mimetype='audio/ogg')

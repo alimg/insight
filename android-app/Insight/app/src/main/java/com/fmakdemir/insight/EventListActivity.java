@@ -3,9 +3,10 @@ package com.fmakdemir.insight;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ public class EventListActivity extends Activity {
     };
     private View layoutOverlay;
     private ImageView imageView;
+    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,12 @@ public class EventListActivity extends Activity {
         }
         layoutOverlay = findViewById(R.id.layout_overlay);
         layoutOverlay.setVisibility(View.GONE);
+        layoutOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         imageView = (ImageView)findViewById(R.id.imageView);
         ListView listView = (ListView)findViewById(R.id.list_events);
         mAdapter = new EventListAdapter(this);
@@ -64,6 +72,9 @@ public class EventListActivity extends Activity {
                 showEvent((EventListResponse.Event)mAdapter.getItem(position));
             }
         });
+
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         MediaWebApiHandler.listEvents(loginService.getSessionToken(), mListener);
     }
@@ -82,6 +93,16 @@ public class EventListActivity extends Activity {
                             if (img != null) {
                                 imageView.setImageBitmap(img);
                             }
+                        } else if(event.type.equals("ogg")) {
+                            mMediaPlayer.reset();
+                            try {
+                                mMediaPlayer.setDataSource(file.getPath());
+                                mMediaPlayer.prepare();
+                                mMediaPlayer.start();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            imageView.setImageResource(R.drawable.ic_audio);
                         }
                     }
 
@@ -95,8 +116,12 @@ public class EventListActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (layoutOverlay.getVisibility() != View.GONE)
+        if (layoutOverlay.getVisibility() != View.GONE) {
             layoutOverlay.setVisibility(View.GONE);
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.stop();
+            }
+        }
         else super.onBackPressed();
     }
 

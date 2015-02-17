@@ -58,12 +58,10 @@ public class MediaWebApiHandler extends BaseWebApiHandler {
             public void run() {
                 HttpClient client = DataHolder.getHttpClient();
                 try {
-                    Log.i("XXX", request.getURI() + "\n" + request.getParams());
                     HttpResponse response = client.execute(request);
                     String contentType = response.getEntity().getContentType().getValue();
                     if (contentType.equals("text/html") || contentType.equals("application/json")) {
                         String responseStr = EntityUtils.toString(response.getEntity());
-                        Log.d("ad", responseStr);
                         Gson gson = new Gson();
                         final BaseResponse obj = gson.fromJson(responseStr, BaseResponse.class);
                         new Handler(Looper.getMainLooper()).post(new Runnable() {

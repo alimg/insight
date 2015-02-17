@@ -37,22 +37,20 @@ class AppMain:
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
                 user_id = ""
-                sql = 'SELECT user_id FROM devices WHERE device_id=\'{}\''.format(meta_data["device"])
+                sql = 'SELECT userid FROM devices WHERE id=\'{}\''.format(meta_data["device"])
                 cursor.execute(sql)
                 rows = cursor.fetchall()
-                print(rows)
                 if rows:
                     user_id = rows[0][0]
 
-                event_time = datetime.datetime.fromtimestamp(int(meta_data["date"])*1000)
+                event_time = datetime.datetime.fromtimestamp(int(meta_data["date"]))
                 sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`) ' \
                       'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],
                                                                                              user_id,
-                                                                                             meta_data["date"],
-                                                                                             meta_data["type"],
                                                                                              str(event_time),
+                                                                                             meta_data["type"],
+                                                                                             "",
                                                                                              file_name)
-                print(sql)
                 cursor.execute(sql)
                 event_id = cursor.lastrowid
                 db.commit()
