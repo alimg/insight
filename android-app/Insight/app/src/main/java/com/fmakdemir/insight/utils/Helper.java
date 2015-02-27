@@ -13,7 +13,6 @@ public class Helper {
 
 	private static Context C;
 	public static void setContext(Context C) {
-		DataHolder.setContext(C);
 		MediaStorageHelper.init(C);
 		Helper.C = C;
 		SharedPreferences.Editor e = C.getSharedPreferences(DataHolder.PREF_FILE, Context.MODE_PRIVATE).edit();

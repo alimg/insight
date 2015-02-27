@@ -427,7 +427,6 @@ public class InsightMQTTService extends Service implements MqttSimpleCallback
 						.setLargeIcon(bm)
 						.setContentTitle(title)
 						.setContentText(text)
-						.setGroup(ntfGroup)
 						.setLights(Color.WHITE, 1000, 1000)
 						.setAutoCancel(true)//!isMQTTStatus)
 						.setOngoing(isMQTTStatus);

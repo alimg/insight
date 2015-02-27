@@ -23,6 +23,7 @@ import com.fmakdemir.insight.webservice.WebApiConstants;
 import com.fmakdemir.insight.webservice.model.DeviceListResponse;
 import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
 import com.fmakdemir.insight.webservice.request.WebApiCallback;
+import com.parse.Parse;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,9 +62,10 @@ public class HomeActivity extends Activity {
             finish();
             return;
         }
-        
+
+		Parse.initialize(this, "HIWZgDpELVc7HanpltUv1EtSPGF5eBGJBj6QGrVS", "pjmqIrf4drl5g1JLkftZ9ZOpxUyRTe8H8HbmECA9");
+
 		Helper.setContext(getApplicationContext());
-		DataHolder.setContext(getApplicationContext());
 		MediaStorageHelper.init(getApplicationContext());
 
 		String mDeviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -71,12 +73,15 @@ public class HomeActivity extends Activity {
 		Intent mMQTTServiceIntent = new Intent(this, InsightMQTTService.class);
 		mMQTTServiceIntent.setData(Uri.parse(mDeviceID));
 		// Starts the IntentService
-		startService(mMQTTServiceIntent);
+//		startService(mMQTTServiceIntent);
 
 		ListView listView = (ListView) findViewById(R.id.list_view_insight);
 
 		for(File f:getApplicationContext().getFilesDir().listFiles() ) {
-			f.delete();
+			boolean delete = f.delete();
+			if (delete) {
+				Log.d("Delete", "success");
+			}
 		}
 
 		ArrayList<String> strList = new ArrayList<>();
