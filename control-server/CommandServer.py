@@ -43,13 +43,13 @@ class ClientConnectionHandler(SocketServer.BaseRequestHandler):
         return SocketServer.BaseRequestHandler.setup(self)
 
     def handle(self):
-        self.server.client_connection_handler.on_connected(self, self.client_address)
+        self.server.devices_manager.on_connected(self, self.client_address)
         while self.running:
             data = self.request.recv(1024)
             if not data:
                 break
-            self.server.client_connection_handler.on_receive(self.client_address, data)
-        self.server.client_connection_handler.on_disconnected(self.client_address)
+            self.server.devices_manager.on_receive(self.client_address, data)
+        self.server.devices_manager.on_disconnected(self.client_address)
         self.request.close()
 
     def send_message(self, data):
