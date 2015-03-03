@@ -1,5 +1,6 @@
 from threading import Thread
 import Queue
+from sensors.LedController import LedController
 from sensors.PIRSensor import PIRSensor
 from sensors import Camera
 from sensors import SpiAdcController
@@ -17,6 +18,7 @@ class HwController(Thread):
         self._STOP = object()
         self.running = True
         self.pir_sensor = PIRSensor(lambda: self.on_pir_trigger())
+        self.led_controller = LedController()
 
     def run(self):
         while self.running:
@@ -49,5 +51,8 @@ class HwController(Thread):
 
     def on_audio_captured(self, captured_file):
         self.audio_event_handler(captured_file)
+
+    def set_led_status(self, status):
+        self.led_controller.set_status(status)
 
 

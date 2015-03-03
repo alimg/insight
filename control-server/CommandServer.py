@@ -13,7 +13,7 @@ class CommandServer(Thread, SocketServer.TCPServer):
         self.daemon = True
         SocketServer.TCPServer.allow_reuse_address = True
         SocketServer.TCPServer.__init__(self, address, ClientConnectionHandler)
-        self.client_connection_handler = DeviceConnctionManager.ConnectionHandler()
+        self.devices_manager = DeviceConnctionManager.get_instance()
 
     def run(self):
         self.serve_forever()
@@ -22,13 +22,13 @@ class CommandServer(Thread, SocketServer.TCPServer):
         self.shutdown()
 
     def get_connection_handler(self):
-        return self.client_connection_handler
+        return self.devices_manager
 
     def send_command(self, device, command):
         print "Send command ", device, " ", command
-        ip = self.client_connection_handler.get_device_ip(device)
+        ip = self.devices_manager.get_device_ip(device)
         if ip:
-            self.client_connection_handler.get_device_context(ip).send_message(command)
+            self.devices_manager.get_device_context(ip).send_message(command)
         else:
             raise DeviceNotOnlineException("Device %s is not online" % device)
 
