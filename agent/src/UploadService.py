@@ -55,9 +55,9 @@ class UploadService(Thread):
     def upload_photo(self, image_data):
         file_name = AgentConfig.DATA_STORAGE_DIR+"%s.jpeg" % time.time()
         image_data.save(file_name, "jpeg")
-        EncryptionUtil.encrypt_file(file_name)
+        #EncryptionUtil.encrypt_file(file_name)
         self.file_queue.put((file_name, json.dumps(
-            {"type": "jpeg", "date": int(time.time()), "device": self.device_id, "encryption": "dev/AES"})))
+            {"type": "jpeg", "date": int(time.time()), "device": self.device_id, "encryption": ""})))
 
     def stop(self):
         self.running = False

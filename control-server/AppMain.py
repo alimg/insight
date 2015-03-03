@@ -59,6 +59,6 @@ class AppMain:
                 event_id = cursor.lastrowid
                 db.commit()
 
-                ParseUtil.send_push(user_id, "Event: "+meta_data["type"])
+                ParseUtil.send_push(str(user_id), "Event: "+meta_data["type"])
 
 
