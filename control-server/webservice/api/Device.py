@@ -26,21 +26,35 @@ class RegisterInsight(restful.Resource):
                 if cursor.fetchall()[0][0]:
                     return {'status': ServerConstants.STATUS_ERROR, 'message': 'device already has an owner'}
                 sql = "UPDATE `devices` SET `userid`='{}' WHERE id={}".format(user, iid)
-                print sql
                 cursor.execute(sql)
                 db.commit()
 
         return {'status': '0'}
 
-class DeviceCommand(restful.Resource):
+
+class DeviceInfo(restful.Resource):
     def post(self):
-        pass
+        user = SessionUtil.get_user_id(request.form['session'])
+        if not user:
+            return {'status': ServerConstants.STATUS_INVALID_SESSION}
+        iid = request.form['insight_id']
+
+        with closing(ServerConstants.mysql_pool.get_connection()) as db:
+            with closing(db.cursor(buffered=True)) as cursor:
+                sql = "SELECT address, last_response FROM `devices` WHERE id='{}'".format(iid)
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                if result:
+                    result = result[0]
+                    return {"status": '0', "address": str(result[0]),
+                            "lastResponse": str(result[1])}
+        return {"status": ServerConstants.STATUS_ERROR}
 
 
 def get_latest_event(iid, ftype='jpeg'):
     with closing(ServerConstants.mysql_pool.get_connection()) as db:
         with closing(db.cursor(buffered=True)) as cursor:
-#            sql = "SELECT `date`, `filename` FROM `events` WHERE deviceid='{}' AND type='{}'".format(iid, ftype)
+            # sql = "SELECT `date`, `filename` FROM `events` WHERE deviceid='{}' AND type='{}'".format(iid, ftype)
             # ignores iid for demo
             sql = "SELECT `date`, `filename` FROM `events` WHERE type='{}'".format(ftype)
             print(sql)
@@ -65,8 +79,8 @@ class PullImage(restful.Resource):
         else:
             event = get_latest_event(iid, 'jpeg')
             output = StringIO()
-            print ServerConstants.STORAGE_DIR+event[1]
-            img = Image.open(ServerConstants.STORAGE_DIR+event[1])
+            print ServerConstants.STORAGE_DIR + event[1]
+            img = Image.open(ServerConstants.STORAGE_DIR + event[1])
             img.save(output, 'PNG')
             output.seek(0)
             return send_file(output, mimetype='image/jpeg')
@@ -85,4 +99,4 @@ class PullSound(restful.Resource):
             return {'status': '0'}
         else:  # ServerConstants.FILE
             event = get_latest_event(iid, 'ogg')
-            return send_file(ServerConstants.STORAGE_DIR+event[1], mimetype='audio/ogg')
+            return send_file(ServerConstants.STORAGE_DIR + event[1], mimetype='audio/ogg')

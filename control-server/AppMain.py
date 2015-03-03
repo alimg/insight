@@ -6,6 +6,7 @@ from webservice.api import ServerConstants
 from webservice.api import ParseUtil
 
 import datetime
+import json
 
 
 class AppMain:
@@ -59,6 +60,8 @@ class AppMain:
                 event_id = cursor.lastrowid
                 db.commit()
 
-                ParseUtil.send_push(user_id, "Event: "+meta_data["type"])
+                ParseUtil.send_push(str(user_id), json.dumps({"eventId": event_id,
+                                                              "type": meta_data["type"],
+                                                              "date": str(event_time)}))
 
 

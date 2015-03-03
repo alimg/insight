@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -15,6 +16,11 @@ import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
 import com.fmakdemir.insight.utils.MediaStorageHelper;
+import com.fmakdemir.insight.webservice.LoginService;
+import com.fmakdemir.insight.webservice.WebApiConstants;
+import com.fmakdemir.insight.webservice.model.DeviceStatusResult;
+import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
+import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,12 +41,20 @@ public class DeviceActivity extends Activity {
 	private BootstrapButton btnTakeImg, btnGetSnd;
 
 	String insightIid;
+    private LoginService loginService;
+    private TextView textStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
+        loginService = LoginService.getInstance(this);
+        if (!loginService.isLoggedin()) {
+            finish();
+            return;
+        }
+        
 		Helper.setContext(getApplicationContext());
 
 		insightIid = getIntent().getStringExtra(DeviceActivity.EXT_INSIGHT_IID);
@@ -48,7 +62,22 @@ public class DeviceActivity extends Activity {
 
 		btnTakeImg = (BootstrapButton) findViewById(R.id.btn_take_img);
 		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_take_snd);
+        
+        textStatus = (TextView) findViewById(R.id.text_status);
 
+        DeviceWebApiHandler.getDeviceStatus(loginService.getSessionToken(), insightIid, new WebApiCallback<DeviceStatusResult>() {
+            @Override
+            public void onSuccess(DeviceStatusResult data) {
+                if (data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
+                    textStatus.setText("Last Response: "+data.lastResponse+"\nAddress :"+data.address);
+                }
+            }
+
+            @Override
+            public void onError(String cause) {
+
+            }
+        });
     }
 
 
