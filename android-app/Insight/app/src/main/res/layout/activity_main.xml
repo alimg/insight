@@ -20,16 +20,24 @@
 		android:layout_height="wrap_content"
 		android:text="@string/app_name"
 		android:textSize="36sp"
-		android:layout_marginBottom="100dp"
+		android:layout_marginBottom="10dp"
 		android:editable="false"
 
 		bb:be_state="success"
 		/>
 
-	<LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:id="@+id/text_status"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center">
+		android:gravity="center"
+        android:layout_marginTop="90dp">
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:id="@+id/btn_take_img"
@@ -116,4 +124,5 @@
 		bb:bb_type="danger"
 		bb:bb_icon_right="fa-gear"
 		/>
+
 </LinearLayout>

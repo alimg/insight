@@ -3,6 +3,7 @@ package com.fmakdemir.insight.webservice.request;
 import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.fmakdemir.insight.webservice.model.DeviceListResponse;
+import com.fmakdemir.insight.webservice.model.DeviceStatusResult;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -17,6 +18,7 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
     private static final String URL_BASE = DataHolder.getServerUrl();
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
 	private static final String URL_LIST_INSIGHT = URL_BASE+"/insight_list";
+	private static final String URL_INSIGHT_STATUS = URL_BASE+"/insight/status";
 
     public static void registerInsight(String token, String insightId,
                           WebApiCallback<BaseResponse> callback) {
@@ -47,4 +49,21 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
 		}
 		connect(req, callback, DeviceListResponse.class);
 	}
+
+    public static void getDeviceStatus(String token, String deviceId,
+                                       WebApiCallback<DeviceStatusResult> callback) {
+
+        HttpPost req = new HttpPost(URL_INSIGHT_STATUS);
+
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("session", token));
+        nameValuePairs.add(new BasicNameValuePair("insight_id", token));
+
+        try {
+            req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        connect(req, callback, DeviceStatusResult.class);
+    }
 }

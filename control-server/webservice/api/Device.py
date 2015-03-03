@@ -47,9 +47,9 @@ class DeviceInfo(restful.Resource):
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 if result:
-                    result=result[0]
+                    result = result[0]
                     return {"status": '0', "address": str(result[0]),
-                            "last_response": str(request[1])}
+                            "lastResponse": str(request[1])}
         return {"status": ServerConstants.STATUS_ERROR}
 
 
