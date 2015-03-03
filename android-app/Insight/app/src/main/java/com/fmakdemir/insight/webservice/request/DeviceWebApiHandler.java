@@ -57,7 +57,7 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
 
         List<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("session", token));
-        nameValuePairs.add(new BasicNameValuePair("insight_id", token));
+        nameValuePairs.add(new BasicNameValuePair("insight_id", deviceId));
 
         try {
             req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));

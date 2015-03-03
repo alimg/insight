@@ -41,7 +41,7 @@ class DeviceInfo(restful.Resource):
 
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor(buffered=True)) as cursor:
-                sql = "SELECT address, last_response WHERE id='{}'".format(iid)
+                sql = "SELECT address, last_response FROM `devices` WHERE id='{}'".format(iid)
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 if result:
