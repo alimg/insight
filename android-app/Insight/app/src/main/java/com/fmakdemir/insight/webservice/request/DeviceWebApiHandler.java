@@ -19,6 +19,7 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
     private static final String URL_REGISTER_INSIGHT = URL_BASE+"/register_insight";
 	private static final String URL_LIST_INSIGHT = URL_BASE+"/insight_list";
 	private static final String URL_INSIGHT_STATUS = URL_BASE+"/insight/status";
+	private static final String URL_INSIGHT_COMMAND = URL_BASE+"/insight/command";
 
     public static void registerInsight(String token, String insightId,
                           WebApiCallback<BaseResponse> callback) {
@@ -65,5 +66,24 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
             e.printStackTrace();
         }
         connect(req, callback, DeviceStatusResult.class);
+    }
+
+
+    public static void sendCommand(String token, String deviceId, String type,
+                                       WebApiCallback<BaseResponse> callback) {
+
+        HttpPost req = new HttpPost(URL_INSIGHT_COMMAND);
+
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("session", token));
+        nameValuePairs.add(new BasicNameValuePair("insight_id", deviceId));
+        nameValuePairs.add(new BasicNameValuePair("type", type));
+
+        try {
+            req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        connect(req, callback, BaseResponse.class);
     }
 }

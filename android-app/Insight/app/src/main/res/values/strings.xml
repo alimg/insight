@@ -24,5 +24,6 @@
     <string name="title_activity_sound_list">SoundListActivity</string>
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="text_devices">Devices</string>
+    <string name="btn_req_video">Request Video</string>
 
 </resources>

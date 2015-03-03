@@ -2,9 +2,7 @@ package com.fmakdemir.insight;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,36 +11,46 @@ import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.BootstrapEditText;
-import com.fmakdemir.insight.utils.DataHolder;
 import com.fmakdemir.insight.utils.Helper;
-import com.fmakdemir.insight.utils.MediaStorageHelper;
 import com.fmakdemir.insight.webservice.LoginService;
 import com.fmakdemir.insight.webservice.WebApiConstants;
+import com.fmakdemir.insight.webservice.model.BaseResponse;
 import com.fmakdemir.insight.webservice.model.DeviceStatusResult;
 import com.fmakdemir.insight.webservice.request.DeviceWebApiHandler;
 import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-
 public class DeviceActivity extends Activity {
 	public static final String EXT_INSIGHT_IID = "MainAct.ext_insight_iid";
 
-	private BootstrapButton btnTakeImg, btnGetSnd;
+	private BootstrapButton btnTakeImg, btnTakeSnd;
 
 	String insightIid;
     private LoginService loginService;
     private TextView textStatus;
+    private BootstrapButton btnTakeVideo;
+    private WebApiCallback<BaseResponse> onCommandCallback = new WebApiCallback<BaseResponse>() {
+        @Override
+        public void onSuccess(BaseResponse data) {
+            if (data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
+                ToastIt("Command sent.");
+            }  else if (data.status.equals(WebApiConstants.STATUS_DEVICE_OFFLINE)) {
+                ToastIt("Device is not online.");
+            } else {
+                ToastIt("Error sending command.");
+            }
+
+            btnTakeImg.setEnabled(true);
+            btnTakeSnd.setEnabled(true);
+            btnTakeVideo.setEnabled(true);
+        }
+
+        @Override
+        public void onError(String cause) {
+            btnTakeImg.setEnabled(true);
+            btnTakeSnd.setEnabled(true);
+            btnTakeVideo.setEnabled(true);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +69,9 @@ public class DeviceActivity extends Activity {
 		((BootstrapEditText) findViewById(R.id.edit_title_insight)).setText(insightIid);
 
 		btnTakeImg = (BootstrapButton) findViewById(R.id.btn_take_img);
-		btnGetSnd = (BootstrapButton) findViewById(R.id.btn_take_snd);
-        
+		btnTakeSnd = (BootstrapButton) findViewById(R.id.btn_take_snd);
+		btnTakeVideo = (BootstrapButton) findViewById(R.id.btn_take_video);
+
         textStatus = (TextView) findViewById(R.id.text_status);
 
         DeviceWebApiHandler.getDeviceStatus(loginService.getSessionToken(), insightIid, new WebApiCallback<DeviceStatusResult>() {
@@ -114,286 +123,30 @@ public class DeviceActivity extends Activity {
 		switch (v.getId()) {
 			case R.id.btn_take_img:
 				btnTakeImg.setEnabled(false);
-				new AsyncImageRequester(insightIid, username).execute();
-				break;
-			case R.id.btn_get_img:
-				new AsyncImageGetter(insightIid, username).execute();
-				break;
-			case R.id.btn_get_snd:
-				new AsyncSoundGetter(insightIid, username).execute();
+				DeviceWebApiHandler.sendCommand(loginService.getSessionToken(), insightIid, "photo",
+                        onCommandCallback);
 				break;
 			case R.id.btn_list_photos:
 				startActivity(new Intent(this, PhotoListActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_take_snd:
-				btnGetSnd.setEnabled(false);
-				new AsyncSoundRequester(insightIid, username).execute();
+				btnTakeSnd.setEnabled(false);
+                DeviceWebApiHandler.sendCommand(loginService.getSessionToken(), insightIid, "audio",
+                        onCommandCallback);
 				break;
-			case R.id.btn_play_snd:
-				//startActivity(new Intent(this, SoundListActivity.class));
+			case R.id.btn_list_snd:
                 startActivity(new Intent(this, WebViewActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
+            case R.id.btn_take_video:
+                btnTakeVideo.setEnabled(false);
+                DeviceWebApiHandler.sendCommand(loginService.getSessionToken(), insightIid, "video",
+                        onCommandCallback);
+                break;
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
-		}
-	}
-
-	public class AsyncImageGetter extends AsyncTask<Void, Void, String> {
-		private ArrayList<NameValuePair> mData = new ArrayList<>();
-
-		/**
-		 * constructor
-		 */
-		public AsyncImageGetter(String insightId, String username) {
-			// add data to post data
-
-			mData.add(new BasicNameValuePair("insight_id", insightId));
-			mData.add(new BasicNameValuePair("username", username));
-			mData.add(new BasicNameValuePair("act", "get"));
-		}
-
-		/**
-		 * background
-		 */
-		@Override
-		protected String doInBackground(Void... voids) {
-			String errMsg = "";
-			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
-
-			try {
-
-				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
-
-				HttpResponse response = client.execute(post);
-
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if(statusCode == HttpURLConnection.HTTP_OK) {
-					HttpEntity entity = response.getEntity();
-					MediaStorageHelper.storePhoto(entity.getContent());
-					return errMsg;
-				} else {
-					throw new IOException("Download failed, HTTP response code "
-							+ statusCode + " - " + statusLine.getReasonPhrase());
-				}
-
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
-			}
-			return errMsg;
-		}
-
-		/**
-		 * on getting result
-		 */
-		@Override
-		protected void onPostExecute(String errMsg) {
-
-			btnTakeImg.setEnabled(true);
-
-			if (errMsg.equals("")) {
-				DeviceActivity.this.startActivity(new Intent(DeviceActivity.this, ImageTestActivity.class));
-				ToastIt("Got image!\n" + errMsg);
-			} else {
-				Log.e(this.getClass().getSimpleName(), errMsg);
-			}
-
-		}
-	}
-	public class AsyncImageRequester extends AsyncTask<Void, Void, String> {
-		private ArrayList<NameValuePair> mData = new ArrayList<>();
-
-		/**
-		 * constructor
-		 */
-		public AsyncImageRequester(String insightId, String username) {
-			// add data to post data
-
-			mData.add(new BasicNameValuePair("insight_id", insightId));
-			mData.add(new BasicNameValuePair("username", username));
-			mData.add(new BasicNameValuePair("act", "take"));
-		}
-
-		/**
-		 * background
-		 */
-		@Override
-		protected String doInBackground(Void... voids) {
-			String errMsg = "";
-			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/image");
-
-			try {
-
-				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
-
-				HttpResponse response = client.execute(post);
-
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if(statusCode == HttpURLConnection.HTTP_OK) {
-					return errMsg;
-				} else {
-					throw new IOException("Request failed, HTTP response code "
-							+ statusCode + " - " + statusLine.getReasonPhrase());
-				}
-
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
-			}
-			return errMsg;
-		}
-
-		/**
-		 * on getting result
-		 */
-		@Override
-		protected void onPostExecute(String errMsg) {
-
-			btnTakeImg.setEnabled(true);
-
-			if (errMsg.equals("")) {
-				ToastIt("Got image!\n" + errMsg);
-			} else {
-				Log.e(this.getClass().getSimpleName(), errMsg);
-			}
-
-		}
-	}
-
-	public class AsyncSoundGetter extends AsyncTask<Void, Void, String> {
-		private ArrayList<NameValuePair> mData = new ArrayList<>();
-
-		/**
-		 * constructor
-		 */
-		public AsyncSoundGetter(String insightId, String username) {
-			// add data to post data
-
-			mData.add(new BasicNameValuePair("insight_id", insightId));
-			mData.add(new BasicNameValuePair("username", username));
-			mData.add(new BasicNameValuePair("act", "get"));
-		}
-
-		/**
-		 * background
-		 */
-		@Override
-		protected String doInBackground(Void... voids) {
-			String errMsg = "";
-			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/sound");
-
-			try {
-
-				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
-
-				HttpResponse response = client.execute(post);
-
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if(statusCode == HttpURLConnection.HTTP_OK) {
-					HttpEntity entity = response.getEntity();
-//					MediaStorageHelper.storeSound(entity.getContent());
-//					MediaStorageHelper.playSound(DataHolder.TEST_SND);
-					return errMsg;
-				} else {
-					throw new IOException("Download failed, HTTP response code "
-							+ statusCode + " - " + statusLine.getReasonPhrase());
-				}
-
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
-			}
-			return errMsg;
-		}
-
-		/**
-		 * on getting result
-		 */
-		@Override
-		protected void onPostExecute(String errMsg) {
-
-			btnGetSnd.setEnabled(true);
-
-			if (errMsg.equals("")) {
-				ToastIt("Got Sound!\n" + errMsg);
-			} else {
-				Log.e(this.getClass().getSimpleName(), errMsg);
-			}
-
-		}
-	}
-	public class AsyncSoundRequester extends AsyncTask<Void, Void, String> {
-		private ArrayList<NameValuePair> mData = new ArrayList<>();
-
-		/**
-		 * constructor
-		 */
-		public AsyncSoundRequester(String insightId, String username) {
-			// add data to post data
-
-			mData.add(new BasicNameValuePair("insight_id", insightId));
-			mData.add(new BasicNameValuePair("username", username));
-			mData.add(new BasicNameValuePair("act", "take"));
-		}
-
-		/**
-		 * background
-		 */
-		@Override
-		protected String doInBackground(Void... voids) {
-			String errMsg = "";
-			HttpClient client = DataHolder.getHttpClient();
-			HttpPost post = new HttpPost(DataHolder.getServerUrl()+"/insight/sound");
-
-			try {
-
-				post.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
-
-				HttpResponse response = client.execute(post);
-
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				if(statusCode == HttpURLConnection.HTTP_OK) {
-					return errMsg;
-				} else {
-					throw new IOException("Request failed, HTTP response code "
-							+ statusCode + " - " + statusLine.getReasonPhrase());
-				}
-
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-				errMsg = e.getClass().getSimpleName()+"\n"+e.getCause()+"\n"+e.getMessage();
-			}
-			return errMsg;
-		}
-
-		/**
-		 * on getting result
-		 */
-		@Override
-		protected void onPostExecute(String errMsg) {
-
-			btnGetSnd.setEnabled(true);
-
-			if (errMsg.equals("")) {
-				ToastIt("Got Sound!\n" + errMsg);
-			} else {
-				Log.e(this.getClass().getSimpleName(), errMsg);
-			}
-
 		}
 	}
 }

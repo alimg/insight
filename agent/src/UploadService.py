@@ -66,3 +66,7 @@ class UploadService(Thread):
     def upload_audio(self, file_name):
         self.file_queue.put((file_name, json.dumps(
             {"type": "ogg", "date": int(time.time()), "device": self.device_id, "encryption": ""})))
+
+    def upload_video(self, file_name):
+        self.file_queue.put((file_name, json.dumps(
+            {"type": "h264", "date": int(time.time()), "device": self.device_id, "encryption": ""})))
