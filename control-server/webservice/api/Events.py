@@ -17,7 +17,7 @@ class List(restful.Resource):
             return {'status': ServerConstants.STATUS_INVALID_SESSION}
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                sql = "SELECT id, deviceid, date, type, filename  FROM `events` WHERE userid='{}'".format(userid)
+                sql = "SELECT id, deviceid, date, type, filename, encryption FROM `events` WHERE userid='{}'".format(userid)
                 cursor.execute(sql)
                 events = []
                 rows = cursor.fetchall()
@@ -27,7 +27,8 @@ class List(restful.Resource):
                          'deviceid': row[1],
                          'date': str(row[2]),
                          'type': row[3],
-                         'filename': row[4]}
+                         'filename': row[4],
+                         'encryption': row[5]}
                     )
                 return {'status': '0', 'events': events}
 
@@ -49,10 +50,11 @@ class GetData(restful.Resource):
                     filename = ServerConstants.STORAGE_DIR+rows[0][0]
                     event_type = rows[0][1]
                     if event_type == 'jpeg':
-                        output = StringIO()
-                        img = Image.open(filename)
-                        img.save(output, 'JPEG')
-                        output.seek(0)
-                        return send_file(output, mimetype='image/jpeg')
+                        #output = StringIO()
+                        #img = Image.open(filename)
+                        #img.save(output, 'JPEG')
+                        #output.seek(0)
+                        #return send_file(output, mimetype='image/jpeg')
+                        return send_file(filename, mimetype='image/jpeg')
                     elif event_type == 'ogg':
                         return send_file(filename, mimetype='audio/ogg')

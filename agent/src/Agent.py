@@ -1,7 +1,12 @@
-import UploadService, HwController, CommandClient, AgentConfig
+import json
+
+import UploadService
+import HwController
+import CommandClient
+import AgentConfig
+import EncryptionUtil
 from setup import SetupWorker
 from setup import WifiUtil
-import json
 
 
 class Agent:
@@ -9,6 +14,7 @@ class Agent:
         self.args = args
         self.agentConfig = AgentConfig.AgentConfig()
         self.agentConfig.load_config()
+        EncryptionUtil.set_key(self.agentConfig.get_device_key())
         self.hwController = HwController.HwController(
             camera_event_handler=lambda event: self.uploadService.upload_photo(event),
             audio_event_handler=lambda event: self.uploadService.upload_audio(event))

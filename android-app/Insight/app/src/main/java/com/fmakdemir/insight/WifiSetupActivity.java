@@ -10,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.beardedhen.androidbootstrap.BootstrapEditText;
 import com.fmakdemir.insight.ZXingQRGenerator.Contents;
@@ -21,14 +23,21 @@ import com.google.zxing.WriterException;
 public class WifiSetupActivity extends Activity {
 
 	BootstrapEditText editWifiName;
+    private Spinner spinner;
 
-	@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifi_setup);
 
 		editWifiName = (BootstrapEditText) findViewById(R.id.edit_wifi_name);
-
+        spinner = (Spinner) findViewById(R.id.spinner_encryption);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
+        spinnerAdapter.add("WPA");
+        spinnerAdapter.add("WEP");
+        spinnerAdapter.add("None");
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setSelection(0);
 		WifiManager wifiMgr = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
 		if (wifiMgr.isWifiEnabled()) {
@@ -40,8 +49,9 @@ public class WifiSetupActivity extends Activity {
 	public void setupQR(View v) {
 		//Encode with a QR Code image
 		BootstrapEditText editWifiPass = (BootstrapEditText) findViewById(R.id.edit_wifi_pass);
-
-		String qrStr = editWifiName.getText().toString()+"\n"+editWifiPass.getText().toString()+"\nwep\ntest";
+        String encryption = (String) spinner.getSelectedItem();
+		String qrStr = editWifiName.getText().toString()+"\n"+editWifiPass.getText().toString()+"\n"
+                + encryption.toLowerCase() + "\ntest";
 
 		QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(qrStr,
 				null,

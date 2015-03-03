@@ -118,6 +118,10 @@ public class HomeActivity extends Activity {
 				intent = new Intent(HomeActivity.this, RegisterInsightActivity.class);
 				startActivity(intent);
 				break;
+            case R.id.btn_settings:
+                intent = new Intent(HomeActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                break;
 		}
 	}
 

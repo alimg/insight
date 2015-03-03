@@ -23,7 +23,12 @@
 		android:inputType="textPersonName"
 		/>
 
-	<com.beardedhen.androidbootstrap.BootstrapEditText
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_encryption"/>
+
+    <com.beardedhen.androidbootstrap.BootstrapEditText
 		android:id="@+id/edit_wifi_pass"
 		android:layout_width="@dimen/input_dim"
 		android:layout_height="wrap_content"

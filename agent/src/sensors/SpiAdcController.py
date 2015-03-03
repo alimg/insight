@@ -45,7 +45,7 @@ class AdcController():
         samples = k * 1800
         print "samples ", samples
         print "rate ", samples / elapsed
-        call(["sh", "-c", "oggenc -r  -B 16 -C 1 -R 25000 '%s' -o '%s'" % (file_name, compressed_file_name)])
+        call(["sh", "-c", "oggenc -r  -B 16 -C 1 -R 25700 '%s' -o '%s'" % (file_name, compressed_file_name)])
         callback(compressed_file_name)
 
     def capture_audio(self, callback):

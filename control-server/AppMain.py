@@ -6,6 +6,7 @@ from webservice.api import ServerConstants
 
 import datetime
 
+
 class AppMain:
     def __init__(self):
         HOST = "0.0.0.0"
@@ -44,17 +45,19 @@ class AppMain:
                     user_id = rows[0][0]
 
                 event_time = datetime.datetime.fromtimestamp(int(meta_data["date"]))
-                sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`) ' \
-                      'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(meta_data["device"],
-                                                                                             user_id,
-                                                                                             str(event_time),
-                                                                                             meta_data["type"],
-                                                                                             "",
-                                                                                             file_name)
+                sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`, `encryption`) ' \
+                      'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(
+                            meta_data["device"],
+                            user_id,
+                            str(event_time),
+                            meta_data["type"],
+                            "",
+                            file_name,
+                            meta_data["encryption"])
                 cursor.execute(sql)
                 event_id = cursor.lastrowid
                 db.commit()
 
-                #publish.single("/insight/android", str(file_name), hostname="iot.eclipse.org")
+                # publish.single("/insight/android", str(file_name), hostname="iot.eclipse.org")
 
 

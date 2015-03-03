@@ -29,3 +29,6 @@ class AgentConfig():
 
     def get_device_id(self):
         return self.device_conf.get("Device", "id")
+
+    def get_device_key(self):
+        return self.device_conf.get("Device", "secretKey")
