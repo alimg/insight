@@ -23,7 +23,7 @@ class ConnectionHandler:
             if message['action'] == 'device_id':
                 self.online_devices[message['value']] = address
                 self.online_devices_rev[address] = message['value']
-                DBUtil.update_device_address(message['value'], address)
+                DBUtil.update_device_address(message['value'], address[0])
         except Exception, e:
             print e
 
