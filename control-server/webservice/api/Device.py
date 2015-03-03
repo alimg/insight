@@ -56,7 +56,7 @@ def get_latest_event(iid, ftype='jpeg'):
         with closing(db.cursor(buffered=True)) as cursor:
             # sql = "SELECT `date`, `filename` FROM `events` WHERE deviceid='{}' AND type='{}'".format(iid, ftype)
             # ignores iid for demo
-            sql = "SELECT `date`, `filename` FROM `events` WHERE type='{}'".format(ftype)
+            sql = "SELECT `date`, `filename` FROM `events` WHERE type='{}', deviceid='{}'".format(ftype, iid)
             print(sql)
             cursor.execute(sql)
             events = cursor.fetchall()
@@ -65,38 +65,22 @@ def get_latest_event(iid, ftype='jpeg'):
             return events[0]
 
 
-class PullImage(restful.Resource):
+class SendCommand(restful.Resource):
     def post(self):
+        user = SessionUtil.get_user_id(request.form['session'])
+        if not user:
+            return {'status': ServerConstants.STATUS_INVALID_SESSION}
         iid = request.form['insight_id']
-        act = request.form['act']
-        print act, iid
-        if act == 'take':
-            try:
+        req_type = request.form['type']
+
+        try:
+            if req_type == "photo":
                 ServerConstants.device_command_listener(iid, '{"action":"cap_photo"}')
-            except DeviceNotOnlineException:
-                return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
-            return {'status': '0'}
-        else:
-            event = get_latest_event(iid, 'jpeg')
-            output = StringIO()
-            print ServerConstants.STORAGE_DIR + event[1]
-            img = Image.open(ServerConstants.STORAGE_DIR + event[1])
-            img.save(output, 'PNG')
-            output.seek(0)
-            return send_file(output, mimetype='image/jpeg')
-
-
-class PullSound(restful.Resource):
-    def post(self):
-        iid = request.form['insight_id']
-        act = request.form['act']
-        print act
-        if act == 'take':
-            try:
+            elif req_type == "audio":
                 ServerConstants.device_command_listener(iid, '{"action":"cap_audio"}')
-            except DeviceNotOnlineException:
-                return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
-            return {'status': '0'}
-        else:  # ServerConstants.FILE
-            event = get_latest_event(iid, 'ogg')
-            return send_file(ServerConstants.STORAGE_DIR + event[1], mimetype='audio/ogg')
+            elif req_type == "video":
+                ServerConstants.device_command_listener(iid, '{"action":"cap_video"}')
+        except DeviceNotOnlineException:
+            return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
+        return {'status': '0'}
+

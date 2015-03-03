@@ -7,9 +7,10 @@ from sensors import SpiAdcController
 
 
 class HwController(Thread):
-    def __init__(self, camera_event_handler, audio_event_handler):
+    def __init__(self, camera_event_handler, video_event_handler,   audio_event_handler):
         super(HwController, self).__init__()
         self.camera_event_handler = camera_event_handler
+        self.video_event_handler = video_event_handler
         self.audio_event_handler = audio_event_handler
 
         self.camera = Camera.get_camera()
@@ -30,6 +31,8 @@ class HwController(Thread):
                 self.camera_event_handler(image)
             elif command['action'] == "cap_audio":
                 self.adc_controller.capture_audio(lambda captured_file: self.on_audio_captured(captured_file))
+            elif command['action'] == "cap_video":
+                self.camera.capture_video(lambda captured_file: self.on_video_captured(captured_file))
             elif command['action'] == "cap_temperature":
                 temp = self.adc_controller.read_temperature_sensor()
                 print temp
@@ -54,5 +57,8 @@ class HwController(Thread):
 
     def set_led_status(self, status):
         self.led_controller.set_status(status)
+
+    def on_video_captured(self, captured_file):
+        self.camera_event_handler(captured_file)
 
 

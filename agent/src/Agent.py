@@ -17,6 +17,7 @@ class Agent:
         EncryptionUtil.set_key(self.agentConfig.get_device_key())
         self.hwController = HwController.HwController(
             camera_event_handler=lambda event: self.uploadService.upload_photo(event),
+            video_event_handler=lambda event: self.uploadService.upload_video(event),
             audio_event_handler=lambda event: self.uploadService.upload_audio(event))
         self.commandClient = CommandClient.CommandClient()
         self.uploadService = UploadService.UploadService(self.agentConfig.get_device_id())

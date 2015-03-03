@@ -51,17 +51,6 @@
 			/>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:id="@+id/btn_get_img"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Get"
-			android:onClick="onBtnClick"
-
-			bb:bb_type="info"
-			bb:bb_icon_right="fa-download"
-			/>
-
-		<com.beardedhen.androidbootstrap.BootstrapButton
 			android:id="@+id/btn_list_photos"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -91,18 +80,7 @@
 			/>
 
 		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:id="@+id/btn_get_snd"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Get"
-			android:onClick="onBtnClick"
-
-			bb:bb_type="info"
-			bb:bb_icon_right="fa-download"
-			/>
-
-		<com.beardedhen.androidbootstrap.BootstrapButton
-			android:id="@+id/btn_play_snd"
+			android:id="@+id/btn_list_snd"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/btn_list_sounds"
@@ -113,6 +91,34 @@
 			/>
 	</LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_take_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_req_video"
+            android:onClick="onBtnClick"
+
+            bb:bb_type="primary"
+            bb:bb_icon_left="fa-file-sound-o"
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_list_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_list_sounds"
+            android:onClick="onBtnClick"
+
+            bb:bb_type="success"
+            bb:bb_icon_right="fa-play"
+            />
+    </LinearLayout>
 	<com.beardedhen.androidbootstrap.BootstrapButton
 		android:id="@+id/btn_wifi_setup"
 		android:layout_width="wrap_content"
