@@ -16,7 +16,7 @@
 		android:layout_marginRight="8dp"
 		android:layout_marginTop="4dp"
 		android:contentDescription="@string/icon"
-		android:src="@drawable/bbuton_success"
+		android:src="@drawable/ic_launcher"
 		/>
 
 	<!-- title -->
@@ -24,11 +24,25 @@
 		android:id="@+id/insight_item_id"
 		android:layout_height="wrap_content"
 		android:textSize="18sp"
-		android:paddingTop="16dp"
+		android:paddingTop="8dp"
+		android:paddingBottom="8dp"
 		android:text="@string/app_name"
 		android:layout_width="0dp"
 		android:textColor="@color/black"
 		android:layout_weight="1"/>
+
+	<!-- button -->
+	<com.beardedhen.androidbootstrap.FontAwesomeText
+		android:id="@+id/item_on_off"
+		android:layout_width="32dp"
+		android:layout_height="match_parent"
+		bootstrapbutton:fa_icon="fa-toggle-on"
+		android:textSize="16sp"
+		android:textColor="#ffffff"
+		android:paddingLeft="8dp"
+		android:paddingRight="8dp"
+		android:background="@color/bbutton_success"
+		/>
 
 	<!-- button -->
 	<com.beardedhen.androidbootstrap.FontAwesomeText

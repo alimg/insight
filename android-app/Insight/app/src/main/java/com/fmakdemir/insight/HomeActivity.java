@@ -123,10 +123,6 @@ public class HomeActivity extends Activity {
 				intent = new Intent(HomeActivity.this, RegisterInsightActivity.class);
 				startActivity(intent);
 				break;
-            case R.id.btn_settings:
-                intent = new Intent(HomeActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                break;
 		}
 	}
 
@@ -145,7 +141,9 @@ public class HomeActivity extends Activity {
         int id = item.getItemId();
 		switch (id) {
 			case R.id.action_settings:
-				Toast.makeText(getApplicationContext(), "Action Settings", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+				startActivity(intent);
+//				Toast.makeText(getApplicationContext(), "Action Settings", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.action_logout:
 				LoginService.getInstance(this).clearSession();
