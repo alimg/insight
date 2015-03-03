@@ -15,7 +15,6 @@ class ConnectionHandler:
         context.send_message(json.dumps({'action': 'get_device_id'}))
         self.device_context[address] = context
 
-
     def on_receive(self, address, data):
         print "received message", address, data
         try:
@@ -32,6 +31,7 @@ class ConnectionHandler:
         dev_id = self.online_devices_rev[address]
         self.online_devices.pop(dev_id, None)
         self.online_devices_rev.pop(address)
+        DBUtil.update_device_address(dev_id, "")
 
     def get_device_ip(self, device_id):
         if device_id in self.online_devices:
@@ -40,6 +40,7 @@ class ConnectionHandler:
 
     def get_device_context(self, device_address):
         return self.device_context[device_address]
+
 
 INSTANCE = ConnectionHandler()
 
