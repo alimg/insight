@@ -38,7 +38,14 @@ def check_connectivity():
 
 
 def get_wlan0_ip():
-    out = check_output(["sh", "-c", "ip addr show wlan0 | grep inet | awk '{ print $2 }'"])
+    out = check_output(["sh", "-c", "ip addr show wlan0 | grep 'inet[^6]' | awk '{ print $2 }'"])
+    if len(out) == 0:
+        return None
+    return out[0:out.find('/')]
+
+
+def get_eth0_ip():
+    out = check_output(["sh", "-c", "ip addr show eth0 | grep 'inet[^6]' | awk '{ print $2 }'"])
     if len(out) == 0:
         return None
     return out[0:out.find('/')]

@@ -24,7 +24,9 @@ class Agent:
 
     def run(self):
         user_conf = self.agentConfig.get_user_conf()
-        local_ip = WifiUtil.get_wlan0_ip()
+        local_ip = WifiUtil.get_eth0_ip()
+        if not local_ip or local_ip == "":
+            local_ip = WifiUtil.get_wlan0_ip()
         print "Local IP: ", local_ip
         print "User conf: ", user_conf
         if not user_conf:
