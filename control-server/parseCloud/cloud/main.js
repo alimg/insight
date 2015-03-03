@@ -17,10 +17,12 @@ Parse.Cloud.define("update", function(request, response) {
     }
   }, {
     success: function() {
+      response.success("Pushed: "+request.params.userid);
       // Push was successful
     },
     error: function(error) {
       // Handle error
+      response.error("Couldn'nt push: "+request.params.userid);
     }
   });
 });
