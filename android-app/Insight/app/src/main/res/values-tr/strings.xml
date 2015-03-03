@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Insight</string>
+	<string name="action_settings">Ayarlar</string>
+	<string name="btn_add_insight">Yeni Ekle</string>
+	<string name="btn_generate_qr">QR Uret</string>
+	<string name="btn_list_photos">Resimleri Sirala</string>
+	<string name="btn_list_sounds">Sesleri Sirala</string>
+	<string name="btn_make_qr">QR Uret</string>
+	<string name="btn_req_photo">Resim Iste</string>
+	<string name="btn_req_sound">Sound Iste</string>
+	<string name="btn_scan_qr">QR Oku</string>
+	<string name="btn_wifi_setup">WiFi Ayarla</string>
+	<string name="edit_title_device_list">Cihaz Listesi</string>
+	<string name="edt_list_sounds_title">Cihazdaki Ses Listesi</string>
+	<string name="edt_photo_list_title">Cihazdaki Resim Listesi</string>
+	<string name="edt_qr_str">QR Yazisi</string>
+	<string name="email">Email</string>
+	<string name="hello_world">Hello World!</string>
+	<string name="hint_insight_id">Insight ID</string>
+	<string name="hint_wifi_name">WiFi Ismi</string>
+	<string name="hint_wifi_password">WiFi Sifresi</string>
+	<string name="icon">icon</string>
+	<string name="login">Giris</string>
+	<string name="logout">Cikis</string>
+	<string name="password">Sifre</string>
+	<string name="register">Kayit Ol</string>
+	<string name="text_register_msg">Yeni Uye Kaydi</string>
+	<string name="title_activity_home">Ana Menu</string>
+	<string name="title_activity_image_test">test</string>
+	<string name="title_activity_photo_list">Resimleri Listele</string>
+	<string name="title_activity_qrscanner">QR Okuyucu</string>
+	<string name="title_activity_register">Kullanici Kayit</string>
+	<string name="title_activity_register_insight">Insight Kayit</string>
+	<string name="title_activity_sound_list">Sesleri Listele</string>
+	<string name="title_activity_splash">Giris Yap</string>
+	<string name="title_activity_web_view">wva</string>
+	<string name="title_activity_wifi_setup">Wifi Ayarla</string>
+	<string name="username">Kullanici Adi</string>
+</resources>

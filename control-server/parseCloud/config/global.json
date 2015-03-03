@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "_default": {
+            "link": "insight"
+        }, 
+        "insight": {
+            "applicationId": "HIWZgDpELVc7HanpltUv1EtSPGF5eBGJBj6QGrVS", 
+            "masterKey": "TLcrMb17sBdl7X7zyDpEXKzeUF0PlrApcIYhelQW"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.5"
+    }
+}

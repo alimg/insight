@@ -15,14 +15,15 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+		android:weightSum="1">
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/btn_add_new"
-            android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_add_insight"
-            android:layout_gravity="center_horizontal"
             android:onClick="btnClicked"
 
             bb:bb_type="success"
@@ -31,13 +32,14 @@
 
         <com.beardedhen.androidbootstrap.BootstrapButton
             android:id="@+id/btn_event_list"
-            android:layout_width="wrap_content"
+			android:layout_weight="1"
+			android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/btn_list_events"
             android:onClick="btnClicked"
 
             bb:bb_type="success"
-            bb:bb_icon_right="fa-plus"
+            bb:bb_icon_right="fa-list"
             />
 
         <com.beardedhen.androidbootstrap.BootstrapButton

@@ -32,13 +32,7 @@ public class DataHolder {
 	//final private static String serverHostname = "188.166.5.98:5000";
 	final private static String serverProtocol = "http://";
 
-	private static Context C;
-	private static Drawable d;
 	private static InsightListAdapter listAdapter;
-
-	public static void setContext(Context C) {
-		DataHolder.C = C;
-	}
 
 	// common HttpClient for cookies
 	public static HttpClient getHttpClient() {
@@ -60,14 +54,6 @@ public class DataHolder {
 //		return Environment.getExternalStorageDirectory().toString();
 //		return C.getFilesDir().getAbsolutePath();
 		return Environment.getDownloadCacheDirectory().toString();
-	}
-
-	public static void setD(Drawable d) {
-		DataHolder.d = d;
-	}
-
-	public static Drawable getD() {
-		return d;
 	}
 
 	public static void setListAdapter(InsightListAdapter adapter) {

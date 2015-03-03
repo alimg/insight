@@ -3,6 +3,7 @@ from UploadServer import UploadServer
 from CommandServer import CommandServer
 from webservice import WebService
 from webservice.api import ServerConstants
+from webservice.api import ParseUtil
 
 import datetime
 
@@ -58,6 +59,6 @@ class AppMain:
                 event_id = cursor.lastrowid
                 db.commit()
 
-                # publish.single("/insight/android", str(file_name), hostname="iot.eclipse.org")
+                ParseUtil.send_push(user_id, "Event: "+meta_data["type"])
 
 
