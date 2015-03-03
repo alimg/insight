@@ -11,7 +11,7 @@ def hash_string(string):
 def update_device_address(dev_id, address):
     with closing(ServerConstants.mysql_pool.get_connection()) as db:
         with closing(db.cursor(buffered=True)) as cursor:
-            sql = "UPDATE `devices` SET `last_response`='{}' `address`='{}' WHERE id={}".format(datetime.datetime.now(), address, dev_id)
+            sql = "UPDATE `devices` SET `last_response`='{}', `address`='{}' WHERE id={}".format(datetime.datetime.now(), address, dev_id)
             cursor.execute(sql)
             db.commit()
 
