@@ -47,7 +47,7 @@ class DeviceInfo(restful.Resource):
                 if result:
                     result = result[0]
                     return {"status": '0', "address": str(result[0]),
-                            "lastResponse": str(request[1])}
+                            "lastResponse": str(result[1])}
         return {"status": ServerConstants.STATUS_ERROR}
 
 
