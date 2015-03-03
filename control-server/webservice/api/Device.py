@@ -9,8 +9,6 @@ from PIL import Image
 
 import ServerConstants
 import SessionUtil
-import DBUtil
-import DeviceConnectionManager
 from CommandServer import DeviceNotOnlineException
 
 

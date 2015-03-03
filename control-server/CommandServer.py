@@ -1,6 +1,6 @@
 from threading import Thread
 import SocketServer
-import DeviceConnctionManager
+import DeviceConnectionManager
 
 
 class DeviceNotOnlineException(Exception):
@@ -13,7 +13,7 @@ class CommandServer(Thread, SocketServer.TCPServer):
         self.daemon = True
         SocketServer.TCPServer.allow_reuse_address = True
         SocketServer.TCPServer.__init__(self, address, ClientConnectionHandler)
-        self.devices_manager = DeviceConnctionManager.get_instance()
+        self.devices_manager = DeviceConnectionManager.get_instance()
 
     def run(self):
         self.serve_forever()
