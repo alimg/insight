@@ -74,11 +74,14 @@ public class MediaWebApiHandler extends BaseWebApiHandler {
                         FileOutputStream fout = new FileOutputStream(target);
                         InputStream in = response.getEntity().getContent();
                         byte buffer[] = new byte[1024];
+                        long totalBytes = 0;
                         int bytes;
                         while ((bytes = in.read(buffer)) > -1) {
                             fout.write(buffer, 0, bytes);
+                            totalBytes += bytes;
                         }
                         fout.close();
+                        Log.d("Downloader", "Total bytes: " + totalBytes +" ("+response.getEntity().getContentLength()+")");
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {

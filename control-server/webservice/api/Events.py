@@ -59,3 +59,5 @@ class GetData(restful.Resource):
                         return send_file(filename, mimetype='image/jpeg')
                     elif event_type == 'ogg':
                         return send_file(filename, mimetype='audio/ogg')
+                    elif event_type == 'h264':
+                        return send_file(filename, mimetype='video/h264')

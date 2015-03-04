@@ -49,7 +49,7 @@ public class EventListAdapter extends BaseAdapter{
             
         if (event.type.equals("ogg"))
             ((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource(R.drawable.ic_audio);
-        else if (event.type.equals("mpeg"))
+        else if (event.type.equals("h264"))
             ((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource(R.drawable.ic_video);
         else ((ImageView)convertView.findViewById(R.id.thumbnail)).setImageResource(R.drawable.ic_image);
         return convertView;
