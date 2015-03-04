@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.VideoView;
 
 import com.fmakdemir.insight.adapters.EventListAdapter;
 import com.fmakdemir.insight.webservice.LoginService;
@@ -42,6 +43,7 @@ public class EventListActivity extends Activity {
     private View layoutOverlay;
     private ImageView imageView;
     private MediaPlayer mMediaPlayer;
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class EventListActivity extends Activity {
             }
         });
         imageView = (ImageView)findViewById(R.id.imageView);
+        videoView = (VideoView)findViewById(R.id.videoView);
         ListView listView = (ListView)findViewById(R.id.list_events);
         mAdapter = new EventListAdapter(this);
         listView.setAdapter(mAdapter);
@@ -103,6 +106,9 @@ public class EventListActivity extends Activity {
                                 e.printStackTrace();
                             }
                             imageView.setImageResource(R.drawable.ic_audio);
+                        } else if(event.type.equals("h264")) {
+                            videoView.setVideoPath(file.getPath());
+                            videoView.start();
                         }
                     }
 
