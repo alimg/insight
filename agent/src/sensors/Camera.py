@@ -28,14 +28,16 @@ class Camera():
     def capture_video(self, callback):
         if self.thread:
             return
-        self.callback = callback
+        """self.callback = callback
         rec_func = self._record
         rec_callback = self.on_recording_finished
         self.thread = Thread(target=rec_func, args=(rec_callback,))
-        self.thread.start()
+        self.thread.start()"""
+        self._record(callback)
 
     def _record(self, callback):
         file_name = 'video.h264'
+        self.camera.resolution = (1024, 768)
         self.camera.start_recording(file_name)
         time.sleep(5)
         self.camera.stop_recording()

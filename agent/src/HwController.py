@@ -59,6 +59,6 @@ class HwController(Thread):
         self.led_controller.set_status(status)
 
     def on_video_captured(self, captured_file):
-        self.camera_event_handler(captured_file)
+        self.video_event_handler(captured_file)
 
 
