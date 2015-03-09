@@ -4,7 +4,7 @@ import DaemonThread
 import json
 
 from ServerConstants import *
-
+import select
 
 class CommandClient(DaemonThread.DaemonThread):
     def __init__(self):
@@ -16,15 +16,20 @@ class CommandClient(DaemonThread.DaemonThread):
     def _run(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect(NET_SERVER_ADDRESS)
-        #self.socket.send("hello")
+        self.socket.setblocking(0)
 
         while self.running:
-            data = self.socket.recv(1024)
+            ready = select.select([self.socket], [], [], 30)
+            if ready[0]:
+                data = self.socket.recv(4096)
+            else:
+                continue
             if not data:
                 print "socket down"
                 time.sleep(5)
                 self.socket.close()
                 raise socket.error()
+
             for handler in self.commandHandlers:
                 handler(data)
 
