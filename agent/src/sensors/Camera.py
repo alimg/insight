@@ -17,6 +17,7 @@ class Camera():
         self.camera.resolution = resolution
 
     def take_picture(self):
+        self.camera.resolution = (1440, 1080)
         time_begin = time.time()
         self.stream.seek(0)
         self.camera.capture(self.stream, format='jpeg', use_video_port=True)
@@ -39,7 +40,7 @@ class Camera():
         file_name = 'video.h264'
         self.camera.resolution = (1024, 768)
         self.camera.start_recording(file_name)
-        time.sleep(5)
+        time.sleep(10)
         self.camera.stop_recording()
 
         callback(file_name)
