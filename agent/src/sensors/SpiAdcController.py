@@ -5,12 +5,16 @@ import struct
 from threading import Thread
 from subprocess import call
 
-_adc = spi.SpiDev(0, 0)
+_adc1 = spi.SpiDev(0, 0)    #audio
+_adc2 = spi.SpiDev(0, 1)    #ldr
 
 print "PY: initialising SPI mode, speed, delay"
-_adc.mode = 2
-_adc.bits_per_word = 8
-_adc.max_speed_hz = 721000
+_adc1.mode = 2
+_adc1.bits_per_word = 8
+_adc1.max_speed_hz = 721000
+_adc2.mode = 2
+_adc2.bits_per_word = 8
+_adc2.max_speed_hz = 721000
 
 
 class AdcController():
@@ -33,7 +37,7 @@ class AdcController():
         while i:
             i -= 1
             #t1 = time.time()
-            ar = _adc.xfer(tx)
+            ar = _adc1.xfer(tx)
             #print len(ar)/2.0/(time.time()-t1)
             buff.append(ar[2:])
         elapsed = time.time() - tbegin
@@ -60,7 +64,7 @@ class AdcController():
         tx = []
         for i in range(9):
             tx.extend([0, 1])
-        ar = _adc.xfer(tx)
+        ar = _adc2.xfer(tx)
         lar = len(ar)
         j = 2
         value = 0
@@ -77,7 +81,7 @@ class AdcController():
         tx = []
         for i in range(9):
             tx.extend([0, 1])
-        ar = _adc.xfer(tx)
+        ar = _adc1.xfer(tx)
         lar = len(ar)
         j = 2
         value = 0

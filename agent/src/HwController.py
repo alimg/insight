@@ -1,5 +1,6 @@
-from threading import Thread
+from threading import Thread, Timer
 import Queue
+from sensors.IRController import IRController
 from sensors.LedController import LedController
 from sensors.PIRSensor import PIRSensor
 from sensors import Camera
@@ -20,6 +21,8 @@ class HwController(Thread):
         self.running = True
         self.pir_sensor = PIRSensor(lambda: self.on_pir_trigger())
         self.led_controller = LedController()
+        self.IR_controller = IRController()
+        self.start_ldr_timer()
 
     def run(self):
         while self.running:
@@ -37,8 +40,6 @@ class HwController(Thread):
                 temp = self.adc_controller.read_temperature_sensor()
                 print temp
 
-
-
     def process_command(self, command):
         print "processCommand ", command
         self.command_queue.put(command)
@@ -48,7 +49,6 @@ class HwController(Thread):
         self.command_queue.put(self._STOP)
 
     def on_pir_trigger(self):
-        print "hello human"
         image = self.camera.take_picture()
         self.camera_event_handler(image)
 
@@ -61,4 +61,12 @@ class HwController(Thread):
     def on_video_captured(self, captured_file):
         self.video_event_handler(captured_file)
 
-
+    def start_ldr_timer(self):
+        ldr_val = self.adc_controller.read_ldr_sensor()
+        print "LDR: ", ldr_val
+        if ldr_val > 2500:
+            self.IR_controller.enable()
+        else:
+            self.IR_controller.disable()
+        self.ldr_timer = Timer(5.0, lambda: self.start_ldr_timer())
+        self.ldr_timer.start()

@@ -11,6 +11,7 @@ class PIRSensor(Sensor):
 
     def trigger(self, channel):
         if GPIO.input(PIN_PIR):
+            print "PIR Trigger"
             self.callback()
 
 

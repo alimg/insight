@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 
 PIN_PIR = 3
+PIN_IR = 5
 
 PIN_LED_R = 11
 PIN_LED_G = 13

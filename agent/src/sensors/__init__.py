@@ -3,6 +3,7 @@ from GPIOInterface import *
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(PIN_PIR, GPIO.IN)
+GPIO.setup(PIN_IR, GPIO.OUT)
 
 GPIO.setup(PIN_LED_R, GPIO.OUT)
 GPIO.setup(PIN_LED_G, GPIO.OUT)
