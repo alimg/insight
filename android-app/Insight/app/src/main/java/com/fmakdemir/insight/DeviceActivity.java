@@ -32,11 +32,11 @@ public class DeviceActivity extends Activity {
         @Override
         public void onSuccess(BaseResponse data) {
             if (data.status.equals(WebApiConstants.STATUS_SUCCESS)) {
-                ToastIt("Command sent.");
+                toastIt("Command sent.");
             }  else if (data.status.equals(WebApiConstants.STATUS_DEVICE_OFFLINE)) {
-                ToastIt("Device is not online.");
+                toastIt("Device is not online.");
             } else {
-                ToastIt("Error sending command.");
+                toastIt("Error sending command.");
             }
 
             btnTakeImg.setEnabled(true);
@@ -110,11 +110,11 @@ public class DeviceActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-	void ToastIt(String str) {
-		ToastIt(str, Toast.LENGTH_SHORT);
+	void toastIt(String str) {
+		toastIt(str, Toast.LENGTH_SHORT);
 	}
 
-	void ToastIt(String str, int duration) {
+	void toastIt(String str, int duration) {
 		Toast.makeText(getApplicationContext(), str, duration).show();
 	}
 
@@ -147,6 +147,15 @@ public class DeviceActivity extends Activity {
 			case R.id.btn_wifi_setup:
 				startActivity(new Intent(this, WifiSetupActivity.class));
 				break;
+            case R.id.btn_mute:
+                DeviceWebApiHandler.setDevicesEnabled(loginService.getSessionToken(), insightIid,
+                        false, onCommandCallback);
+                break;
+            case R.id.btn_unmute:
+                DeviceWebApiHandler.setDevicesEnabled(loginService.getSessionToken(), insightIid,
+                        true, onCommandCallback);
+                break;
+
 		}
 	}
 }

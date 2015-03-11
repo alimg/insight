@@ -1,10 +1,12 @@
 package com.fmakdemir.insight;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -78,6 +80,7 @@ public class EventListActivity extends Activity {
 
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        videoView.setVisibility(View.GONE);
 
         MediaWebApiHandler.listEvents(loginService.getSessionToken(), mListener);
     }
@@ -107,8 +110,12 @@ public class EventListActivity extends Activity {
                             }
                             imageView.setImageResource(R.drawable.ic_audio);
                         } else if(event.type.equals("h264")) {
-                            videoView.setVideoPath(file.getPath());
-                            videoView.start();
+                            //videoView.setVideoPath(file.getPath());
+                            //videoView.start();
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setPackage("org.videolan.vlc.betav7neon");
+                            i.setDataAndType(Uri.fromFile(file), "video/h264");
+                            startActivity(i);
                         }
                     }
 

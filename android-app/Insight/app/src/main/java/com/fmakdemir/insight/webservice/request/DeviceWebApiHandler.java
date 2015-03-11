@@ -86,4 +86,21 @@ public class DeviceWebApiHandler extends BaseWebApiHandler {
         }
         connect(req, callback, BaseResponse.class);
     }
+
+    public static void setDevicesEnabled(String token, String deviceId, boolean enable,WebApiCallback<BaseResponse> callback) {
+        HttpPost req = new HttpPost(URL_INSIGHT_COMMAND);
+
+        List<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("session", token));
+        nameValuePairs.add(new BasicNameValuePair("insight_id", deviceId));
+        nameValuePairs.add(new BasicNameValuePair("type", "setSystemEnabled"));
+        nameValuePairs.add(new BasicNameValuePair("enable", enable? "true": "false"));
+
+        try {
+            req.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        connect(req, callback, BaseResponse.class);
+    }
 }

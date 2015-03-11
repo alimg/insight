@@ -6,6 +6,7 @@ import json
 from ServerConstants import *
 import select
 
+
 class CommandClient(DaemonThread.DaemonThread):
     def __init__(self):
         super(CommandClient, self).__init__()
@@ -19,10 +20,11 @@ class CommandClient(DaemonThread.DaemonThread):
         self.socket.setblocking(0)
 
         while self.running:
-            ready = select.select([self.socket], [], [], 30)
+            ready = select.select([self.socket], [], [], 60)
             if ready[0]:
                 data = self.socket.recv(4096)
             else:
+                self.socket.sendall(json.dumps({"action": "ping"}))
                 continue
             if not data:
                 print "socket down"

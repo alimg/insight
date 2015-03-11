@@ -4,6 +4,7 @@ from CommandServer import CommandServer
 from webservice import WebService
 from webservice.api import ServerConstants
 from webservice.api import ParseUtil
+from webservice.api import DBUtil
 
 import datetime
 import json
@@ -17,8 +18,7 @@ class AppMain:
         self.command_server = CommandServer((HOST, COMMAND_SERVER_PORT))
         self.upload_server = UploadServer((HOST, UPLOAD_SERVER_PORT),
                                           lambda meta_data, file_name: self.on_file_uploaded(meta_data, file_name))
-        self.web_service = WebService.WebService(
-            lambda device, command: self.command_server.send_command(device, command))
+        self.web_service = WebService.WebService(self.device_command_handler)
         self.running = True
 
     def start(self):
@@ -35,6 +35,16 @@ class AppMain:
         while self.running:
             self.command_server.join(1000)
             self.upload_server.join(1000)
+
+    def device_command_handler(self, device, command):
+        if command.action == 'config_change':
+            if 'system_enabled' in command:
+                alarm_threshold = 0 if command.system_enabled else 1
+                DBUtil.set_alarm_threshold(device, alarm_threshold)
+                self.command_server.send_command(device, json.dumps({"action": "config_change",
+                                                                     "alarm_threshold": alarm_threshold}))
+        else:
+            self.command_server.send_command(device, json.dumps(command))
 
     def on_file_uploaded(self, meta_data, file_name):
         with closing(ServerConstants.mysql_pool.get_connection()) as db:

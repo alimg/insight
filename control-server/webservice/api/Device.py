@@ -75,11 +75,14 @@ class SendCommand(restful.Resource):
 
         try:
             if req_type == "photo":
-                ServerConstants.device_command_listener(iid, '{"action":"cap_photo"}')
+                ServerConstants.device_command_listener(iid, {"action": "cap_photo"})
             elif req_type == "audio":
-                ServerConstants.device_command_listener(iid, '{"action":"cap_audio"}')
+                ServerConstants.device_command_listener(iid, {"action": "cap_audio"})
             elif req_type == "video":
-                ServerConstants.device_command_listener(iid, '{"action":"cap_video"}')
+                ServerConstants.device_command_listener(iid, {"action": "cap_video"})
+            elif req_type == "setSystemEnabled":
+                enabled = 'true' == request.form['true']
+                ServerConstants.device_command_listener(iid, {"action": "config_change", "system_enabled": enabled})
         except DeviceNotOnlineException:
             return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
         return {'status': '0'}

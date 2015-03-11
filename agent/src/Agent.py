@@ -63,5 +63,7 @@ class Agent:
         command = json.loads(data)
         if command["action"] == 'get_device_id':
             self.commandClient.send_message({"action": "device_id", "value": self.agentConfig.get_device_id()})
+        elif command["action"] == 'pong':
+            pass
         else:
             self.hwController.process_command(command)

@@ -20,9 +20,15 @@ class ConnectionHandler:
         try:
             message = json.loads(data)
             if message['action'] == 'device_id':
-                self.online_devices[message['value']] = address
-                self.online_devices_rev[address] = message['value']
-                DBUtil.update_device_address(message['value'], address[0])
+                dev_id = message['value']
+                self.online_devices[dev_id] = address
+                self.online_devices_rev[address] = dev_id
+                DBUtil.update_device_address(dev_id, address[0])
+                config = DBUtil.get_device_config(dev_id)
+                self.device_context[address].send_message(json.dumps({"action": "config",
+                                                                      "alarm_threshold": config['alarm_threshold']}))
+            elif message['action'] == 'ping':
+                self.device_context[address].send_message(json.dumps({"action": "pong"}))
         except Exception, e:
             print e
 
