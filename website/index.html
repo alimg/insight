@@ -13,11 +13,11 @@
     <!-- Custom CSS -->
     <link href="css/custom.css" rel="stylesheet">
     <!-- Custom Fonts -->
-    <!--link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
     rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"
-    type="text/css"-->
+    type="text/css">
     <link href="css/jquery.fancybox.css" rel="stylesheet">
     <link href="css/flickity.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
@@ -39,7 +39,7 @@
                 </button>
                 <a class="navbar-brand page-scroll" href="">
                     <h2>
-                        <img class="logo" src="img/vigilant-logo.png" />
+                        <img id="logo-sml" src="img/vigilant-logo.png" />
 					</h2>
                 </a>
             </div>
@@ -77,6 +77,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
+                    <center>
+                        <img id="logo-big" src="img/vigilant-logo.png" />
+                    </center>
+                </div>
+                <div class="col-lg-12">
                     <div class="collapse" id="vigilant-long">
                         <div class="lead">
                             Vigilant Technologies is a smart security systems start up. As a company we are aiming
@@ -89,10 +94,12 @@
                             customers’ privacy.
                         </div>
                     </div>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#vigilant-long"
-                    aria-expanded="false" aria-controls="vigilant-long" id="btn-vigilant">
-                        More <i class="fa fa-angle-double-right"></i>
-                    </button>
+                    <center>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#vigilant-long"
+                        aria-expanded="false" aria-controls="vigilant-long" id="btn-vigilant">
+                            More About Us <i class="fa fa-angle-double-right"></i>
+                        </button>
+                    </center>
                     <p class="lead intro-message">
                     </p>
                 </div>
@@ -210,8 +217,21 @@
                         </div>
                         <div class="col-lg-9 col-sm-12">
                             <h3 class="section-heading">Alim Şükrücan Gökkaya</h3>
-                            <p class="lead">He is a senior undergrad student Bilkent Computer Science who have previously worked on distributed software systems, data visualization, Unix systems, RESTful web services and Android application development. He has worked on a distributed log management software at Comodo Inc as a software engineer.
+                            <p class="lead">Alim is Software Engieer</p>
+                            <p class="lead bio-long" id="ag-bio-long">He is a senior undergrad student Bilkent Computer Science
+                                who have previously worked on distributed software
+                                systems, data visualization, Unix systems, RESTful
+                                web services and Android application development.
+                                He has worked on a distributed log management software
+                                at Comodo Inc as a software engineer.
                             </p>
+                            <div class="dropdown col-lg-12 col-sm-12">
+                                <a class="col-lg-12 col-sm-12" data-target="#ag-bio-long">
+                                    <img class="bio-img-off" src="img/dropdown.png" />
+                                    <img class="bio-img-on" src="img/pullup.png" />
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                     <div class="row">
@@ -223,7 +243,7 @@
                             <h3 class="section-heading">Burak Kakdaş</h3>
                             <p class="lead">Burak acts as the CEO of Vigilant Technologies, and serves
                                 as an Hardware Engineer in our team to develop InSight.</p>
-                            <p class="lead">Burak currently pursues a first degree in Electrical
+                            <p class="lead bio-long" id="bk-bio-long">Burak currently pursues a first degree in Electrical
                                 and Electronics Engineering and a minor degree in
                                 Economics as a senior undergraduate student at Bilkent
                                 University with scholarship. He has also spent a
@@ -243,6 +263,13 @@
                                 MUN Conference of Bilkent University (MUNBU).
 
                             </p>
+                            <div class="dropdown col-lg-12 col-sm-12">
+                                <a class="col-lg-12 col-sm-12" data-target="#bk-bio-long">
+                                    <img class="bio-img-off" src="img/dropdown.png" />
+                                    <img class="bio-img-on" src="img/pullup.png" />
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                     <div class="row">
@@ -253,7 +280,7 @@
                         <div class="col-lg-9 col-sm-12">
                             <h3 class="section-heading">Furkan Mustafa Akdemir</h3>
                             <p class="lead"> Furkan acts as both Software Engineer and Designer</p>
-                            <p class="lead"> He is a senior undergraduate at Bilkent University, Computer
+                            <p class="lead bio-long" id="fm-bio-long"> He is a senior undergraduate at Bilkent University, Computer
                                 Engineering Dept. He worked on M2M systems, android,
                                 server design on different frameworks. He also worked
                                 on network protocols and implemented a protocol for
@@ -278,6 +305,12 @@
                                 <br> His hobbies are drawing sketches, crafting using
                                 wood and clay.
                             </p>
+                            <div class="dropdown col-lg-12 col-sm-12">
+                                <a class="col-lg-12 col-sm-12" data-target="#fm-bio-long">
+                                    <img class="bio-img-off" src="img/dropdown.png" />
+                                    <img class="bio-img-on" src="img/pullup.png" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -287,9 +320,9 @@
                         </div>
                         <div class="col-lg-9 col-sm-12">
                             <h3 class="section-heading">Mustafa Büyükkara</h3>
-                            <p class="lead bio-on">Mustafa is Financial Manager of Vigilant Companies, and
-                                acts as the Project Manager of InSight</p>
-                            <p class="lead bio-off">Mustafa is currently pursuing undergraduate degree from
+                            <div class="lead bio-on">Mustafa is Financial Manager of Vigilant Companies, and
+                                acts as the Project Manager of InSight</div>
+                            <div class="lead bio-long" id="mb-bio-long">Mustafa is currently pursuing undergraduate degree from
                                 Industrial Engineering Department with a minor degree
                                 in Economics at Bilkent University. Through his university
                                 education, he has focused and taken courses on Entrepreneurship,
@@ -302,13 +335,13 @@
                                 junior consultant intern. Currently he is serving
                                 as teaching assistant for the Applied Data Analysis
                                 course.
-                            </p>
-                        </div>
-                        <div class="dropdown col-lg-12 col-sm-12">
-                            <a class="col-lg-12 col-sm-12">
-                                <img class="bio-img-off" src="img/dropdown.png"/>
-                                <img class="bio-img-on" src="img/pullup.png" />
-                            </a>
+                            </div>
+                            <div class="dropdown col-lg-12 col-sm-12">
+                                <a class="col-lg-12 col-sm-12" data-target="#mb-bio-long">
+                                    <img class="bio-img-off" src="img/dropdown.png" />
+                                    <img class="bio-img-on" src="img/pullup.png" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -321,7 +354,7 @@
                             <p class="lead">Seyyid is responsible for Sales and Marketing in Vigilant
                                 Technologies.
                             </p>
-                            <p class="lead"> He is continuing the undergraduate B.S. degree from Industrial
+                            <p class="lead bio-long" id="ss-bio-long"> He is continuing the undergraduate B.S. degree from Industrial
                                 Engineering Department in Bilkent and also previously
                                 worked for “Young Entrepreneurs Club” ,serving as
                                 branch subgroup organizer, which is one of the most
@@ -332,6 +365,12 @@
                                 İçecek, he served in a project which is related with
                                 both Sales and Finance Department.
                             </p>
+                            <div class="dropdown col-lg-12 col-sm-12">
+                                <a class="col-lg-12 col-sm-12" data-target="#ss-bio-long">
+                                    <img class="bio-img-off" src="img/dropdown.png" />
+                                    <img class="bio-img-on" src="img/pullup.png" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -341,7 +380,8 @@
                         </div>
                         <div class="col-lg-9 col-sm-12">
                             <h3 class="section-heading">Yiğit Demirağ</h3>
-                            <p class="lead">He is currently in his senior year of undergraduate studies
+                            <p class="lead">Yiğit acts as Hardware Engineer and Innovation Technologies</p>
+                            <p class="lead bio-long" id="yd-bio-long">He is currently in his senior year of undergraduate studies
                                 at Department of Electrical and Electronics Engineering
                                 at Bilkent University, in Turkey. He was the mentor
                                 of Blindstore, a private information retrieval data
@@ -357,6 +397,12 @@
                                 computational electromagnetic to improve load-balancing
                                 and reduce memory usage with openMP.
                             </p>
+                            <div class="dropdown col-lg-12 col-sm-12">
+                                <a class="col-lg-12 col-sm-12" data-target="#yd-bio-long">
+                                    <img class="bio-img-off" src="img/dropdown.png" />
+                                    <img class="bio-img-on" src="img/pullup.png" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -433,18 +479,18 @@
         </div>
     </footer>
     <!-- jQuery -->
-    <script src="/js/jquery-2.1.3.min.js"></script>
+    <script src="js/jquery-2.1.3.min.js"></script>
     <!--js/jquery-2.1.3.min.js"></script-->
     <!-- Bootstrap Core JavaScript -->
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <!-- Plugin JavaScript -->
-    <script src="/js/jquery.easing.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="/js/custom.js"></script>
-    <script src="/js/flickity.pkgd.min.js"></script>
-    <script src="/js/jquery.fancybox.pack.js"></script>
-    <script src="/js/waypoints.min.js"></script>
-    <script src="/js/video-box-min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/flickity.pkgd.min.js"></script>
+    <script src="js/jquery.fancybox.pack.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/video-box-min.js"></script>
 </body>
 
 </html>

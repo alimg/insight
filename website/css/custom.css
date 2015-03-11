@@ -312,7 +312,7 @@ body {
     margin: 5px;
     vertical-align: center;
 }
-.logo {
+#logo-sml {
     height: 100px;
     padding: 10px;
     border-radius: 10px;
@@ -329,4 +329,8 @@ body {
 
 .bio-off {
 	display: none;
+}
+
+h1 {
+	text-align: center;
 }

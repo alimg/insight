@@ -6,14 +6,18 @@
 
 // jQuery to collapse the navbar on scroll
 var navbar_offset = $('.navbar-fixed-top').height();
-console.log(navbar_offset);
+$('#logo-sml').hide();
 $(window).scroll(function() {
     if ($(".navbar").offset().top > navbar_offset) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
+        $("#logo-big").hide('slow');
+        $("#logo-sml").show('slow');
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
+        $("#logo-big").show('slow');
+        $("#logo-sml").hide('slow');
     }
-});
+}).scroll();
 
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
@@ -35,7 +39,7 @@ var $btn_vigilant = $('#btn-vigilant');
 $btn_vigilant.click(function() {
     var state = $($btn_vigilant.attr('data-target')).hasClass('in');
     if (state) {
-        $btn_vigilant.html('More <i class="fa fa-angle-double-right"></i>');
+        $btn_vigilant.html('More About Us <i class="fa fa-angle-double-right"></i>');
     } else {
         $btn_vigilant.html('Less <i class="fa fa-angle-double-left"></i>');
     }
@@ -43,18 +47,18 @@ $btn_vigilant.click(function() {
 
 $('.dropdown a').click(function() {
     var $this = $(this);
-    var state = $this.hasClass('bio-open');
-    $bio_on  = $this.find('.bio-on');
-    $bio_off = $this.find('.bio-off');
-//    $bio_on.toggle('slow');//removeClass('bio-on').addClass('bio-off');
-    $bio_off.toggle('slow');//removeClass('bio-off').addClass('bio-on');
+    var $target = $($this.attr('data-target'));
+    var state = $target.hasClass('in');
     if (state) {
-        $this.find('.bio-img-on').show();
-        $this.find('.bio-img-off').hide();
-    } else {
+        $target.removeClass('in').hide(300);
         $this.find('.bio-img-off').show();
         $this.find('.bio-img-on').hide();
+    } else {
+        $target.addClass('in').show(300);
+        $this.find('.bio-img-on').show();
+        $this.find('.bio-img-off').hide();
     }
 });
 
-$('.bio-img-off').hide();
+$('.bio-long').hide();
+$('.bio-img-on').hide();
