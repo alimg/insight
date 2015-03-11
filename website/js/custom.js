@@ -6,16 +6,20 @@
 
 // jQuery to collapse the navbar on scroll
 var navbar_offset = $('.navbar-fixed-top').height();
+var logo_size = $('#logo-sml').parent().height();
+var $logo_big = $('#logo-big');
+var $logo_sml = $('#logo-sml');
 $('#logo-sml').hide();
+$('.navbar-brand').height(logo_size);
 $(window).scroll(function() {
     if ($(".navbar").offset().top > navbar_offset) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
-        $("#logo-big").hide('slow');
-        $("#logo-sml").show('slow');
+        $logo_big.hide('slow');
+        $logo_sml.show('slow');
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
-        $("#logo-big").show('slow');
-        $("#logo-sml").hide('slow');
+        $logo_big.show('slow');
+        $logo_sml.hide('slow');
     }
 }).scroll();
 
@@ -23,6 +27,12 @@ $(window).scroll(function() {
 $(function() {
     $('a.page-scroll').bind('click', function(event) {
         var $anchor = $(this);
+        if ($anchor.attr('href') == "#vigilant") {
+        $('html, body').stop().animate({
+            scrollTop: 0
+        }, 1000, 'easeInOutExpo');
+        return;
+        }
         $('html, body').stop().animate({
             scrollTop: $($anchor.attr('href')).offset().top
         }, 1500, 'easeInOutExpo');

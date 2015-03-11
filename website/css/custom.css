@@ -68,6 +68,10 @@ a:hover, a:focus {
 .navbar-custom .navbar-brand .navbar-toggle:focus, .navbar-custom .navbar-brand .navbar-toggle:active {
     outline: 0;
 }
+/*to fix brand image*/
+/*.navbar-brand {
+	height: auto;
+}*/
 .navbar-custom a {
     color: #000;
 }
@@ -114,7 +118,7 @@ a:hover, a:focus {
     }*/
     .navbar-custom.top-nav-collapse {
         padding: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, .3);
+        border-bottom: 1px solid rgba(0, 0, 0, .3);
         background: #fff;
     }
 }
@@ -220,28 +224,14 @@ a:hover, a:focus {
         transform: scale(1);
     }
 }
-.content-section, .contact-section {
+/*.content-section, .contact-section {
     padding-top: 100px;
-}
-.download-section {
-    width: 100%;
-    padding: 50px 0;
-    color: #000;
-    background: url(../img/downloads-bg.jpg) no-repeat center center scroll;
-    background-color: #fff;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
 }
 @media(min-width:767px) {
     .content-section {
         padding-top: 250px;
     }
-    .download-section {
-        padding: 100px 0;
-    }
-}
+}*/
 .btn {
     border-radius: 0;
     text-transform: uppercase;
@@ -333,4 +323,8 @@ body {
 
 h1 {
 	text-align: center;
+}
+
+h2 {
+	font-family: Lato, Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
