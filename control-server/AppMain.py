@@ -37,7 +37,7 @@ class AppMain:
             self.upload_server.join(1000)
 
     def device_command_handler(self, device, command):
-        if command.action == 'config_change':
+        if command['action'] == 'config_change':
             if 'system_enabled' in command:
                 alarm_threshold = 0 if command.system_enabled else 1
                 DBUtil.set_alarm_threshold(device, alarm_threshold)
