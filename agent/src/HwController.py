@@ -23,6 +23,7 @@ class HwController(Thread):
         self.led_controller = LedController()
         self.IR_controller = IRController()
         self.start_ldr_timer()
+        self.pir_enabled = True
 
     def run(self):
         while self.running:
@@ -49,6 +50,9 @@ class HwController(Thread):
         self.command_queue.put(self._STOP)
 
     def on_pir_trigger(self):
+        if not self.pir_enabled:
+            print "pir disabled by user conf"
+            return
         image = self.camera.take_picture()
         self.camera_event_handler(image)
 

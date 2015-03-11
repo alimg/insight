@@ -22,6 +22,7 @@ class Agent:
         self.commandClient = CommandClient.CommandClient()
         self.uploadService = UploadService.UploadService(self.agentConfig.get_device_id())
         self.running = True
+        self.pir_enabled = True
 
     def run(self):
         user_conf = self.agentConfig.get_user_conf()
@@ -64,6 +65,9 @@ class Agent:
         if command["action"] == 'get_device_id':
             self.commandClient.send_message({"action": "device_id", "value": self.agentConfig.get_device_id()})
         elif command["action"] == 'pong':
-            pass
+            print "pong"
+        elif command["action"] == 'config':
+            self.pir_enabled = command["alarm_threshold"] < 1
+            self.hwController.pir_enabled = self.pir_enabled
         else:
             self.hwController.process_command(command)
