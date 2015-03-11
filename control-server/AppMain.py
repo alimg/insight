@@ -39,7 +39,7 @@ class AppMain:
     def device_command_handler(self, device, command):
         if command['action'] == 'config_change':
             if 'system_enabled' in command:
-                alarm_threshold = 0 if command.system_enabled else 1
+                alarm_threshold = 0 if command['system_enabled'] else 1
                 DBUtil.set_alarm_threshold(device, alarm_threshold)
                 self.command_server.send_command(device, json.dumps({"action": "config_change",
                                                                      "alarm_threshold": alarm_threshold}))
