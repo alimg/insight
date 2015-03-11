@@ -5,8 +5,10 @@
  */
 
 // jQuery to collapse the navbar on scroll
+var navbar_offset = $('.navbar-fixed-top').height();
+console.log(navbar_offset);
 $(window).scroll(function() {
-    if ($(".navbar").offset().top > 50) {
+    if ($(".navbar").offset().top > navbar_offset) {
         $(".navbar-fixed-top").addClass("top-nav-collapse");
     } else {
         $(".navbar-fixed-top").removeClass("top-nav-collapse");
@@ -38,3 +40,21 @@ $btn_vigilant.click(function() {
         $btn_vigilant.html('Less <i class="fa fa-angle-double-left"></i>');
     }
 });
+
+$('.dropdown a').click(function() {
+    var $this = $(this);
+    var state = $this.hasClass('bio-open');
+    $bio_on  = $this.find('.bio-on');
+    $bio_off = $this.find('.bio-off');
+//    $bio_on.toggle('slow');//removeClass('bio-on').addClass('bio-off');
+    $bio_off.toggle('slow');//removeClass('bio-off').addClass('bio-on');
+    if (state) {
+        $this.find('.bio-img-on').show();
+        $this.find('.bio-img-off').hide();
+    } else {
+        $this.find('.bio-img-off').show();
+        $this.find('.bio-img-on').hide();
+    }
+});
+
+$('.bio-img-off').hide();
