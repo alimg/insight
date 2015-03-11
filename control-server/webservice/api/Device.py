@@ -81,7 +81,7 @@ class SendCommand(restful.Resource):
             elif req_type == "video":
                 ServerConstants.device_command_listener(iid, {"action": "cap_video"})
             elif req_type == "setSystemEnabled":
-                enabled = 'true' == request.form['true']
+                enabled = 'true' == request.form['enable']
                 ServerConstants.device_command_listener(iid, {"action": "config_change", "system_enabled": enabled})
         except DeviceNotOnlineException:
             return {"status": ServerConstants.STATUS_DEVICE_OFFLINE}
