@@ -29,6 +29,7 @@ def set_alarm_threshold(dev_id, alarm_threshold):
         with closing(db.cursor(buffered=True)) as cursor:
             sql = "UPDATE `devices` SET `alarm_threshold`={} WHERE id={}".format(alarm_threshold, dev_id)
             cursor.execute(sql)
+            db.commit()
 
 
 def get_device_config(dev_id):
