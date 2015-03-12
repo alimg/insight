@@ -3,6 +3,7 @@ package com.fmakdemir.insight;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,7 @@ public class DeviceActivity extends Activity {
             btnTakeImg.setEnabled(true);
             btnTakeSnd.setEnabled(true);
             btnTakeVideo.setEnabled(true);
+            toastIt("Error sending command.");
         }
     };
 
@@ -115,7 +117,7 @@ public class DeviceActivity extends Activity {
 	}
 
 	void toastIt(String str, int duration) {
-		Toast.makeText(getApplicationContext(), str, duration).show();
+		Toast.makeText(this, str, duration).show();
 	}
 
 	public void onBtnClick(View v) {
@@ -127,7 +129,7 @@ public class DeviceActivity extends Activity {
                         onCommandCallback);
 				break;
 			case R.id.btn_list_photos:
-				startActivity(new Intent(this, PhotoListActivity.class));
+				startActivity(new Intent(this, EventListActivity.class));
 				overridePendingTransition(R.anim.open_next, R.anim.close_main);
 				break;
 			case R.id.btn_take_snd:

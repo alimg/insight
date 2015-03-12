@@ -112,7 +112,7 @@
             android:id="@+id/btn_list_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_list_sounds"
+            android:text="@string/btn_list_videos"
             android:onClick="onBtnClick"
 
             bb:bb_type="success"

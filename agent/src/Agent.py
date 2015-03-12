@@ -67,6 +67,7 @@ class Agent:
         elif command["action"] == 'pong':
             print "pong"
         elif command["action"] == 'config_change' or command["action"] == 'config':
+            print command
             self.pir_enabled = command["alarm_threshold"] < 1
             self.hwController.pir_enabled = self.pir_enabled
         else:

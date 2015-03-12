@@ -41,14 +41,6 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ImageTestActivity"
-            android:label="@string/title_activity_image_test"
-            android:parentActivityName=".DeviceActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DeviceActivity" />
-        </activity>
-        <activity
             android:name=".QRScannerActivity"
             android:label="@string/title_activity_qrscanner"
             android:parentActivityName=".DeviceActivity" >
@@ -84,14 +76,6 @@
             android:exported="true" >
         </service>
 
-        <activity
-            android:name=".PhotoListActivity"
-            android:label="@string/title_activity_photo_list"
-            android:parentActivityName=".DeviceActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DeviceActivity" />
-        </activity>
         <activity
             android:name=".SoundListActivity"
             android:label="@string/title_activity_sound_list"

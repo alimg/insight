@@ -90,41 +90,48 @@ public class EventListActivity extends Activity {
         File parentDir = new File(Environment.getExternalStorageDirectory().toString()+"/Insight/");
         parentDir.mkdirs();
         final File file = new File(Environment.getExternalStorageDirectory().toString()+"/Insight/"+event.filename);
-        MediaWebApiHandler.downloadEventData(loginService.getSessionToken(),event.id, file,
-                new WebApiCallback<BaseResponse>() {
-                    @Override
-                    public void onSuccess(BaseResponse data) {
-                        if (event.type.equals("jpeg")) {
-                            Bitmap img = BitmapFactory.decodeFile(file.getAbsolutePath());
-                            if (img != null) {
-                                imageView.setImageBitmap(img);
-                            }
-                        } else if(event.type.equals("ogg")) {
-                            mMediaPlayer.reset();
-                            try {
-                                mMediaPlayer.setDataSource(file.getPath());
-                                mMediaPlayer.prepare();
-                                mMediaPlayer.start();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            imageView.setImageResource(R.drawable.ic_audio);
-                        } else if(event.type.equals("h264")) {
-                            //videoView.setVideoPath(file.getPath());
-                            //videoView.start();
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setPackage("org.videolan.vlc.betav7neon");
-                            i.setDataAndType(Uri.fromFile(file), "video/h264");
-                            startActivity(i);
+        if (file.exists()) {
+            showEventContent(event, file);
+        } else {
+            MediaWebApiHandler.downloadEventData(loginService.getSessionToken(), event.id, file,
+                    new WebApiCallback<BaseResponse>() {
+                        @Override
+                        public void onSuccess(BaseResponse data) {
+                            showEventContent(event, file);
                         }
-                    }
 
-                    @Override
-                    public void onError(String cause) {
+                        @Override
+                        public void onError(String cause) {
 
-                    }
-                });
-        
+                        }
+                    });
+        }
+    }
+
+    private void showEventContent(EventListResponse.Event event, File file) {
+        if (event.type.equals("jpeg")) {
+            Bitmap img = BitmapFactory.decodeFile(file.getAbsolutePath());
+            if (img != null) {
+                imageView.setImageBitmap(img);
+            }
+        } else if(event.type.equals("ogg")) {
+            mMediaPlayer.reset();
+            try {
+                mMediaPlayer.setDataSource(file.getPath());
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            imageView.setImageResource(R.drawable.ic_audio);
+        } else if(event.type.equals("h264")) {
+            //videoView.setVideoPath(file.getPath());
+            //videoView.start();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setPackage("org.videolan.vlc.betav7neon");
+            i.setDataAndType(Uri.fromFile(file), "video/h264");
+            startActivity(i);
+        }
     }
 
     @Override

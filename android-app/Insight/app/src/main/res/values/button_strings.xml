@@ -4,7 +4,8 @@
 	<string name="btn_list_photos">List Photos</string>
 
 	<string name="btn_req_sound">Request Sound</string>
-	<string name="btn_list_sounds">List Sound</string>
+    <string name="btn_list_sounds">List Sounds</string>
+    <string name="btn_list_videos">List Videos</string>
     
     <string name="btn_list_events">List Events</string>
 
