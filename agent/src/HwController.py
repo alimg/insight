@@ -5,14 +5,16 @@ from sensors.LedController import LedController
 from sensors.PIRSensor import PIRSensor
 from sensors import Camera
 from sensors import SpiAdcController
+from sensors.ButtonController import ButtonController
 
 
 class HwController(Thread):
-    def __init__(self, camera_event_handler, video_event_handler,   audio_event_handler):
+    def __init__(self, camera_event_handler, video_event_handler, audio_event_handler, setup_button_handler):
         super(HwController, self).__init__()
         self.camera_event_handler = camera_event_handler
         self.video_event_handler = video_event_handler
         self.audio_event_handler = audio_event_handler
+        self.setup_button_handler = setup_button_handler
 
         self.camera = Camera.get_camera()
         self.adc_controller = SpiAdcController.get_adc_controller()
@@ -22,6 +24,7 @@ class HwController(Thread):
         self.pir_sensor = PIRSensor(lambda: self.on_pir_trigger())
         self.led_controller = LedController()
         self.IR_controller = IRController()
+        self.button_controller = ButtonController(lambda: self.setup_button_handler())
         self.start_ldr_timer()
         self.pir_enabled = True
 
@@ -74,3 +77,4 @@ class HwController(Thread):
             self.IR_controller.disable()
         self.ldr_timer = Timer(5.0, lambda: self.start_ldr_timer())
         self.ldr_timer.start()
+

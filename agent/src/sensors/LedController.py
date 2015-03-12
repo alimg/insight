@@ -15,7 +15,9 @@ class LedController():
     def set_status(self, status):
         if status == "online":
             self.set_RGB(0, 1, 0)
-        if status == "offline":
+        elif status == "offline":
             self.set_RGB(1, 0, 0)
         elif status == "setup":
             self.set_RGB(0, 0, 1)
+        elif status == "config_read":
+            self.set_RGB(1, 0, 1)

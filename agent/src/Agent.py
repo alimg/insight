@@ -29,12 +29,14 @@ class Agent:
         self.hwController = HwController.HwController(
             camera_event_handler=lambda event: self.uploadService.upload_photo(event),
             video_event_handler=lambda event: self.uploadService.upload_video(event),
-            audio_event_handler=lambda event: self.uploadService.upload_audio(event))
+            audio_event_handler=lambda event: self.uploadService.upload_audio(event),
+            setup_button_handler=lambda: self.start_setup())
         self.commandClient = CommandClient.CommandClient()
         self.commandClient.connection_listener = ConnectionStateListener(self)
         self.uploadService = UploadService.UploadService(self.agentConfig.get_device_id())
         self.running = True
         self.pir_enabled = True
+        self.setup_worker = None
 
     def run(self):
         user_conf = self.agentConfig.get_user_conf()
@@ -47,8 +49,10 @@ class Agent:
         #self.hwController.set_setup_button_listener(lambda: self.begin_setup())
         if not user_conf:
             self.hwController.set_led_status("setup")
-            worker = SetupWorker.SetupWorker(self.agentConfig)
-            worker.start_setup()
+            self.setup_worker = SetupWorker.SetupWorker(self.agentConfig,
+                                                        lambda status: self.hwController.set_led_status(status))
+            self.setup_worker.start_setup()
+            self.setup_worker = None
         if not local_ip or local_ip == "":
             self.hwController.set_led_status("offline")
         else:
@@ -84,3 +88,20 @@ class Agent:
             self.hwController.pir_enabled = self.pir_enabled
         else:
             self.hwController.process_command(command)
+
+    def start_setup(self):
+        if self.setup_worker:
+            return
+        self.hwController.set_led_status("setup")
+        self.setup_worker = SetupWorker.SetupWorker(self.agentConfig,
+                                                    lambda status: self.hwController.set_led_status(status), timeout=15)
+        self.setup_worker.start_setup()
+        local_ip = WifiUtil.get_eth0_ip()
+        if not local_ip or local_ip == "":
+            local_ip = WifiUtil.get_wlan0_ip()
+
+        if not local_ip or local_ip == "":
+            self.hwController.set_led_status("offline")
+        else:
+            self.hwController.set_led_status("online")
+        self.setup_worker = None
