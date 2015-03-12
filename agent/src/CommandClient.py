@@ -13,12 +13,15 @@ class CommandClient(DaemonThread.DaemonThread):
         #self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.commandHandlers = []
         self.running = 1
+        self.connection_listener = None
 
     def _run(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect(NET_SERVER_ADDRESS)
         self.socket.setblocking(0)
 
+        if self.connection_listener:
+            self.connection_listener.connected()
         while self.running:
             ready = select.select([self.socket], [], [], 60)
             if ready[0]:
@@ -28,10 +31,11 @@ class CommandClient(DaemonThread.DaemonThread):
                 continue
             if not data:
                 print "socket down"
+                if self.connection_listener:
+                    self.connection_listener.disconnected()
                 time.sleep(5)
                 self.socket.close()
                 raise socket.error()
-
             for handler in self.commandHandlers:
                 handler(data)
 

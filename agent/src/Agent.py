@@ -9,6 +9,17 @@ from setup import SetupWorker
 from setup import WifiUtil
 
 
+class ConnectionStateListener():
+    def __init__(self, agent):
+        self.agent = agent
+
+    def connected(self):
+        self.agent.hwController.set_led_status("online")
+
+    def disconnected(self):
+        self.agent.hwController.set_led_status("offline")
+
+
 class Agent:
     def __init__(self, args):
         self.args = args
@@ -20,6 +31,7 @@ class Agent:
             video_event_handler=lambda event: self.uploadService.upload_video(event),
             audio_event_handler=lambda event: self.uploadService.upload_audio(event))
         self.commandClient = CommandClient.CommandClient()
+        self.commandClient.connection_listener = ConnectionStateListener(self)
         self.uploadService = UploadService.UploadService(self.agentConfig.get_device_id())
         self.running = True
         self.pir_enabled = True
