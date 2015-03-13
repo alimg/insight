@@ -32,6 +32,15 @@ public class EventListAdapter extends BaseAdapter{
         return list.get(position);
     }
 
+/*	public Object getItemById(String id) {
+		for (EventListResponse.Event ev: list) {
+			if (ev.id.equals(id)) {
+				return ev;
+			}
+		}
+		return null;
+	}*/
+
     @Override
     public long getItemId(int position) {
         return position;

@@ -33,6 +33,7 @@ public class DataHolder {
 	final private static String serverProtocol = "http://";
 
 	private static InsightListAdapter listAdapter;
+//	private static String latestEventId;
 
 	// common HttpClient for cookies
 	public static HttpClient getHttpClient() {
@@ -73,4 +74,14 @@ public class DataHolder {
 		dataCache.remove(key);
 		return value;
 	}
+
+/*	public static String getLatestEventId() {
+		String id = latestEventId;
+		latestEventId = null;
+		return id;
+	}
+
+	public static void setLatestEventId(String id) {
+		latestEventId = id;
+	}*/
 }

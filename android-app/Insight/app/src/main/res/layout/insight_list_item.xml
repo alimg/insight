@@ -36,11 +36,11 @@
 		android:id="@+id/item_on_off"
 		android:layout_width="32dp"
 		android:layout_height="match_parent"
-		bootstrapbutton:fa_icon="fa-toggle-on"
+		bootstrapbutton:fa_icon="fa-power-off"
 		android:textSize="16sp"
 		android:textColor="#ffffff"
-		android:paddingLeft="8dp"
-		android:paddingRight="8dp"
+		android:paddingLeft="6dp"
+		android:paddingTop="10dp"
 		android:background="@color/bbutton_success"
 		/>
 
@@ -53,6 +53,7 @@
 		android:textSize="16sp"
 		android:textColor="#ffffff"
 		android:paddingLeft="8dp"
+		android:paddingTop="10dp"
 		android:background="@color/bbutton_primary"
 		/>
 
