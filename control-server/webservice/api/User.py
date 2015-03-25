@@ -57,7 +57,7 @@ class ListInsight(restful.Resource):
 
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                sql = "SELECT id FROM `device` WHERE userid='{}'".format(user)
+                sql = "SELECT id FROM `devices` WHERE userid='{}'".format(user)
                 cursor.execute(sql)
                 devices = []
                 for row in cursor.fetchall():

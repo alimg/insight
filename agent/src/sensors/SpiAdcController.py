@@ -31,22 +31,26 @@ class AdcController():
         tbegin = time.time()
         # print tbegin
         tx = []
-        for i in range(1801):
+        samplesBufferSize = 1600
+        for i in range(samplesBufferSize+1):
             tx.extend([0, 1])
         i = k
         while i:
             i -= 1
             #t1 = time.time()
-            ar = _adc1.xfer(tx)
+            try:
+                ar = _adc1.xfer(tx)
+            except Exception, e:
+                pass
             #print len(ar)/2.0/(time.time()-t1)
             buff.append(ar[2:])
         elapsed = time.time() - tbegin
         print "elapsed ", elapsed
         for block in buff:
-            fout.write(struct.pack('3600B', *block))
+            fout.write(struct.pack(str(samplesBufferSize*2)+'B', *block))
         fout.close()
 
-        samples = k * 1800
+        samples = k * samplesBufferSize
         print "samples ", samples
         print "rate ", samples / elapsed
         call(["sh", "-c", "oggenc -r  -B 16 -C 1 -R 25700 '%s' -o '%s'" % (file_name, compressed_file_name)])
