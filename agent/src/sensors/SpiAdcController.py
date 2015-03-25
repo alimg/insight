@@ -11,7 +11,7 @@ _adc2 = spi.SpiDev(0, 1)    #ldr
 print "PY: initialising SPI mode, speed, delay"
 _adc1.mode = 2
 _adc1.bits_per_word = 8
-_adc1.max_speed_hz = 721000
+_adc1.max_speed_hz = 977000
 _adc2.mode = 2
 _adc2.bits_per_word = 8
 _adc2.max_speed_hz = 721000
@@ -31,7 +31,7 @@ class AdcController():
         tbegin = time.time()
         # print tbegin
         tx = []
-        samplesBufferSize = 1600
+        samplesBufferSize = 1800
         for i in range(samplesBufferSize+1):
             tx.extend([0, 1])
         i = k
@@ -40,10 +40,10 @@ class AdcController():
             #t1 = time.time()
             try:
                 ar = _adc1.xfer(tx)
+                buff.append(ar[2:])
             except Exception, e:
-                pass
+                print "Error: ", e
             #print len(ar)/2.0/(time.time()-t1)
-            buff.append(ar[2:])
         elapsed = time.time() - tbegin
         print "elapsed ", elapsed
         for block in buff:
@@ -53,7 +53,7 @@ class AdcController():
         samples = k * samplesBufferSize
         print "samples ", samples
         print "rate ", samples / elapsed
-        call(["sh", "-c", "oggenc -r  -B 16 -C 1 -R 25700 '%s' -o '%s'" % (file_name, compressed_file_name)])
+        call(["sh", "-c", "oggenc -r  -B 16 -C 1 -R 21040 '%s' -o '%s'" % (file_name, compressed_file_name)])
         callback(compressed_file_name)
 
     def capture_audio(self, callback):
