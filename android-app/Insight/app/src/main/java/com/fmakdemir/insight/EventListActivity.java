@@ -26,6 +26,8 @@ import com.fmakdemir.insight.webservice.request.MediaWebApiHandler;
 import com.fmakdemir.insight.webservice.request.WebApiCallback;
 
 import java.io.File;
+import java.io.IOException;
+import java.security.InvalidKeyException;
 
 public class EventListActivity extends Activity {
 
@@ -115,7 +117,14 @@ public class EventListActivity extends Activity {
                     new WebApiCallback<BaseResponse>() {
                         @Override
                         public void onSuccess(BaseResponse data) {
-                            showEventContent(event, file);
+                            try {
+                                File out = EncryptionUtil.decryptFile(event, file);
+                                showEventContent(event, out);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InvalidKeyException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         @Override

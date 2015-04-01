@@ -1,0 +1,15 @@
+[Unit]
+Description=Insight Security Camera Service
+#Requires=ntpd.service
+After=ntpd.service
+
+[Service]
+User=root
+ExecStart=/root/insight/agent/start.sh
+WorkingDirectory=/root/insight/agent/
+StandardOutput=journal
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target 
+
