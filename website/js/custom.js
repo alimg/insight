@@ -55,7 +55,7 @@ $btn_vigilant.click(function() {
     }
 });
 
-$('.dropdown a').click(function() {
+$('.dropdown a').click(function(e) {
     var $this = $(this);
     var $target = $($this.attr('data-target'));
     var state = $target.hasClass('in');
@@ -68,6 +68,7 @@ $('.dropdown a').click(function() {
         $this.find('.bio-img-on').show();
         $this.find('.bio-img-off').hide();
     }
+    e.preventDefault();
 });
 
 $('.bio-long').hide();
