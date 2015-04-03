@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project( HumanDetection )
+SET(CMAKE_MODULE_PATH ${CMAKE_INSTALL_PREFIX}/lib/cmake/ )
+find_package(raspicam REQUIRED)
 find_package( OpenCV REQUIRED )
 add_executable( HumanDetection HumanDetection.cpp )
-target_link_libraries( HumanDetection ${OpenCV_LIBS} )
+target_link_libraries( HumanDetection ${raspicam_CV_LIBS})

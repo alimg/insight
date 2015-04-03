@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <raspicam/raspicam_cv.h>
 
 using namespace std;
 using namespace cv;
@@ -94,10 +95,12 @@ void bodyDetection(Mat frame){
    size_t ic,i,j;
    for (ic = 0; ic < found.size(); ++ic){ // Iterate through all current elements (detected faces)
 	    Rect r = found[ic];
-            r.x += cvRound(r.width*0.1);
-	    r.width = cvRound(r.width*0.8);
-	    r.y += cvRound(r.height*0.06);
-	    r.height = cvRound(r.height*0.9);
+            //r.x += cvRound(r.width*0.1);
+             double w = cvRound(r.width*0.8);
+             double h = cvRound(r.height*0.9);
+	    r.width = h;
+	    //r.y += cvRound(r.height*0.06);
+	    r.height = w;
   
 	if(found.size()!= 0)
             printf("%zu Human body detected!\n",found.size());
@@ -119,45 +122,50 @@ void bodyDetection(Mat frame){
             Point pt1(r.x, r.y); // Display detected faces on main window - live stream from camera
             Point pt2((r.x + r.height), (r.y + r.width));
             rectangle(frame, pt1, pt2, Scalar(0, 255, 0), 2, 8, 0);
-}
-
-
-    
-
+    }
 }
 
 
 
 int main(void){
-   CvCapture *capture;
-   Mat frame;
-   if( !face_cascade.load( face_cascade_name ) ){ printf("Error loading face haarcascade file.\n"); return -1; }; 
-   if( !eye_cascade.load( eye_cascade_name ) ){ printf("Error loading eye haarcascade file.\n"); return -1; };
+    CvCapture *capture;
+    Mat frame;
+    if( !face_cascade.load( face_cascade_name ) ){ printf("Error loading face haarcascade file.\n"); return -1; }; 
+    if( !eye_cascade.load( eye_cascade_name ) ){ printf("Error loading eye haarcascade file.\n"); return -1; };
 
-   capture = cvCaptureFromCAM( -1 );
-   if( capture ){
-       while( true ){
-           frame = cvQueryFrame( capture );
-           //frame = capture->read();
-	   if( !frame.empty() ){  
-		faceDetection( frame );
- 		bodyDetection( frame );
-           }
-           else{ 
-               printf("No captured frame -- Break!"); break; 
-           }
-        // Show image
-        imshow("original", frame);
-        // And display it:
-        char key = (char) waitKey(20);
-        // Exit this loop on escape:
-        if(key == 27)
-            break;
-      }
-   }
-
-
-   return 0;
+    raspicam::RaspiCam_Cv Camera; //Cmaera object
+    cv::Mat image;
+    //Open camera 
+    cout<<"Opening Camera..."<<endl;
+    if ( !Camera.open()) {cerr<<"Error opening camera"<<endl;return -1;}
+    Camera.set(CV_CAP_PROP_FRAME_WIDTH, 1024);
+    Camera.set(CV_CAP_PROP_FRAME_HEIGHT, 768);
+    if( capture ){
+        while( true ){
+            printf("frame\n");
+            Camera.grab();
+            Camera.retrieve ( frame);
+            //frame = cvQueryFrame( capture );
+            //frame = capture->read();
+            printf("got frame\n");
+            if( !frame.empty() ){  
+                //faceDetection( frame );
+                bodyDetection( frame );
+            }
+            else{ 
+                printf("No captured frame -- Break!"); break; 
+            }
+            printf("end frame\n");
+            // Show image
+            //imshow("original", frame);
+            // And display it:
+            //char key = (char) waitKey(20);
+            // Exit this loop on escape:
+//             if(key == 27)
+//                 break;
+        }
+    }
+    return 0;
 }
 
 
