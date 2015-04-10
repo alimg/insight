@@ -1,0 +1,10 @@
+First install OpenCV
+
+Then to install run
+
+cmake . 
+make
+
+and run 
+
+./HumanDetection
