@@ -11,7 +11,7 @@ class IRController():
             print "Error set_RGB: ", e
 
     def enable(self):
-        self.set_state(0)
+        self.set_state(False)
 
     def disable(self):
-        self.set_state(1)
+        self.set_state(True)
