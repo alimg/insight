@@ -1,4 +1,4 @@
-import ServerConstants
+from webservice.api import ServerConstants
 
 
 def getImagePriority(file_name):
