@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `filename` varchar(128) NOT NULL,
   `data` varchar(256),
   `encryption` varchar(32),
+  `priority` int,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

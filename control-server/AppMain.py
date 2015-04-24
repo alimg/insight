@@ -5,6 +5,7 @@ from webservice import WebService
 from webservice.api import ServerConstants
 from webservice.api import ParseUtil
 from webservice.api import DBUtil
+import ImageProcessingUtil
 
 import datetime
 import json
@@ -57,15 +58,16 @@ class AppMain:
                     user_id = rows[0][0]
 
                 event_time = datetime.datetime.fromtimestamp(int(meta_data["date"]))
-                sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`, `encryption`) ' \
-                      'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(
+                sql = 'INSERT INTO `events` (`id`,`deviceid`,`userid`,`date`,`type`,`data`,`filename`, `encryption`, `priority`) ' \
+                      'VALUES (\'\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')'.format(
                             meta_data["device"],
                             user_id,
                             str(event_time),
                             meta_data["type"],
                             "",
                             file_name,
-                            meta_data["encryption"])
+                            meta_data["encryption"],
+                            ImageProcessingUtil.getImagePriority(file_name))
                 cursor.execute(sql)
                 event_id = cursor.lastrowid
                 db.commit()

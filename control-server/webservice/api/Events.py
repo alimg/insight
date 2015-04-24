@@ -17,7 +17,7 @@ class List(restful.Resource):
             return {'status': ServerConstants.STATUS_INVALID_SESSION}
         with closing(ServerConstants.mysql_pool.get_connection()) as db:
             with closing(db.cursor()) as cursor:
-                sql = "SELECT id, deviceid, date, type, filename, encryption FROM `events` WHERE userid='{}' " \
+                sql = "SELECT id, deviceid, date, type, filename, encryption, priority FROM `events` WHERE userid='{}' " \
                       " ORDER BY id DESC limit 0, 30".format(userid)
                 cursor.execute(sql)
                 events = []
@@ -29,7 +29,8 @@ class List(restful.Resource):
                          'date': str(row[2]),
                          'type': row[3],
                          'filename': row[4],
-                         'encryption': row[5]}
+                         'encryption': row[5],
+                         'priority': row[6]}
                     )
                 return {'status': '0', 'events': events}
 

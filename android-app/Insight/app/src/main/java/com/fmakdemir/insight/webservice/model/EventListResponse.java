@@ -12,5 +12,6 @@ public class EventListResponse extends BaseResponse {
         public String type;
         public String filename;
         public String encryption;
+        public Integer priority;
     }
 }
