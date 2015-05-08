@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="event_types_array">
+		<item>All</item>
+		<item>ogg</item>
+		<item>h264</item>
+		<item>jpg</item>
+	</string-array>
+</resources>
