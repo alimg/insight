@@ -52,22 +52,17 @@ class UploadService(Thread):
             con.send(struct.pack('I%ds' % (meta_data_len,), meta_data_len, meta_data))
             size = f.tell()
             ready = select.select([], [con], [], 30)
-            if ready[1]:
-                con.send(struct.pack('I', size))
-            else:
-                con.close()
-                raise Exception("timed out")
+            send_timeout(con, lambda:
+                con.send(struct.pack('I', size)))
             f.seek(0, os.SEEK_SET)
             buff = f.read(1024)
             send_timeout(con, lambda:
-                con.send(buff)
-            )
+                con.send(buff))
             #print len(buff)
             while buff:
                 buff = f.read(1024)
                 send_timeout(con, lambda:
-                    con.send(buff)
-                )
+                    con.send(buff))
                 #print len(buff)
 
         ready = select.select([con], [], [], 60)
