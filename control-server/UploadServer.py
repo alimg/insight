@@ -25,7 +25,7 @@ class UploadServer(Thread):
 class UploadRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         # self.request is the TCP socket connected to the client
-
+        print "incoming upload"
         header_size = struct.unpack('I', self.request.recv(4))[0]
         header = struct.unpack('%ds' % (header_size), self.request.recv(header_size))[0]
         print "file header: ", header
