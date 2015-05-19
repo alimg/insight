@@ -1,0 +1,9 @@
+[program:inno_web]
+command=python2.7 web_runner.py
+directory=/root/insight/control-server/webservice
+redirect_stderr=false
+startsecs=1
+autostart=true
+autorestart=false
+stderr_logfile=/root/flask/log/inno_web.stderr.log
+stdout_logfile=/root/flask/log/inno_web.stdout.log
