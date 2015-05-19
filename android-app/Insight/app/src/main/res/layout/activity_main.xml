@@ -138,18 +138,20 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center_horizontal">
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mute"
+            android:text="Auto-off"
             android:id="@+id/btn_mute"
             android:onClick="onBtnClick"
+			bb:bb_type="danger"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <com.beardedhen.androidbootstrap.BootstrapButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unmute"
+            android:text="Auto-on"
+			bb:bb_type="success"
             android:onClick="onBtnClick"
             android:id="@+id/btn_unmute" />
     </LinearLayout>
